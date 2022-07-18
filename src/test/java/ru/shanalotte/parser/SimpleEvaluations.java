@@ -1,8 +1,8 @@
 package ru.shanalotte.parser;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+import ru.shanalotte.Morrigan;
 
 public class SimpleEvaluations {
 
@@ -10,27 +10,27 @@ public class SimpleEvaluations {
 
   @Test
   public void evaluatesNumbers() {
-    assertThat(morrigan.interpret("3")).isEqualTo(3);
+    assertThat(morrigan.evaluate("3")).isEqualTo(3);
   }
 
   @Test
   public void evaluatesNegativeNumber() {
-    assertThat(morrigan.interpret("-3")).isEqualTo(-3);
+    assertThat(morrigan.evaluate("-3")).isEqualTo(-3);
   }
 
   @Test
   public void evaluatesString() {
-    assertThat(morrigan.interpret("abc")).isEqualTo("abc");
+    assertThat(morrigan.evaluate("abc")).isEqualTo("abc");
   }
 
   @Test
   public void evaluatesTrue() {
-    assertThat(morrigan.interpret("true")).isEqualTo(true);
+    assertThat(morrigan.evaluate("true")).isEqualTo(true);
   }
 
   @Test
   public void evaluatesFalse() {
-    assertThat(morrigan.interpret("false")).isEqualTo(false);
+    assertThat(morrigan.evaluate("false")).isEqualTo(false);
   }
 
 }

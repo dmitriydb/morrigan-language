@@ -30,6 +30,7 @@ public enum TokenType {
   KNOW,
   IF,
   REMEMBERS,
-  WHAT
+  PRINT,
+  WHAT;
 
 }

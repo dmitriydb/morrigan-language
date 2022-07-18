@@ -1,20 +1,19 @@
-package ru.shanalotte.parser;
+package ru.shanalotte.expression;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import ru.shanalotte.scanner.Token;
-
+import ru.shanalotte.parser.Visitor;
 import ru.shanalotte.scanner.Token;
 
 @Data
 @RequiredArgsConstructor
-public class BinaryExpression extends Expression{
+public class BinaryExpression extends Expression {
   final Expression leftSide;
   final Token operator;
   final Expression rightSide;
 
   @Override
-  <R> R accept(Visitor<R> visitor) {
+  public <R> R accept(Visitor<R> visitor) {
     return visitor.visit(this);
   }
 }

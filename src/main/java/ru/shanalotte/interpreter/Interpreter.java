@@ -1,8 +1,13 @@
-package ru.shanalotte.parser;
+package ru.shanalotte.interpreter;
 
-import java.util.Objects;
-import javax.swing.text.StyledEditorKit;
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import ru.shanalotte.environment.Environment;
+import ru.shanalotte.statements.AssignStatement;
+import ru.shanalotte.expression.BinaryExpression;
+import ru.shanalotte.expression.Expression;
+import ru.shanalotte.expression.Literal;
+import ru.shanalotte.statements.PrintStatement;
+import ru.shanalotte.expression.UnaryExpression;
+import ru.shanalotte.parser.Visitor;
 import ru.shanalotte.scanner.TokenType;
 
 public class Interpreter implements Visitor<Object> {
@@ -69,6 +74,9 @@ public class Interpreter implements Visitor<Object> {
     if (literal.getLiteral().equals("true") || literal.getLiteral().equals("false")) {
       return Boolean.valueOf(literal.getLiteral().toString());
     }
+    if (Environment.globalVariableExists(literal.getLiteral().toString())) {
+      return Environment.getGlobalVariableValue(literal.getLiteral().toString());
+    }
     try {
       int intValue = Integer.parseInt(literal.getLiteral().toString());
       return intValue;
@@ -105,5 +113,19 @@ public class Interpreter implements Visitor<Object> {
     } catch (Throwable t) {
       return false;
     }
+  }
+
+  @Override
+  public Object visit(PrintStatement printStatement) {
+    Object value = printStatement.getExpression().accept(this);
+    System.out.println("It is " + value + ".");
+    return value;
+  }
+
+  @Override
+  public Object visit(AssignStatement assignStatement) {
+    Object value = assignStatement.getExpression().accept(this);
+    Environment.setGlobalVariable(assignStatement.getIdentifier().getLexeme(), value);
+    return value;
   }
 }

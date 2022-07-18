@@ -3,6 +3,7 @@ package ru.shanalotte.parser;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
+import ru.shanalotte.Morrigan;
 
 public class DifficultExpressionsEvaluationTest {
 
@@ -10,6 +11,6 @@ public class DifficultExpressionsEvaluationTest {
 
   @Test
   public void comparing2and3and4() {
-    assertThat(morrigan.interpret("2 < 3 = 3 < 4")).isEqualTo(true);
+    assertThat(morrigan.evaluate("2 < 3 = 3 < 4")).isEqualTo(true);
   }
 }

@@ -30,6 +30,8 @@ public class Scanner {
     keywords.put("if", TokenType.IF);
     keywords.put("remembers", TokenType.REMEMBERS);
     keywords.put("what", TokenType.WHAT);
+    keywords.put("print", TokenType.PRINT);
+
   }
 
   private int startIndex = 0;
@@ -56,9 +58,6 @@ public class Scanner {
     List<Token> tokens = new ArrayList<>();
     for (Line line : lines) {
       tokens.addAll(scanLine(line));
-    }
-    for (Token token : tokens) {
-      System.out.println(token);
     }
     return tokens;
   }

@@ -1,27 +1,81 @@
 package ru.shanalotte.parser;
 
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import ru.shanalotte.expression.BinaryExpression;
+import ru.shanalotte.expression.Expression;
+import ru.shanalotte.expression.Literal;
+import ru.shanalotte.expression.UnaryExpression;
 import ru.shanalotte.scanner.Token;
 import ru.shanalotte.scanner.TokenType;
+import static ru.shanalotte.scanner.TokenType.DOT;
 import static ru.shanalotte.scanner.TokenType.FALSE;
 import static ru.shanalotte.scanner.TokenType.IDENTIFIER;
+import static ru.shanalotte.scanner.TokenType.IS;
 import static ru.shanalotte.scanner.TokenType.MINUS;
+import static ru.shanalotte.scanner.TokenType.MORRIGAN;
 import static ru.shanalotte.scanner.TokenType.NUMBER;
 import static ru.shanalotte.scanner.TokenType.PLUS;
+import static ru.shanalotte.scanner.TokenType.REMEMBERS;
+import static ru.shanalotte.scanner.TokenType.SAYS;
 import static ru.shanalotte.scanner.TokenType.SLASH;
 import static ru.shanalotte.scanner.TokenType.STAR;
 import static ru.shanalotte.scanner.TokenType.STRING;
+import static ru.shanalotte.scanner.TokenType.THAT;
+import static ru.shanalotte.scanner.TokenType.THINKS;
 import static ru.shanalotte.scanner.TokenType.TRUE;
+import static ru.shanalotte.scanner.TokenType.WHAT;
+import ru.shanalotte.statements.AssignStatement;
+import ru.shanalotte.statements.PrintStatement;
+import ru.shanalotte.statements.Statement;
 
 @RequiredArgsConstructor
 public class Parser {
   final List<Token> tokens;
   private int current = 0;
 
-  public Expression parse() {
+  private Token consume(TokenType type, String message) {
+    if (check(type)) return advance();
+    throw new Error (message);
+  }
+
+  public Expression parseExpression() {
     return expression();
   }
+
+  public List<Statement> parse() {
+    List<Statement> statements = new ArrayList<>();
+    while (!isAtEnd()) {
+      statements.add(statement());
+    }
+    return statements;
+  }
+
+  private Statement statement() {
+    consume(MORRIGAN, "what?");
+    if (match(REMEMBERS)) return printStatement();
+    if (match(SAYS)) return expressionStatement();
+    throw new IllegalStateException("morrigan what?");
+  }
+
+  private Statement printStatement() {
+    consume(WHAT, "morrigan remembers what?");
+    consume(IS, "morrigan remembers what is what? ");
+    Expression value = expression();
+    consume(DOT, "please, do not forget the '.'");
+    return new PrintStatement(value);
+  }
+
+  private Statement expressionStatement() {
+    consume(THAT, "morrigan says what?");
+    Token identifier = consume(IDENTIFIER, "morrigan says that what?");
+    consume(IS, "morrigan says that " + identifier.getLexeme() + " what?");
+    Expression expression = expression();
+    consume(DOT, "please, do not forget the '.'");
+    return new AssignStatement(identifier, expression);
+  }
+
 
   private Expression expression() {
     return equality();
