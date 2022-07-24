@@ -31,7 +31,8 @@ public class Scanner {
     keywords.put("remembers", TokenType.REMEMBERS);
     keywords.put("what", TokenType.WHAT);
     keywords.put("print", TokenType.PRINT);
-
+    keywords.put("then", TokenType.THEN);
+    keywords.put("else", TokenType.ELSE);
   }
 
   private int startIndex = 0;

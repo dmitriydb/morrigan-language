@@ -5,6 +5,7 @@ import ru.shanalotte.statements.AssignStatement;
 import ru.shanalotte.expression.BinaryExpression;
 import ru.shanalotte.expression.Expression;
 import ru.shanalotte.expression.Literal;
+import ru.shanalotte.statements.IfStatement;
 import ru.shanalotte.statements.PrintStatement;
 import ru.shanalotte.expression.UnaryExpression;
 import ru.shanalotte.parser.Visitor;
@@ -82,6 +83,16 @@ public class Interpreter implements Visitor<Object> {
       return intValue;
     } catch (Throwable t) {
       return literal.getLiteral().toString();
+    }
+  }
+
+  @Override
+  public Object visit(IfStatement ifStatement) {
+    boolean conditionResult = (boolean)ifStatement.getCondition().accept(this);
+    if (conditionResult) {
+      return ifStatement.getTrueBranch().accept(this);
+    } else {
+      return ifStatement.getFalseBranch().accept(this);
     }
   }
 

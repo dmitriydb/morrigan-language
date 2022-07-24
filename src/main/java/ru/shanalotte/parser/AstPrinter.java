@@ -5,6 +5,7 @@ import ru.shanalotte.expression.Expression;
 import ru.shanalotte.expression.Literal;
 import ru.shanalotte.expression.UnaryExpression;
 import ru.shanalotte.statements.AssignStatement;
+import ru.shanalotte.statements.IfStatement;
 import ru.shanalotte.statements.PrintStatement;
 
 public class AstPrinter implements Visitor<String> {
@@ -48,5 +49,10 @@ public class AstPrinter implements Visitor<String> {
   public String visit(AssignStatement assignStatement) {
     return assignStatement.getIdentifier().getLexeme() + " = " + assignStatement.getExpression().accept(this);
 
+  }
+
+  @Override
+  public String visit(IfStatement ifStatement) {
+    return null;
   }
 }

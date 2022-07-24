@@ -18,4 +18,8 @@ public class Environment {
   public static boolean globalVariableExists(String variableName) {
     return globalVariables.containsKey(variableName);
   }
+
+  public static void clear() {
+    globalVariables.clear();
+  }
 }

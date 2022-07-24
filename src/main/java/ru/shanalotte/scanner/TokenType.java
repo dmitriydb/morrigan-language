@@ -31,6 +31,8 @@ public enum TokenType {
   IF,
   REMEMBERS,
   PRINT,
-  WHAT;
+  THEN,
+  WHAT, ELSE;
+
 
 }

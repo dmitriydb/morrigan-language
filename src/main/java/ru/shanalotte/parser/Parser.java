@@ -10,8 +10,10 @@ import ru.shanalotte.expression.UnaryExpression;
 import ru.shanalotte.scanner.Token;
 import ru.shanalotte.scanner.TokenType;
 import static ru.shanalotte.scanner.TokenType.DOT;
+import static ru.shanalotte.scanner.TokenType.ELSE;
 import static ru.shanalotte.scanner.TokenType.FALSE;
 import static ru.shanalotte.scanner.TokenType.IDENTIFIER;
+import static ru.shanalotte.scanner.TokenType.IF;
 import static ru.shanalotte.scanner.TokenType.IS;
 import static ru.shanalotte.scanner.TokenType.MINUS;
 import static ru.shanalotte.scanner.TokenType.MORRIGAN;
@@ -23,10 +25,12 @@ import static ru.shanalotte.scanner.TokenType.SLASH;
 import static ru.shanalotte.scanner.TokenType.STAR;
 import static ru.shanalotte.scanner.TokenType.STRING;
 import static ru.shanalotte.scanner.TokenType.THAT;
+import static ru.shanalotte.scanner.TokenType.THEN;
 import static ru.shanalotte.scanner.TokenType.THINKS;
 import static ru.shanalotte.scanner.TokenType.TRUE;
 import static ru.shanalotte.scanner.TokenType.WHAT;
 import ru.shanalotte.statements.AssignStatement;
+import ru.shanalotte.statements.IfStatement;
 import ru.shanalotte.statements.PrintStatement;
 import ru.shanalotte.statements.Statement;
 
@@ -48,6 +52,7 @@ public class Parser {
     List<Statement> statements = new ArrayList<>();
     while (!isAtEnd()) {
       statements.add(statement());
+      consume(DOT, "please, do not forget the '.'");
     }
     return statements;
   }
@@ -63,17 +68,31 @@ public class Parser {
     consume(WHAT, "morrigan remembers what?");
     consume(IS, "morrigan remembers what is what? ");
     Expression value = expression();
-    consume(DOT, "please, do not forget the '.'");
     return new PrintStatement(value);
   }
 
   private Statement expressionStatement() {
     consume(THAT, "morrigan says what?");
-    Token identifier = consume(IDENTIFIER, "morrigan says that what?");
-    consume(IS, "morrigan says that " + identifier.getLexeme() + " what?");
-    Expression expression = expression();
-    consume(DOT, "please, do not forget the '.'");
-    return new AssignStatement(identifier, expression);
+    if (match(IF)) {
+      return ifStatement();
+    }
+    else {
+      Token identifier = consume(IDENTIFIER, "morrigan says that what?");
+      consume(IS, "morrigan says that " + identifier.getLexeme() + " what?");
+      Expression expression = expression();
+      return new AssignStatement(identifier, expression);
+    }
+  }
+
+  private Statement ifStatement() {
+    Expression condition = expression();
+    consume(THEN, "missing <then> after if expression");
+    Statement trueBranch = statement();
+    Statement falseBranch = null;
+    if (match(ELSE)) {
+      falseBranch = statement();
+    }
+    return new IfStatement(condition, trueBranch, falseBranch);
   }
 
 
