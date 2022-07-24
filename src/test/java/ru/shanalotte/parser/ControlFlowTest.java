@@ -6,9 +6,7 @@ import org.junit.jupiter.api.Test;
 import ru.shanalotte.Morrigan;
 import ru.shanalotte.environment.Environment;
 
-public class ControlFlowTest {
-
-  private Morrigan morrigan = new Morrigan();
+public class ControlFlowTest extends AbstractInterpreterTest{
 
   @BeforeEach
   public void clearEnvronment() {

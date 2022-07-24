@@ -4,9 +4,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import org.junit.jupiter.api.Test;
 import ru.shanalotte.Morrigan;
 
-public class SimpleEvaluations {
-
-  private Morrigan morrigan = new Morrigan();
+public class SimpleEvaluations extends AbstractInterpreterTest{
 
   @Test
   public void evaluatesNumbers() {

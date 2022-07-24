@@ -33,6 +33,8 @@ public class Scanner {
     keywords.put("print", TokenType.PRINT);
     keywords.put("then", TokenType.THEN);
     keywords.put("else", TokenType.ELSE);
+    keywords.put("x", TokenType.X);
+    keywords.put("while", TokenType.WHILE);
   }
 
   private int startIndex = 0;

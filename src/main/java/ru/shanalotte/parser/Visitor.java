@@ -6,6 +6,7 @@ import ru.shanalotte.expression.UnaryExpression;
 import ru.shanalotte.statements.AssignStatement;
 import ru.shanalotte.statements.IfStatement;
 import ru.shanalotte.statements.PrintStatement;
+import ru.shanalotte.statements.WhileStatement;
 
 public interface Visitor<R> {
   R visit(BinaryExpression binaryExpression);
@@ -14,4 +15,5 @@ public interface Visitor<R> {
   R visit(PrintStatement printStatement);
   R visit(AssignStatement assignStatement);
   R visit(IfStatement ifStatement);
+  R visit(WhileStatement whileStatement);
 }

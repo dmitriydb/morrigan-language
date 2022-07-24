@@ -5,9 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 import ru.shanalotte.Morrigan;
 
-public class UnaryOperationsTest {
-
-  private Morrigan morrigan = new Morrigan();
+public class UnaryOperationsTest extends AbstractInterpreterTest{
 
   @Test
   public void minusNumber() {

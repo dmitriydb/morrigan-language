@@ -5,9 +5,7 @@ import org.junit.jupiter.api.Test;
 import ru.shanalotte.Morrigan;
 import ru.shanalotte.environment.Environment;
 
-public class StatementsTest {
-
-  private Morrigan morrigan = new Morrigan();
+public class StatementsTest extends AbstractInterpreterTest{
 
   @Test
   public void firstStatement() {

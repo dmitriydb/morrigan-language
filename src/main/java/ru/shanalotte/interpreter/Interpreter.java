@@ -10,6 +10,7 @@ import ru.shanalotte.statements.PrintStatement;
 import ru.shanalotte.expression.UnaryExpression;
 import ru.shanalotte.parser.Visitor;
 import ru.shanalotte.scanner.TokenType;
+import ru.shanalotte.statements.WhileStatement;
 
 public class Interpreter implements Visitor<Object> {
   @Override
@@ -41,7 +42,7 @@ public class Interpreter implements Visitor<Object> {
       case MORE:
         return isMore(leftValue, rightValue);
       case LESS:
-        return !isMore(leftValue, rightValue);
+        return !isMore(leftValue, rightValue) && !isEquals(leftValue, rightValue);
       case EQUALS:
         return isEquals(leftValue, rightValue);
       default:
@@ -97,6 +98,19 @@ public class Interpreter implements Visitor<Object> {
   }
 
   @Override
+  public Object visit(WhileStatement whileStatement) {
+    while (evaluateCondition(whileStatement.getLoopCondition())) {
+      evaluate(whileStatement.getLoopStatement());
+      System.out.println(Environment.getGlobalVariableValue("a"));
+    }
+    return null;
+  }
+
+  private boolean evaluateCondition(Expression loopCondition) {
+    return (boolean) loopCondition.accept(this);
+  }
+
+  @Override
   public Object visit(UnaryExpression unaryExpression) {
     Object value = unaryExpression.getExpression().accept(this);
     if (isBoolean(value)) {
@@ -129,7 +143,7 @@ public class Interpreter implements Visitor<Object> {
   @Override
   public Object visit(PrintStatement printStatement) {
     Object value = printStatement.getExpression().accept(this);
-    System.out.println("It is " + value + ".");
+    System.out.println(value);
     return value;
   }
 

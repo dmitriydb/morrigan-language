@@ -5,9 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import ru.shanalotte.Morrigan;
 
-public class DifficultExpressionsEvaluationTest {
-
-  private Morrigan morrigan = new Morrigan();
+public class DifficultExpressionsEvaluationTest extends AbstractInterpreterTest{
 
   @Test
   public void comparing2and3and4() {

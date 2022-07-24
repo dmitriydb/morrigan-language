@@ -32,7 +32,7 @@ public enum TokenType {
   REMEMBERS,
   PRINT,
   THEN,
-  WHAT, ELSE;
+  WHAT, ELSE, X, WHILE;
 
 
 }

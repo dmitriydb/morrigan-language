@@ -26,13 +26,14 @@ import static ru.shanalotte.scanner.TokenType.STAR;
 import static ru.shanalotte.scanner.TokenType.STRING;
 import static ru.shanalotte.scanner.TokenType.THAT;
 import static ru.shanalotte.scanner.TokenType.THEN;
-import static ru.shanalotte.scanner.TokenType.THINKS;
 import static ru.shanalotte.scanner.TokenType.TRUE;
 import static ru.shanalotte.scanner.TokenType.WHAT;
+import static ru.shanalotte.scanner.TokenType.WHILE;
 import ru.shanalotte.statements.AssignStatement;
 import ru.shanalotte.statements.IfStatement;
 import ru.shanalotte.statements.PrintStatement;
 import ru.shanalotte.statements.Statement;
+import ru.shanalotte.statements.WhileStatement;
 
 @RequiredArgsConstructor
 public class Parser {
@@ -41,7 +42,7 @@ public class Parser {
 
   private Token consume(TokenType type, String message) {
     if (check(type)) return advance();
-    throw new Error (message);
+    throw new Error(message);
   }
 
   public Expression parseExpression() {
@@ -51,7 +52,15 @@ public class Parser {
   public List<Statement> parse() {
     List<Statement> statements = new ArrayList<>();
     while (!isAtEnd()) {
-      statements.add(statement());
+      Statement nextStatement = statement();
+      statements.add(nextStatement);
+      if (match(TokenType.X)) {
+        consume(NUMBER, "loop amount should be a number.");
+        int times = Integer.parseInt(String.valueOf(previous().getLiteral()));
+        for (int i = 0; i < times - 1; i++) {
+          statements.add(nextStatement);
+        }
+      }
       consume(DOT, "please, do not forget the '.'");
     }
     return statements;
@@ -76,12 +85,21 @@ public class Parser {
     if (match(IF)) {
       return ifStatement();
     }
-    else {
+    if (match(WHILE)) {
+      return whileStatement();
+    }  else
+    {
       Token identifier = consume(IDENTIFIER, "morrigan says that what?");
       consume(IS, "morrigan says that " + identifier.getLexeme() + " what?");
       Expression expression = expression();
       return new AssignStatement(identifier, expression);
     }
+  }
+
+  private Statement whileStatement() {
+    Expression loopCondition = expression();
+    Statement loopStatement = statement();
+    return new WhileStatement(loopCondition, loopStatement);
   }
 
   private Statement ifStatement() {
