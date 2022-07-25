@@ -109,6 +109,12 @@ public class Scanner {
         case '/':
           tokensInLine.add(newToken(TokenType.SLASH));
           break;
+        case ',':
+          tokensInLine.add(newToken(TokenType.COMMA));
+          break;
+        case ';':
+          tokensInLine.add(newToken(TokenType.SEMICOLON));
+          break;
         case '=':
           tokensInLine.add(newToken(TokenType.EQUALS));
           break;

@@ -6,6 +6,7 @@ import ru.shanalotte.expression.UnaryExpression;
 import ru.shanalotte.statements.AssignStatement;
 import ru.shanalotte.statements.IfStatement;
 import ru.shanalotte.statements.PrintStatement;
+import ru.shanalotte.statements.StatementGroup;
 import ru.shanalotte.statements.WhileStatement;
 
 public interface Visitor<R> {
@@ -16,4 +17,5 @@ public interface Visitor<R> {
   R visit(AssignStatement assignStatement);
   R visit(IfStatement ifStatement);
   R visit(WhileStatement whileStatement);
+  R visit(StatementGroup statementGroup);
 }

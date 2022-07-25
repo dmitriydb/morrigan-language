@@ -7,6 +7,7 @@ import ru.shanalotte.expression.UnaryExpression;
 import ru.shanalotte.statements.AssignStatement;
 import ru.shanalotte.statements.IfStatement;
 import ru.shanalotte.statements.PrintStatement;
+import ru.shanalotte.statements.StatementGroup;
 import ru.shanalotte.statements.WhileStatement;
 
 public class AstPrinter implements Visitor<String> {
@@ -59,6 +60,11 @@ public class AstPrinter implements Visitor<String> {
 
   @Override
   public String visit(WhileStatement whileStatement) {
+    return null;
+  }
+
+  @Override
+  public String visit(StatementGroup statementGroup) {
     return null;
   }
 }

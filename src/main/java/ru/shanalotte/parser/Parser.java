@@ -9,6 +9,7 @@ import ru.shanalotte.expression.Literal;
 import ru.shanalotte.expression.UnaryExpression;
 import ru.shanalotte.scanner.Token;
 import ru.shanalotte.scanner.TokenType;
+import static ru.shanalotte.scanner.TokenType.COMMA;
 import static ru.shanalotte.scanner.TokenType.DOT;
 import static ru.shanalotte.scanner.TokenType.ELSE;
 import static ru.shanalotte.scanner.TokenType.FALSE;
@@ -21,6 +22,7 @@ import static ru.shanalotte.scanner.TokenType.NUMBER;
 import static ru.shanalotte.scanner.TokenType.PLUS;
 import static ru.shanalotte.scanner.TokenType.REMEMBERS;
 import static ru.shanalotte.scanner.TokenType.SAYS;
+import static ru.shanalotte.scanner.TokenType.SEMICOLON;
 import static ru.shanalotte.scanner.TokenType.SLASH;
 import static ru.shanalotte.scanner.TokenType.STAR;
 import static ru.shanalotte.scanner.TokenType.STRING;
@@ -33,6 +35,7 @@ import ru.shanalotte.statements.AssignStatement;
 import ru.shanalotte.statements.IfStatement;
 import ru.shanalotte.statements.PrintStatement;
 import ru.shanalotte.statements.Statement;
+import ru.shanalotte.statements.StatementGroup;
 import ru.shanalotte.statements.WhileStatement;
 
 @RequiredArgsConstructor
@@ -87,18 +90,35 @@ public class Parser {
     }
     if (match(WHILE)) {
       return whileStatement();
-    }  else
-    {
+    } else {
       Token identifier = consume(IDENTIFIER, "morrigan says that what?");
       consume(IS, "morrigan says that " + identifier.getLexeme() + " what?");
       Expression expression = expression();
-      return new AssignStatement(identifier, expression);
+      if (!match(COMMA)) {
+        return new AssignStatement(identifier, expression);
+      }
+      return assignmentGroup(new AssignStatement(identifier, expression));
     }
+  }
+
+  private Statement assignmentGroup(Statement firstStatement) {
+    StatementGroup statementGroup = new StatementGroup();
+    statementGroup.addStatement(firstStatement);
+    do {
+      Token identifier = consume(IDENTIFIER, "morrigan says that what?");
+      consume(IS, "morrigan says that " + identifier.getLexeme() + " what?");
+      Expression expression = expression();
+      statementGroup.addStatement(new AssignStatement(identifier, expression));
+    } while (match(COMMA));
+    return statementGroup;
   }
 
   private Statement whileStatement() {
     Expression loopCondition = expression();
     Statement loopStatement = statement();
+    if (match(SEMICOLON)) {
+      loopStatement = statementGroup(loopStatement);
+    }
     return new WhileStatement(loopCondition, loopStatement);
   }
 
@@ -106,13 +126,28 @@ public class Parser {
     Expression condition = expression();
     consume(THEN, "missing <then> after if expression");
     Statement trueBranch = statement();
+    if (match(SEMICOLON)) {
+      trueBranch = statementGroup(trueBranch);
+    }
     Statement falseBranch = null;
     if (match(ELSE)) {
       falseBranch = statement();
+      if (match(SEMICOLON)) {
+        falseBranch = statementGroup(falseBranch);
+      }
     }
     return new IfStatement(condition, trueBranch, falseBranch);
   }
 
+  private Statement statementGroup(Statement firstStatement) {
+    StatementGroup statementGroup = new StatementGroup();
+    statementGroup.addStatement(firstStatement);
+    do {
+      Statement nextTrueBranchStatement = statement();
+      statementGroup.addStatement(nextTrueBranchStatement);
+    } while (match(SEMICOLON));
+    return statementGroup;
+  }
 
   private Expression expression() {
     return equality();

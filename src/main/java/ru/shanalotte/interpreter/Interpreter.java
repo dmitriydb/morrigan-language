@@ -10,6 +10,8 @@ import ru.shanalotte.statements.PrintStatement;
 import ru.shanalotte.expression.UnaryExpression;
 import ru.shanalotte.parser.Visitor;
 import ru.shanalotte.scanner.TokenType;
+import ru.shanalotte.statements.Statement;
+import ru.shanalotte.statements.StatementGroup;
 import ru.shanalotte.statements.WhileStatement;
 
 public class Interpreter implements Visitor<Object> {
@@ -101,7 +103,6 @@ public class Interpreter implements Visitor<Object> {
   public Object visit(WhileStatement whileStatement) {
     while (evaluateCondition(whileStatement.getLoopCondition())) {
       evaluate(whileStatement.getLoopStatement());
-      System.out.println(Environment.getGlobalVariableValue("a"));
     }
     return null;
   }
@@ -152,5 +153,13 @@ public class Interpreter implements Visitor<Object> {
     Object value = assignStatement.getExpression().accept(this);
     Environment.setGlobalVariable(assignStatement.getIdentifier().getLexeme(), value);
     return value;
+  }
+
+  @Override
+  public Object visit(StatementGroup statementGroup) {
+    for (Statement statement : statementGroup.getStatements()) {
+      statement.accept(this);
+    }
+    return null;
   }
 }
