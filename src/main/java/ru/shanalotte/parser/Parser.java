@@ -22,7 +22,7 @@ import static ru.shanalotte.scanner.TokenType.NUMBER;
 import static ru.shanalotte.scanner.TokenType.PLUS;
 import static ru.shanalotte.scanner.TokenType.REMEMBERS;
 import static ru.shanalotte.scanner.TokenType.SAYS;
-import static ru.shanalotte.scanner.TokenType.SEMICOLON;
+import static ru.shanalotte.scanner.TokenType.AND;
 import static ru.shanalotte.scanner.TokenType.SLASH;
 import static ru.shanalotte.scanner.TokenType.STAR;
 import static ru.shanalotte.scanner.TokenType.STRING;
@@ -116,7 +116,7 @@ public class Parser {
   private Statement whileStatement() {
     Expression loopCondition = expression();
     Statement loopStatement = statement();
-    if (match(SEMICOLON)) {
+    if (match(AND)) {
       loopStatement = statementGroup(loopStatement);
     }
     return new WhileStatement(loopCondition, loopStatement);
@@ -126,13 +126,13 @@ public class Parser {
     Expression condition = expression();
     consume(THEN, "missing <then> after if expression");
     Statement trueBranch = statement();
-    if (match(SEMICOLON)) {
+    if (match(AND)) {
       trueBranch = statementGroup(trueBranch);
     }
     Statement falseBranch = null;
     if (match(ELSE)) {
       falseBranch = statement();
-      if (match(SEMICOLON)) {
+      if (match(AND)) {
         falseBranch = statementGroup(falseBranch);
       }
     }
@@ -145,7 +145,7 @@ public class Parser {
     do {
       Statement nextTrueBranchStatement = statement();
       statementGroup.addStatement(nextTrueBranchStatement);
-    } while (match(SEMICOLON));
+    } while (match(AND));
     return statementGroup;
   }
 
