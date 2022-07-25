@@ -42,4 +42,5 @@ public class StatementGroupTest extends AbstractInterpreterTest{
     morrigan.interpret("morrigan says that counter is 0. morrigan says that while counter < 11 morrigan remembers what is [now a is ] + counter and morrigan says that counter is counter + 1."
         );
   }
+
 }
