@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -85,6 +84,16 @@ public class Scanner {
     while (currentIndex < currentLine.getCode().length()) {
       char nextChar = advance();
       switch (nextChar) {
+        case '[':
+          skipToken();
+          while (peek() != ']') {
+            advance();
+          }
+          tokensInLine.add(newToken(TokenType.LITERAL_STRING));
+          break;
+        case ']':
+          skipToken();
+          break;
         case '.':
           tokensInLine.add(newToken(TokenType.DOT));
           break;
@@ -146,6 +155,9 @@ public class Scanner {
 
   private Token newToken(TokenType tokenType) {
     String lexeme = currentLine.getCode().substring(startIndex, currentIndex);
+    if (tokenType == TokenType.LITERAL_STRING) {
+      tokenType = TokenType.STRING;
+    } else
     if (tokenType == TokenType.STRING) {
       if (isKeyword(lexeme)) {
         tokenType = determineWhatKeywordTokenTypeByKeywordLexeme(lexeme);

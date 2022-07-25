@@ -11,6 +11,9 @@ public enum TokenType {
   MORE,
   FALSE,
   TRUE,
+  LEFT_SQUARE_BRACKET,
+  RIGHT_SQUARE_BRACKET,
+  LITERAL_STRING,
   //single characters
 
   //one or two characters
