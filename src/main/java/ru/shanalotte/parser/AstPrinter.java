@@ -3,6 +3,7 @@ package ru.shanalotte.parser;
 import ru.shanalotte.expression.BinaryExpression;
 import ru.shanalotte.expression.Expression;
 import ru.shanalotte.expression.Literal;
+import ru.shanalotte.expression.LogicalExpression;
 import ru.shanalotte.expression.UnaryExpression;
 import ru.shanalotte.statements.AssignStatement;
 import ru.shanalotte.statements.IfStatement;
@@ -67,4 +68,10 @@ public class AstPrinter implements Visitor<String> {
   public String visit(StatementGroup statementGroup) {
     return null;
   }
+
+  @Override
+  public String visit(LogicalExpression logicalExpression) {
+    return null;
+  }
+
 }

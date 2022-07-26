@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import ru.shanalotte.expression.BinaryExpression;
 import ru.shanalotte.expression.Expression;
 import ru.shanalotte.expression.Literal;
+import ru.shanalotte.expression.LogicalExpression;
 import ru.shanalotte.expression.UnaryExpression;
 import ru.shanalotte.scanner.Token;
 import ru.shanalotte.scanner.TokenType;
@@ -16,6 +17,8 @@ import static ru.shanalotte.scanner.TokenType.FALSE;
 import static ru.shanalotte.scanner.TokenType.IDENTIFIER;
 import static ru.shanalotte.scanner.TokenType.IF;
 import static ru.shanalotte.scanner.TokenType.IS;
+import static ru.shanalotte.scanner.TokenType.LOGICAL_AND;
+import static ru.shanalotte.scanner.TokenType.LOGICAL_OR;
 import static ru.shanalotte.scanner.TokenType.MINUS;
 import static ru.shanalotte.scanner.TokenType.MORRIGAN;
 import static ru.shanalotte.scanner.TokenType.NUMBER;
@@ -150,7 +153,25 @@ public class Parser {
   }
 
   private Expression expression() {
-    return equality();
+    Expression expression = equality();
+    if (match(LOGICAL_OR, LOGICAL_AND)) {
+      return logicalExpression(expression, previous());
+    } else {
+      return expression;
+    }
+  }
+
+  private Expression logicalExpression(Expression firstOperand, Token firstOperator) {
+    LogicalExpression logicalExpression = new LogicalExpression();
+    logicalExpression.addOperand(firstOperand);
+    logicalExpression.addOperator(firstOperator.getTokenType());
+    Expression nextOperand = expression();
+    logicalExpression.addOperand(nextOperand);
+    while (match(LOGICAL_OR, LOGICAL_AND)) {
+      logicalExpression.addOperator(previous().getTokenType());
+      logicalExpression.addOperand(expression());
+    }
+    return logicalExpression;
   }
 
   private Expression equality() {

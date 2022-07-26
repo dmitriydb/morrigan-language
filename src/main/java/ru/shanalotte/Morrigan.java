@@ -21,7 +21,6 @@ public class Morrigan {
   public void interpret (String line) {
     Scanner scanner = new Scanner();
     List<Token> tokens = scanner.scan(line);
-    System.out.println(tokens);
     List<Statement> statements = new Parser(tokens).parse();
     for (Statement st : statements) {
       new Interpreter().evaluate(st);

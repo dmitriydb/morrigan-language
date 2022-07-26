@@ -14,6 +14,8 @@ public enum TokenType {
   LITERAL_STRING,
   COMMA,
   SEMICOLON,
+  LOGICAL_OR,
+  LOGICAL_AND,
   //single characters
 
   //one or two characters

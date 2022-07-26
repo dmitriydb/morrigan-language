@@ -1,6 +1,9 @@
 package ru.shanalotte.interpreter;
 
+import java.util.Iterator;
 import ru.shanalotte.environment.Environment;
+import ru.shanalotte.expression.LogicalExpression;
+import ru.shanalotte.scanner.Token;
 import ru.shanalotte.statements.AssignStatement;
 import ru.shanalotte.expression.BinaryExpression;
 import ru.shanalotte.expression.Expression;
@@ -95,7 +98,11 @@ public class Interpreter implements Visitor<Object> {
     if (conditionResult) {
       return ifStatement.getTrueBranch().accept(this);
     } else {
-      return ifStatement.getFalseBranch().accept(this);
+      if (ifStatement.getFalseBranch() != null) {
+        return ifStatement.getFalseBranch().accept(this);
+      } else {
+        return null;
+      }
     }
   }
 
@@ -161,5 +168,35 @@ public class Interpreter implements Visitor<Object> {
       statement.accept(this);
     }
     return null;
+  }
+
+  @Override
+  public Object visit(LogicalExpression logicalExpression) {
+    Object firstOperand = this.evaluate(logicalExpression.getOperands().get(0));
+    if (logicalExpression.getOperands().size() == 1) {
+      return firstOperand;
+    } else {
+      Iterator<TokenType> operators = logicalExpression.getOperators().iterator();
+      for (int i = 1; i < logicalExpression.getOperands().size(); i++) {
+        Object secondOperand = this.evaluate(logicalExpression.getOperands().get(i));
+        firstOperand = evaluate(firstOperand, secondOperand, operators.next());
+      }
+    }
+    return firstOperand;
+  }
+
+  private Object evaluate(Object firstOperand, Object secondOperand, TokenType operator) {
+    if (!isBoolean(firstOperand) || !isBoolean(secondOperand)) {
+      throw new IllegalArgumentException("Both operands should be logical values in logical expression");
+    }
+    if (operator == TokenType.LOGICAL_OR) {
+      return (boolean)firstOperand || (boolean) secondOperand;
+    } else
+    if (operator == TokenType.LOGICAL_AND) {
+      return (boolean)firstOperand && (boolean) secondOperand;
+    }
+    else {
+      throw new IllegalArgumentException("Wrong logical operator in logical expression: " + operator);
+    }
   }
 }
