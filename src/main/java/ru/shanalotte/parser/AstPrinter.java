@@ -1,6 +1,7 @@
 package ru.shanalotte.parser;
 
 import ru.shanalotte.expression.BinaryExpression;
+import ru.shanalotte.expression.CallExpression;
 import ru.shanalotte.expression.Expression;
 import ru.shanalotte.expression.Literal;
 import ru.shanalotte.expression.LogicalExpression;
@@ -74,4 +75,8 @@ public class AstPrinter implements Visitor<String> {
     return null;
   }
 
+  @Override
+  public String visit(CallExpression callExpression) {
+    return null;
+  }
 }

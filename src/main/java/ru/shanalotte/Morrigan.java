@@ -26,6 +26,4 @@ public class Morrigan {
       new Interpreter().evaluate(st);
     }
   }
-
-
 }

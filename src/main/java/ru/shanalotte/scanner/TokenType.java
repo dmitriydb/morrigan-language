@@ -16,6 +16,8 @@ public enum TokenType {
   SEMICOLON,
   LOGICAL_OR,
   LOGICAL_AND,
+  LEFT_BRACKET,
+  RIGHT_BRACKET,
   //single characters
 
   //one or two characters

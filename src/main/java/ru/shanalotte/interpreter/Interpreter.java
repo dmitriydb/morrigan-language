@@ -1,18 +1,20 @@
 package ru.shanalotte.interpreter;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import ru.shanalotte.environment.Environment;
-import ru.shanalotte.expression.LogicalExpression;
-import ru.shanalotte.scanner.Token;
-import ru.shanalotte.statements.AssignStatement;
 import ru.shanalotte.expression.BinaryExpression;
+import ru.shanalotte.expression.CallExpression;
 import ru.shanalotte.expression.Expression;
 import ru.shanalotte.expression.Literal;
-import ru.shanalotte.statements.IfStatement;
-import ru.shanalotte.statements.PrintStatement;
+import ru.shanalotte.expression.LogicalExpression;
 import ru.shanalotte.expression.UnaryExpression;
 import ru.shanalotte.parser.Visitor;
 import ru.shanalotte.scanner.TokenType;
+import ru.shanalotte.statements.AssignStatement;
+import ru.shanalotte.statements.IfStatement;
+import ru.shanalotte.statements.PrintStatement;
 import ru.shanalotte.statements.Statement;
 import ru.shanalotte.statements.StatementGroup;
 import ru.shanalotte.statements.WhileStatement;
@@ -27,7 +29,7 @@ public class Interpreter implements Visitor<Object> {
         if (isInteger(leftValue) && isInteger((rightValue))) {
           return (int) leftValue + (int) rightValue;
         } else {
-          return String.valueOf(leftValue) + String.valueOf(rightValue);
+          return leftValue + String.valueOf(rightValue);
         }
       case MINUS:
         if (bothNotIntegers(leftValue, rightValue)) {
@@ -198,5 +200,25 @@ public class Interpreter implements Visitor<Object> {
     else {
       throw new IllegalArgumentException("Wrong logical operator in logical expression: " + operator);
     }
+  }
+
+  @Override
+  public Object visit(CallExpression callExpression) {
+    Object callee = evaluate(callExpression.getCallee());
+    List<Object> arguments = new ArrayList<>();
+    for (Expression argument : callExpression.getArguments()) {
+      arguments.add(this.evaluate(argument));
+    }
+    if (Environment.isNativeFunctionExists((String) callee)) {
+      callee = Environment.getNativeFunction((String) callee);
+    }
+    if (!(callee instanceof MorriganCallable)) {
+      throw new UnsupportedOperationException("Can call only functions");
+    }
+    MorriganCallable function = (MorriganCallable) callee;
+    if (function.arity() != arguments.size()) {
+      throw new IllegalStateException("Expected function arity is " + function.arity() + ", but got: " + arguments.size());
+    }
+    return function.call(this, arguments);
   }
 }

@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import ru.shanalotte.expression.BinaryExpression;
+import ru.shanalotte.expression.CallExpression;
 import ru.shanalotte.expression.Expression;
 import ru.shanalotte.expression.Literal;
 import ru.shanalotte.expression.LogicalExpression;
 import ru.shanalotte.expression.UnaryExpression;
 import ru.shanalotte.scanner.Token;
 import ru.shanalotte.scanner.TokenType;
+import static ru.shanalotte.scanner.TokenType.AND;
 import static ru.shanalotte.scanner.TokenType.COMMA;
 import static ru.shanalotte.scanner.TokenType.DOT;
 import static ru.shanalotte.scanner.TokenType.ELSE;
@@ -17,6 +19,7 @@ import static ru.shanalotte.scanner.TokenType.FALSE;
 import static ru.shanalotte.scanner.TokenType.IDENTIFIER;
 import static ru.shanalotte.scanner.TokenType.IF;
 import static ru.shanalotte.scanner.TokenType.IS;
+import static ru.shanalotte.scanner.TokenType.LEFT_BRACKET;
 import static ru.shanalotte.scanner.TokenType.LOGICAL_AND;
 import static ru.shanalotte.scanner.TokenType.LOGICAL_OR;
 import static ru.shanalotte.scanner.TokenType.MINUS;
@@ -24,8 +27,8 @@ import static ru.shanalotte.scanner.TokenType.MORRIGAN;
 import static ru.shanalotte.scanner.TokenType.NUMBER;
 import static ru.shanalotte.scanner.TokenType.PLUS;
 import static ru.shanalotte.scanner.TokenType.REMEMBERS;
+import static ru.shanalotte.scanner.TokenType.RIGHT_BRACKET;
 import static ru.shanalotte.scanner.TokenType.SAYS;
-import static ru.shanalotte.scanner.TokenType.AND;
 import static ru.shanalotte.scanner.TokenType.SLASH;
 import static ru.shanalotte.scanner.TokenType.STAR;
 import static ru.shanalotte.scanner.TokenType.STRING;
@@ -225,7 +228,30 @@ public class Parser {
       Expression right = unary();
       return new UnaryExpression(operator, right);
     }
-    return primary();
+    return call();
+  }
+
+  private Expression call() {
+    Expression primary = primary();
+    if (match(LEFT_BRACKET)) {
+      List<Expression> arguments = match(RIGHT_BRACKET) ? new ArrayList<>() : arguments();
+      return new CallExpression(primary, null, arguments);
+    } else {
+      return primary;
+    }
+  }
+
+  private List<Expression> arguments() {
+    List<Expression> arguments = new ArrayList<>();
+    while(true) {
+      arguments.add(expression());
+      if (match(RIGHT_BRACKET)) break;
+      if (match(COMMA)) continue;
+      if (isAtEnd()) {
+        throw new IllegalStateException("Missing ) in function call while EOF");
+      }
+    }
+    return arguments;
   }
 
   private Expression primary() {

@@ -118,6 +118,12 @@ public class Scanner {
         case '&':
           tokensInLine.add(newToken(TokenType.LOGICAL_AND));
           break;
+        case '(':
+          tokensInLine.add(newToken(TokenType.LEFT_BRACKET));
+          break;
+        case ')':
+          tokensInLine.add(newToken(TokenType.RIGHT_BRACKET));
+          break;
         case ';':
           tokensInLine.add(newToken(TokenType.SEMICOLON));
           break;
