@@ -13,6 +13,7 @@ import ru.shanalotte.expression.UnaryExpression;
 import ru.shanalotte.parser.Visitor;
 import ru.shanalotte.scanner.TokenType;
 import ru.shanalotte.statements.AssignStatement;
+import ru.shanalotte.statements.FunctionDeclarationStatement;
 import ru.shanalotte.statements.IfStatement;
 import ru.shanalotte.statements.PrintStatement;
 import ru.shanalotte.statements.Statement;
@@ -58,7 +59,7 @@ public class Interpreter implements Visitor<Object> {
   }
 
   private boolean isMore(Object a, Object b) {
-    if (isBoolean(a) && isBoolean(b)){
+    if (isBoolean(a) && isBoolean(b)) {
       throw new IllegalArgumentException("It is illegal to compare two boolean values. Were: " + a + ", " + b);
     }
     if (!bothNotIntegers(a, b)) {
@@ -68,8 +69,8 @@ public class Interpreter implements Visitor<Object> {
   }
 
   private boolean isEquals(Object a, Object b) {
-    if (isBoolean(a) && isBoolean(b)){
-      return  (a.equals(b));
+    if (isBoolean(a) && isBoolean(b)) {
+      return (a.equals(b));
     }
     return !isMore(a, b) && !isMore(b, a);
   }
@@ -96,7 +97,7 @@ public class Interpreter implements Visitor<Object> {
 
   @Override
   public Object visit(IfStatement ifStatement) {
-    boolean conditionResult = (boolean)ifStatement.getCondition().accept(this);
+    boolean conditionResult = (boolean) ifStatement.getCondition().accept(this);
     if (conditionResult) {
       return ifStatement.getTrueBranch().accept(this);
     } else {
@@ -153,7 +154,9 @@ public class Interpreter implements Visitor<Object> {
   @Override
   public Object visit(PrintStatement printStatement) {
     Object value = printStatement.getExpression().accept(this);
-    System.out.println(value);
+    if (!(printStatement.getExpression() instanceof CallExpression)) {
+      System.out.println(value);
+    }
     return value;
   }
 
@@ -192,12 +195,10 @@ public class Interpreter implements Visitor<Object> {
       throw new IllegalArgumentException("Both operands should be logical values in logical expression");
     }
     if (operator == TokenType.LOGICAL_OR) {
-      return (boolean)firstOperand || (boolean) secondOperand;
-    } else
-    if (operator == TokenType.LOGICAL_AND) {
-      return (boolean)firstOperand && (boolean) secondOperand;
-    }
-    else {
+      return (boolean) firstOperand || (boolean) secondOperand;
+    } else if (operator == TokenType.LOGICAL_AND) {
+      return (boolean) firstOperand && (boolean) secondOperand;
+    } else {
       throw new IllegalArgumentException("Wrong logical operator in logical expression: " + operator);
     }
   }
@@ -220,5 +221,24 @@ public class Interpreter implements Visitor<Object> {
       throw new IllegalStateException("Expected function arity is " + function.arity() + ", but got: " + arguments.size());
     }
     return function.call(this, arguments);
+  }
+
+  @Override
+  public Object visit(FunctionDeclarationStatement functionDeclarationStatement) {
+    String functionName = functionDeclarationStatement.getFunctionName();
+    MorriganCallable morriganCallable = new MorriganCallable() {
+      @Override
+      public Object call(Interpreter interpreter, List<Object> arguments) {
+        return interpreter.evaluate(functionDeclarationStatement.getFunctionBody());
+      }
+
+      @Override
+      public int arity() {
+        return functionDeclarationStatement.getParameters().size();
+      }
+    };
+
+    Environment.addFunction(functionName, morriganCallable);
+    return null;
   }
 }

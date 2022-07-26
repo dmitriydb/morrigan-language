@@ -16,10 +16,12 @@ import static ru.shanalotte.scanner.TokenType.COMMA;
 import static ru.shanalotte.scanner.TokenType.DOT;
 import static ru.shanalotte.scanner.TokenType.ELSE;
 import static ru.shanalotte.scanner.TokenType.FALSE;
+import static ru.shanalotte.scanner.TokenType.FUNCTION;
 import static ru.shanalotte.scanner.TokenType.IDENTIFIER;
 import static ru.shanalotte.scanner.TokenType.IF;
 import static ru.shanalotte.scanner.TokenType.IS;
 import static ru.shanalotte.scanner.TokenType.LEFT_BRACKET;
+import static ru.shanalotte.scanner.TokenType.LEFT_FIGURE_BRACKET;
 import static ru.shanalotte.scanner.TokenType.LOGICAL_AND;
 import static ru.shanalotte.scanner.TokenType.LOGICAL_OR;
 import static ru.shanalotte.scanner.TokenType.MINUS;
@@ -28,6 +30,7 @@ import static ru.shanalotte.scanner.TokenType.NUMBER;
 import static ru.shanalotte.scanner.TokenType.PLUS;
 import static ru.shanalotte.scanner.TokenType.REMEMBERS;
 import static ru.shanalotte.scanner.TokenType.RIGHT_BRACKET;
+import static ru.shanalotte.scanner.TokenType.RIGHT_FIGURE_BRACKET;
 import static ru.shanalotte.scanner.TokenType.SAYS;
 import static ru.shanalotte.scanner.TokenType.SLASH;
 import static ru.shanalotte.scanner.TokenType.STAR;
@@ -38,6 +41,7 @@ import static ru.shanalotte.scanner.TokenType.TRUE;
 import static ru.shanalotte.scanner.TokenType.WHAT;
 import static ru.shanalotte.scanner.TokenType.WHILE;
 import ru.shanalotte.statements.AssignStatement;
+import ru.shanalotte.statements.FunctionDeclarationStatement;
 import ru.shanalotte.statements.IfStatement;
 import ru.shanalotte.statements.PrintStatement;
 import ru.shanalotte.statements.Statement;
@@ -99,12 +103,40 @@ public class Parser {
     } else {
       Token identifier = consume(IDENTIFIER, "morrigan says that what?");
       consume(IS, "morrigan says that " + identifier.getLexeme() + " what?");
+      if (match(FUNCTION)) {
+        return functionDeclaration(identifier);
+      }
       Expression expression = expression();
       if (!match(COMMA)) {
         return new AssignStatement(identifier, expression);
       }
       return assignmentGroup(new AssignStatement(identifier, expression));
     }
+  }
+
+  private Statement functionDeclaration(Token functionName) {
+    consume(LEFT_BRACKET, "missing ( after function declaration");
+    List<Token> parameters = match(RIGHT_BRACKET) ? new ArrayList<>() : parameters();
+    consume(LEFT_FIGURE_BRACKET, "missing { after function parameters");
+    Statement statementGroup = statementGroup();
+    consume(RIGHT_FIGURE_BRACKET, "missing } after function body");
+    return new FunctionDeclarationStatement(functionName.getLexeme(), parameters, statementGroup);
+  }
+
+
+
+  private List<Token> parameters() {
+    List<Token> parameters = new ArrayList<>();
+    while(true) {
+      consume(IDENTIFIER, "missing parameter name in function parameter list");
+      parameters.add(previous());
+      if (match(RIGHT_BRACKET)) break;
+      if (match(COMMA)) continue;
+      if (isAtEnd()) {
+        throw new IllegalStateException("Missing ) in function declaration while EOF");
+      }
+    }
+    return parameters;
   }
 
   private Statement assignmentGroup(Statement firstStatement) {
@@ -148,6 +180,15 @@ public class Parser {
   private Statement statementGroup(Statement firstStatement) {
     StatementGroup statementGroup = new StatementGroup();
     statementGroup.addStatement(firstStatement);
+    do {
+      Statement nextTrueBranchStatement = statement();
+      statementGroup.addStatement(nextTrueBranchStatement);
+    } while (match(AND));
+    return statementGroup;
+  }
+
+  private Statement statementGroup() {
+    StatementGroup statementGroup = new StatementGroup();
     do {
       Statement nextTrueBranchStatement = statement();
       statementGroup.addStatement(nextTrueBranchStatement);

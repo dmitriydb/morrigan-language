@@ -34,6 +34,7 @@ public class Scanner {
     keywords.put("else", TokenType.ELSE);
     keywords.put("x", TokenType.X);
     keywords.put("while", TokenType.WHILE);
+    keywords.put("function", TokenType.FUNCTION);
   }
 
   private int startIndex = 0;
@@ -114,6 +115,12 @@ public class Scanner {
           break;
         case '|':
           tokensInLine.add(newToken(TokenType.LOGICAL_OR));
+          break;
+        case '{':
+          tokensInLine.add(newToken(TokenType.LEFT_FIGURE_BRACKET));
+          break;
+        case '}':
+          tokensInLine.add(newToken(TokenType.RIGHT_FIGURE_BRACKET));
           break;
         case '&':
           tokensInLine.add(newToken(TokenType.LOGICAL_AND));

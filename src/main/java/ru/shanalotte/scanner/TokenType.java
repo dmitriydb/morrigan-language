@@ -18,13 +18,10 @@ public enum TokenType {
   LOGICAL_AND,
   LEFT_BRACKET,
   RIGHT_BRACKET,
-  //single characters
-
-  //one or two characters
-
-  //literals
+  LEFT_FIGURE_BRACKET,
+  RIGHT_FIGURE_BRACKET,
   NUMBER, IDENTIFIER, STRING,
-  //keywords
+  FUNCTION,
   IS,
   OR,
   AND,

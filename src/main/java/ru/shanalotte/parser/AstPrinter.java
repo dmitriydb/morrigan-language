@@ -7,6 +7,7 @@ import ru.shanalotte.expression.Literal;
 import ru.shanalotte.expression.LogicalExpression;
 import ru.shanalotte.expression.UnaryExpression;
 import ru.shanalotte.statements.AssignStatement;
+import ru.shanalotte.statements.FunctionDeclarationStatement;
 import ru.shanalotte.statements.IfStatement;
 import ru.shanalotte.statements.PrintStatement;
 import ru.shanalotte.statements.StatementGroup;
@@ -77,6 +78,11 @@ public class AstPrinter implements Visitor<String> {
 
   @Override
   public String visit(CallExpression callExpression) {
+    return null;
+  }
+
+  @Override
+  public String visit(FunctionDeclarationStatement functionDeclarationStatement) {
     return null;
   }
 }

@@ -53,4 +53,9 @@ public class Environment {
   public static MorriganCallable getNativeFunction(String functionName) {
     return nativeFunctions.get(functionName);
   }
+
+  public static void addFunction(String functionName, MorriganCallable morriganCallable) {
+    nativeFunctions.put(functionName, morriganCallable);
+  }
+
 }

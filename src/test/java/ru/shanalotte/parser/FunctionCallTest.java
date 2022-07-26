@@ -25,4 +25,24 @@ public class FunctionCallTest extends AbstractInterpreterTest{
         + "morrigan says that c is concat(a, b). ");
     assertThat(Environment.getGlobalVariableValue("c")).isEqualTo("HelloWorld");
   }
+
+  @Test
+  public void functionDeclarationTest(){
+    morrigan.interpret("morrigan says that helloWorld is function() {"
+        + "morrigan remembers what is [Hello, World]}.");
+  }
+
+  @Test
+  public void voidFunctionCallTest() {
+    morrigan.interpret("morrigan says that helloWorld is function() {"
+        + "morrigan says that a is 5}. morrigan remembers what is helloWorld().");
+    assertThat(Environment.getGlobalVariableValue("a")).isEqualTo(5);
+  }
+
+  @Test
+  public void helloWorldFunctionTest() {
+    morrigan.interpret("morrigan says that helloWorld is function() {"
+        + "morrigan remembers what is [Hello, world!]}. "
+        + "morrigan remembers what is helloWorld().");
+  }
 }
