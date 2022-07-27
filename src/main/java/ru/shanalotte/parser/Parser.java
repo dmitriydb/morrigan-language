@@ -82,7 +82,16 @@ public class Parser {
   private Statement statement() {
     consume(MORRIGAN, "what?");
     if (match(REMEMBERS)) return printStatement();
-    if (match(SAYS)) return expressionStatement();
+    if (match(SAYS)) {
+      consume(THAT, "morrigan says what?");
+      if (match(IF)) {
+        return ifStatement();
+      }
+      if (match(WHILE)) {
+        return whileStatement();
+      }
+      return declarationStatement();
+    };
     throw new IllegalStateException("morrigan what?");
   }
 
@@ -93,15 +102,8 @@ public class Parser {
     return new PrintStatement(value);
   }
 
-  private Statement expressionStatement() {
-    consume(THAT, "morrigan says what?");
-    if (match(IF)) {
-      return ifStatement();
-    }
-    if (match(WHILE)) {
-      return whileStatement();
-    } else {
-      Token identifier = consume(IDENTIFIER, "morrigan says that what?");
+  private Statement declarationStatement() {
+    Token identifier = consume(IDENTIFIER, "morrigan says that what?");
       consume(IS, "morrigan says that " + identifier.getLexeme() + " what?");
       if (match(FUNCTION)) {
         return functionDeclaration(identifier);
@@ -111,7 +113,6 @@ public class Parser {
         return new AssignStatement(identifier, expression);
       }
       return assignmentGroup(new AssignStatement(identifier, expression));
-    }
   }
 
   private Statement functionDeclaration(Token functionName) {
@@ -122,8 +123,6 @@ public class Parser {
     consume(RIGHT_FIGURE_BRACKET, "missing } after function body");
     return new FunctionDeclarationStatement(functionName.getLexeme(), parameters, statementGroup);
   }
-
-
 
   private List<Token> parameters() {
     List<Token> parameters = new ArrayList<>();
