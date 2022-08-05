@@ -93,4 +93,12 @@ public class FunctionCallTest extends AbstractInterpreterTest {
     assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("result")).
         isEqualTo(15);
   }
+
+  @Test
+  public void factorialTest() {
+    morrigan.interpret("morrigan says that n is 5."
+        + "morrigan says that f is function(n) { "
+        + "morrigan says that if n = 1 then morrigan returns 1 else morrigan returns n * f(n - 1)}."
+        + "morrigan says that a is f(n). morrigan remembers what is a.");
+  }
 }

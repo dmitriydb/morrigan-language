@@ -164,9 +164,7 @@ public class Interpreter implements Visitor<Object> {
   @Override
   public Object visit(PrintStatement printStatement) {
     Object value = printStatement.getExpression().accept(this);
-    if (!(printStatement.getExpression() instanceof CallExpression)) {
-      System.out.println(value);
-    }
+    System.out.println(value);
     return value;
   }
 

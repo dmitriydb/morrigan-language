@@ -33,14 +33,11 @@ public class Environment {
     });
   }
 
-
-
   public Environment(Environment original) {
     for (String variable : original.getVariables().keySet()) {
       this.setVariable(variable, original.getVariables().get(variable));
     }
   }
-
 
   public void setVariable(String variableName, Object value) {
     variables.put(variableName, value);
@@ -52,10 +49,6 @@ public class Environment {
 
   public boolean variableExists(String variableName) {
     return variables.containsKey(variableName);
-  }
-
-  public  void clear() {
-    variables.clear();
   }
 
   public static boolean isNativeFunctionExists(String functionName) {
