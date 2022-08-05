@@ -6,6 +6,7 @@ import ru.shanalotte.expression.Literal;
 import ru.shanalotte.expression.LogicalExpression;
 import ru.shanalotte.expression.UnaryExpression;
 import ru.shanalotte.statements.AssignStatement;
+import ru.shanalotte.statements.CallStatement;
 import ru.shanalotte.statements.FunctionDeclarationStatement;
 import ru.shanalotte.statements.IfStatement;
 import ru.shanalotte.statements.PrintStatement;
@@ -24,4 +25,5 @@ public interface Visitor<R> {
   R visit(LogicalExpression logicalExpression);
   R visit(CallExpression callExpression);
   R visit(FunctionDeclarationStatement functionDeclarationStatement);
+  R visit(CallStatement callStatement);
 }

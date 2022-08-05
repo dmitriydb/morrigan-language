@@ -35,6 +35,8 @@ public class Scanner {
     keywords.put("x", TokenType.X);
     keywords.put("while", TokenType.WHILE);
     keywords.put("function", TokenType.FUNCTION);
+    keywords.put("calls", TokenType.CALLS);
+
   }
 
   private int startIndex = 0;

@@ -21,6 +21,6 @@ public class StringLiteralTest extends AbstractInterpreterTest{
   public void printingHelloWorldLiteral() {
     morrigan.interpret("morrigan says that helloWorld is [Hello, world!]."
         + "morrigan remembers what is helloWorld x 10.");
-    assertThat(Environment.getGlobalVariableValue("helloWorld")).isEqualTo("Hello, world!");
+    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("helloWorld")).isEqualTo("Hello, world!");
   }
 }

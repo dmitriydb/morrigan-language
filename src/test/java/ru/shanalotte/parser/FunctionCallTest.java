@@ -23,7 +23,7 @@ public class FunctionCallTest extends AbstractInterpreterTest{
   public void nativeFunctionCall() {
     morrigan.interpret("morrigan says that a is [Hello]. morrigan says that b is [World]. "
         + "morrigan says that c is concat(a, b). ");
-    assertThat(Environment.getGlobalVariableValue("c")).isEqualTo("HelloWorld");
+    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("c")).isEqualTo("HelloWorld");
   }
 
   @Test
@@ -36,7 +36,7 @@ public class FunctionCallTest extends AbstractInterpreterTest{
   public void voidFunctionCallTest() {
     morrigan.interpret("morrigan says that helloWorld is function() {"
         + "morrigan says that a is 5}. morrigan remembers what is helloWorld().");
-    assertThat(Environment.getGlobalVariableValue("a")).isEqualTo(5);
+    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("a")).isNull();
   }
 
   @Test
@@ -44,5 +44,32 @@ public class FunctionCallTest extends AbstractInterpreterTest{
     morrigan.interpret("morrigan says that helloWorld is function() {"
         + "morrigan remembers what is [Hello, world!]}. "
         + "morrigan remembers what is helloWorld().");
+  }
+
+
+  @Test
+  public void overlappingScopesTest() {
+    morrigan.interpret("morrigan says that a is 10. "
+        + "morrigan says that test is function() {"
+        + "morrigan says that a is 5 and morrigan remembers what is a"
+        + "}."
+        + "morrigan remembers what is test()."
+        + "morrigan remembers what is a.");
+  }
+
+  @Test
+  public void morriganCallTest() {
+    morrigan.interpret("morrigan says that a is 5."
+        + "morrigan says that t is function() {"
+        + "morrigan remembers what is a}."
+        + "morrigan calls t().");
+  }
+
+  @Test
+  public void testingGlobalVariablesReset() {
+    morrigan.interpret("morrigan says that a is 10."
+        + "morrigan says that m is function() {"
+        + "morrigan says that a is 5}.");
+    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("a")).isEqualTo(5);
   }
 }

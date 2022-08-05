@@ -3,13 +3,17 @@ package ru.shanalotte.environment;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import ru.shanalotte.interpreter.Interpreter;
 import ru.shanalotte.interpreter.MorriganCallable;
 
+@NoArgsConstructor
 public class Environment {
 
   private static Map<String, MorriganCallable> nativeFunctions = new HashMap<>();
-  private static Map<String, Object> globalVariables = new HashMap<>();
+  @Getter
+  private Map<String, Object> variables = new HashMap<>();
 
   static {
     nativeFunctions.put("concat", new MorriganCallable() {
@@ -30,20 +34,28 @@ public class Environment {
   }
 
 
-  public static void setGlobalVariable(String variableName, Object value) {
-    globalVariables.put(variableName, value);
+
+  public Environment(Environment original) {
+    for (String variable : original.getVariables().keySet()) {
+      this.setVariable(variable, original.getVariables().get(variable));
+    }
   }
 
-  public static Object getGlobalVariableValue(String variableName) {
-    return globalVariables.getOrDefault(variableName, null);
+
+  public void setVariable(String variableName, Object value) {
+    variables.put(variableName, value);
   }
 
-  public static boolean globalVariableExists(String variableName) {
-    return globalVariables.containsKey(variableName);
+  public Object getVariableValue(String variableName) {
+    return variables.getOrDefault(variableName, null);
   }
 
-  public static void clear() {
-    globalVariables.clear();
+  public boolean variableExists(String variableName) {
+    return variables.containsKey(variableName);
+  }
+
+  public  void clear() {
+    variables.clear();
   }
 
   public static boolean isNativeFunctionExists(String functionName) {

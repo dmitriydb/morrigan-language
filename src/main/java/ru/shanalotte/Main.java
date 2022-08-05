@@ -3,6 +3,7 @@ package ru.shanalotte;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
+import ru.shanalotte.interpreter.Interpreter;
 
 public class Main {
 
@@ -15,7 +16,7 @@ public class Main {
         break;
       }
       try {
-        new Morrigan().interpret(nextLine);
+        new Morrigan(new Interpreter(), new ru.shanalotte.scanner.Scanner()).interpret(nextLine);
       } catch (Throwable t) {
         System.out.println(t.getMessage());
       }

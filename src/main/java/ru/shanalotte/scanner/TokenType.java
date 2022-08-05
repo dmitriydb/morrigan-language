@@ -22,6 +22,7 @@ public enum TokenType {
   RIGHT_FIGURE_BRACKET,
   NUMBER, IDENTIFIER, STRING,
   FUNCTION,
+  CALLS,
   IS,
   OR,
   AND,

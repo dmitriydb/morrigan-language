@@ -3,6 +3,8 @@ package ru.shanalotte.interpreter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 import ru.shanalotte.environment.Environment;
 import ru.shanalotte.expression.BinaryExpression;
 import ru.shanalotte.expression.CallExpression;
@@ -13,6 +15,7 @@ import ru.shanalotte.expression.UnaryExpression;
 import ru.shanalotte.parser.Visitor;
 import ru.shanalotte.scanner.TokenType;
 import ru.shanalotte.statements.AssignStatement;
+import ru.shanalotte.statements.CallStatement;
 import ru.shanalotte.statements.FunctionDeclarationStatement;
 import ru.shanalotte.statements.IfStatement;
 import ru.shanalotte.statements.PrintStatement;
@@ -21,6 +24,11 @@ import ru.shanalotte.statements.StatementGroup;
 import ru.shanalotte.statements.WhileStatement;
 
 public class Interpreter implements Visitor<Object> {
+
+  @Getter
+  @Setter
+  private Environment environment = new Environment();
+
   @Override
   public Object visit(BinaryExpression binaryExpression) {
     Object leftValue = binaryExpression.getLeftSide().accept(this);
@@ -84,8 +92,8 @@ public class Interpreter implements Visitor<Object> {
     if (literal.getLiteral().equals("true") || literal.getLiteral().equals("false")) {
       return Boolean.valueOf(literal.getLiteral().toString());
     }
-    if (Environment.globalVariableExists(literal.getLiteral().toString())) {
-      return Environment.getGlobalVariableValue(literal.getLiteral().toString());
+    if (environment.variableExists(literal.getLiteral().toString())) {
+      return environment.getVariableValue(literal.getLiteral().toString());
     }
     try {
       int intValue = Integer.parseInt(literal.getLiteral().toString());
@@ -163,7 +171,7 @@ public class Interpreter implements Visitor<Object> {
   @Override
   public Object visit(AssignStatement assignStatement) {
     Object value = assignStatement.getExpression().accept(this);
-    Environment.setGlobalVariable(assignStatement.getIdentifier().getLexeme(), value);
+    environment.setVariable(assignStatement.getIdentifier().getLexeme(), value);
     return value;
   }
 
@@ -226,19 +234,13 @@ public class Interpreter implements Visitor<Object> {
   @Override
   public Object visit(FunctionDeclarationStatement functionDeclarationStatement) {
     String functionName = functionDeclarationStatement.getFunctionName();
-    MorriganCallable morriganCallable = new MorriganCallable() {
-      @Override
-      public Object call(Interpreter interpreter, List<Object> arguments) {
-        return interpreter.evaluate(functionDeclarationStatement.getFunctionBody());
-      }
-
-      @Override
-      public int arity() {
-        return functionDeclarationStatement.getParameters().size();
-      }
-    };
-
-    Environment.addFunction(functionName, morriganCallable);
+    MorriganFunction morriganFunction = new MorriganFunction(functionDeclarationStatement);
+    Environment.addFunction(functionName, morriganFunction);
     return null;
+  }
+
+  @Override
+  public Object visit(CallStatement callStatement) {
+    return this.evaluate(callStatement.getFunctionCall());
   }
 }

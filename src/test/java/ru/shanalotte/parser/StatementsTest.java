@@ -21,19 +21,19 @@ public class StatementsTest extends AbstractInterpreterTest{
   @Test
   public void usingVariableInExpressions() {
     runSomeCode("morrigan says that a is 3. morrigan says that b is a + 7. morrigan remembers what is b.");
-    assertThat(Environment.getGlobalVariableValue("b")).isEqualTo(10);
+    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("b")).isEqualTo(10);
   }
 
   @Test
   public void assigningSomeBooleanValues() {
     runSomeCode("morrigan says that tenMoreThatFive is 10 > 5. ");
-    assertThat(Environment.getGlobalVariableValue("tenMoreThatFive")).isEqualTo(true);
+    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("tenMoreThatFive")).isEqualTo(true);
   }
 
   @Test
   public void addTwoNumbers() {
     runSomeCode("morrigan says that a is 5. morrigan says that b is 5. morrigan says that c is a + b.");
-    assertThat(Environment.getGlobalVariableValue("c")).isEqualTo(10);
+    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("c")).isEqualTo(10);
   }
 
   @Test

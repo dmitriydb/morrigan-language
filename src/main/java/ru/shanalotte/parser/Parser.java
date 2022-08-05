@@ -12,6 +12,7 @@ import ru.shanalotte.expression.UnaryExpression;
 import ru.shanalotte.scanner.Token;
 import ru.shanalotte.scanner.TokenType;
 import static ru.shanalotte.scanner.TokenType.AND;
+import static ru.shanalotte.scanner.TokenType.CALLS;
 import static ru.shanalotte.scanner.TokenType.COMMA;
 import static ru.shanalotte.scanner.TokenType.DOT;
 import static ru.shanalotte.scanner.TokenType.ELSE;
@@ -41,6 +42,7 @@ import static ru.shanalotte.scanner.TokenType.TRUE;
 import static ru.shanalotte.scanner.TokenType.WHAT;
 import static ru.shanalotte.scanner.TokenType.WHILE;
 import ru.shanalotte.statements.AssignStatement;
+import ru.shanalotte.statements.CallStatement;
 import ru.shanalotte.statements.FunctionDeclarationStatement;
 import ru.shanalotte.statements.IfStatement;
 import ru.shanalotte.statements.PrintStatement;
@@ -81,6 +83,7 @@ public class Parser {
 
   private Statement statement() {
     consume(MORRIGAN, "what?");
+    if (match(CALLS)) return callStatement();
     if (match(REMEMBERS)) return printStatement();
     if (match(SAYS)) {
       consume(THAT, "morrigan says what?");
@@ -100,6 +103,11 @@ public class Parser {
     consume(IS, "morrigan remembers what is what? ");
     Expression value = expression();
     return new PrintStatement(value);
+  }
+
+  private CallStatement callStatement() {
+    Expression call = call();
+    return new CallStatement(call);
   }
 
   private Statement declarationStatement() {
