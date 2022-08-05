@@ -3,7 +3,9 @@ Morrigan language is a simple programming language written on Java that was insp
 ### Grammar
 ```
 program ::= <statement>* EOF
-statement ::= morrigan <printStatement> | <whileStatement> | <declarationStatement > | <ifStatement> [x <NUMBER>]
+statement ::= morrigan <callStatement> | <returnStatement> | <printStatement> | <whileStatement> | <declarationStatement > | <ifStatement> [x <NUMBER>]
+callStatement ::= calls <call>.
+returnStatement ::= returns <expression>.
 printStatement ::= remembers what is <expression>.
 whileStatement ::= says that while <expression> do <statement group>.
 ifStatement ::= says that if <expression> then <statement group> else <statement group>. 

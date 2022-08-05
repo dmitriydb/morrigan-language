@@ -23,6 +23,7 @@ public enum TokenType {
   NUMBER, IDENTIFIER, STRING,
   FUNCTION,
   CALLS,
+  RETURNS,
   IS,
   OR,
   AND,

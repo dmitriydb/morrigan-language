@@ -6,6 +6,7 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import ru.shanalotte.environment.Environment;
+import ru.shanalotte.exception.Return;
 import ru.shanalotte.expression.BinaryExpression;
 import ru.shanalotte.expression.CallExpression;
 import ru.shanalotte.expression.Expression;
@@ -19,6 +20,7 @@ import ru.shanalotte.statements.CallStatement;
 import ru.shanalotte.statements.FunctionDeclarationStatement;
 import ru.shanalotte.statements.IfStatement;
 import ru.shanalotte.statements.PrintStatement;
+import ru.shanalotte.statements.ReturnStatement;
 import ru.shanalotte.statements.Statement;
 import ru.shanalotte.statements.StatementGroup;
 import ru.shanalotte.statements.WhileStatement;
@@ -242,5 +244,11 @@ public class Interpreter implements Visitor<Object> {
   @Override
   public Object visit(CallStatement callStatement) {
     return this.evaluate(callStatement.getFunctionCall());
+  }
+
+  @Override
+  public Object visit(ReturnStatement returnStatement) {
+    Object returnValue = evaluate(returnStatement.getReturnExpression());
+    throw new Return(returnValue);
   }
 }

@@ -30,6 +30,7 @@ import static ru.shanalotte.scanner.TokenType.MORRIGAN;
 import static ru.shanalotte.scanner.TokenType.NUMBER;
 import static ru.shanalotte.scanner.TokenType.PLUS;
 import static ru.shanalotte.scanner.TokenType.REMEMBERS;
+import static ru.shanalotte.scanner.TokenType.RETURNS;
 import static ru.shanalotte.scanner.TokenType.RIGHT_BRACKET;
 import static ru.shanalotte.scanner.TokenType.RIGHT_FIGURE_BRACKET;
 import static ru.shanalotte.scanner.TokenType.SAYS;
@@ -46,6 +47,7 @@ import ru.shanalotte.statements.CallStatement;
 import ru.shanalotte.statements.FunctionDeclarationStatement;
 import ru.shanalotte.statements.IfStatement;
 import ru.shanalotte.statements.PrintStatement;
+import ru.shanalotte.statements.ReturnStatement;
 import ru.shanalotte.statements.Statement;
 import ru.shanalotte.statements.StatementGroup;
 import ru.shanalotte.statements.WhileStatement;
@@ -84,6 +86,7 @@ public class Parser {
   private Statement statement() {
     consume(MORRIGAN, "what?");
     if (match(CALLS)) return callStatement();
+    if (match(RETURNS)) return returnStatement();
     if (match(REMEMBERS)) return printStatement();
     if (match(SAYS)) {
       consume(THAT, "morrigan says what?");
@@ -96,6 +99,11 @@ public class Parser {
       return declarationStatement();
     };
     throw new IllegalStateException("morrigan what?");
+  }
+
+  private ReturnStatement returnStatement() {
+    Expression returnExpression = expression();
+    return new ReturnStatement(returnExpression);
   }
 
   private Statement printStatement() {

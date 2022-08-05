@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 import ru.shanalotte.environment.Environment;
 
-public class FunctionCallTest extends AbstractInterpreterTest{
+public class FunctionCallTest extends AbstractInterpreterTest {
 
   @Test
   public void shouldNotWork() {
@@ -27,7 +27,7 @@ public class FunctionCallTest extends AbstractInterpreterTest{
   }
 
   @Test
-  public void functionDeclarationTest(){
+  public void functionDeclarationTest() {
     morrigan.interpret("morrigan says that helloWorld is function() {"
         + "morrigan remembers what is [Hello, World]}.");
   }
@@ -71,5 +71,26 @@ public class FunctionCallTest extends AbstractInterpreterTest{
         + "morrigan says that m is function() {"
         + "morrigan says that a is 5}.");
     assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("a")).isEqualTo(5);
+  }
+
+  @Test
+  public void returnTest() {
+    morrigan.interpret("morrigan says that a is function() {morrigan returns 5}."
+        + "morrigan says that b is a().");
+    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("b")).isEqualTo(5);
+  }
+
+  @Test
+  public void someMaxFunctionTest() {
+    morrigan.interpret("morrigan says that a is 10."
+        + "morrigan says that b is 15."
+        + "morrigan says that max is function(num1, num2) { "
+        + "  morrigan says that if num1 > num2 then morrigan returns num1 else"
+        + "  morrigan returns num2"
+        + "}."
+        + "morrigan says that result is max(a, b)."
+        + "morrigan remembers what is result.");
+    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("result")).
+        isEqualTo(15);
   }
 }

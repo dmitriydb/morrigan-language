@@ -10,6 +10,7 @@ import ru.shanalotte.statements.CallStatement;
 import ru.shanalotte.statements.FunctionDeclarationStatement;
 import ru.shanalotte.statements.IfStatement;
 import ru.shanalotte.statements.PrintStatement;
+import ru.shanalotte.statements.ReturnStatement;
 import ru.shanalotte.statements.StatementGroup;
 import ru.shanalotte.statements.WhileStatement;
 
@@ -26,4 +27,5 @@ public interface Visitor<R> {
   R visit(CallExpression callExpression);
   R visit(FunctionDeclarationStatement functionDeclarationStatement);
   R visit(CallStatement callStatement);
+  R visit(ReturnStatement returnStatement);
 }

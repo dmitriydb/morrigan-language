@@ -4,6 +4,7 @@ import java.util.List;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import ru.shanalotte.environment.Environment;
+import ru.shanalotte.exception.Return;
 import ru.shanalotte.statements.FunctionDeclarationStatement;
 
 @RequiredArgsConstructor
@@ -20,14 +21,19 @@ public class MorriganFunction implements MorriganCallable{
       environment.setVariable(argument, value);
     }
     Environment originalEnvironment = interpreter.getEnvironment();
+    Object functionCallResult = null;
     try {
       interpreter.setEnvironment(environment);
-      interpreter.evaluate(declarationStatement.getFunctionBody());
+      try {
+        interpreter.evaluate(declarationStatement.getFunctionBody());
+      } catch (Return r) {
+        functionCallResult = r.getValue();
+      }
     }
     finally {
       interpreter.setEnvironment(originalEnvironment);
     }
-    return null;
+    return functionCallResult;
   }
 
   @Override

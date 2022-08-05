@@ -36,6 +36,7 @@ public class Scanner {
     keywords.put("while", TokenType.WHILE);
     keywords.put("function", TokenType.FUNCTION);
     keywords.put("calls", TokenType.CALLS);
+    keywords.put("returns", TokenType.RETURNS);
 
   }
 
