@@ -28,6 +28,9 @@ import ru.shanalotte.statements.WhileStatement;
 public class Interpreter implements Visitor<Object> {
 
   @Getter
+  private final List<String> result = new ArrayList<>();
+
+  @Getter
   @Setter
   private Environment environment = new Environment();
 
@@ -165,6 +168,7 @@ public class Interpreter implements Visitor<Object> {
   public Object visit(PrintStatement printStatement) {
     Object value = printStatement.getExpression().accept(this);
     System.out.println(value);
+    result.add(value.toString());
     return value;
   }
 
@@ -249,4 +253,5 @@ public class Interpreter implements Visitor<Object> {
     Object returnValue = evaluate(returnStatement.getReturnExpression());
     throw new Return(returnValue);
   }
+
 }
