@@ -3,7 +3,9 @@ package ru.shanalotte.coderun;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.NonNull;
+import lombok.ToString;
 
+@ToString
 public class CodeRunResult {
 
   private final @NonNull List<String> stdout = new ArrayList<>();

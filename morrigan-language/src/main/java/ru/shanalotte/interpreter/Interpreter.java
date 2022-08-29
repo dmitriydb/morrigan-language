@@ -256,4 +256,8 @@ public class Interpreter implements Visitor<Object> {
     throw new Return(returnValue);
   }
 
+  public void clearResults() {
+    this.result.clear();
+  }
+
 }

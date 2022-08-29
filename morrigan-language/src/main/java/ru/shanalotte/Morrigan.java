@@ -24,12 +24,14 @@ public class Morrigan {
   }
 
   public Object evaluate(String line) {
+    interpreter.clearResults();
     List<Token> tokens = scanner.scan(line);
     Expression root = new Parser(tokens).parseExpression();
     return interpreter.evaluate(root);
   }
 
   public void interpret (String line) {
+    interpreter.clearResults();
     List<Token> tokens = scanner.scan(line);
     List<Statement> statements = new Parser(tokens).parse();
     for (Statement st : statements) {
