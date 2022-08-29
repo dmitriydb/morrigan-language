@@ -20,7 +20,7 @@ public class CodeRunTest {
             morrigan remembers what is a.
             """)
         .build();
-    CodeRunService codeRunService = TestUtils.simpleCodeRunService();
+    CodeRunService codeRunService = TestUtils.codeRunServiceWithMockedCache();
 
     CodeRunResult codeRunResult = codeRunService.run(codeRunRequest);
 
@@ -35,7 +35,7 @@ public class CodeRunTest {
             morrigan remembers what is [Hello, world.].
             """)
         .build();
-    CodeRunService codeRunService = TestUtils.simpleCodeRunService();
+    CodeRunService codeRunService = TestUtils.codeRunServiceWithMockedCache();
 
     CodeRunResult codeRunResult = codeRunService.run(codeRunRequest);
 
@@ -45,7 +45,7 @@ public class CodeRunTest {
   @Test
   public void should_RunCodeInBatches() {
     List<CodeRunRequest> batch = TestUtils.prepareCodeRequestBatch();
-    CodeRunService codeRunService = TestUtils.simpleCodeRunService();
+    CodeRunService codeRunService = TestUtils.codeRunServiceWithMockedCache();
 
     List<CodeRunResult> result = codeRunService.batchRun(batch);
 

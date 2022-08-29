@@ -11,25 +11,36 @@ import org.mockito.Mockito;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 import ru.shanalotte.Morrigan;
 import ru.shanalotte.coderun.api.CodeRunRequest;
 import ru.shanalotte.coderun.cache.CodeRunCache;
 import ru.shanalotte.coderun.cache.RedisCodeRunCache;
 
+@Testcontainers
 public class CachingTest {
+
+  @Container
+  public GenericContainer redis = new GenericContainer(DockerImageName.parse("redis:5.0.3-alpine"))
+      .withExposedPorts(6379);
 
   private CodeRunCache mockedCodeRunCache = Mockito.mock(CodeRunCache.class);
   private CodeRunService codeRunService = TestUtils.codeRunService(new Morrigan(), mockedCodeRunCache);
+  private CodeRunCache codeRunCacheSpy;
 
   @BeforeEach
   public void setUp() {
     mockedCodeRunCache = Mockito.mock(CodeRunCache.class);
     codeRunService = TestUtils.codeRunService(new Morrigan(), mockedCodeRunCache);
+    codeRunCacheSpy = spy(new RedisCodeRunCache(redis.getHost(), redis.getFirstMappedPort()));
   }
 
   @Test
   public void should_CacheCodeRun() {
-    CodeRunRequest request = TestUtils.codeRequest("test");
+    CodeRunRequest request = TestUtils.randomCodeRequest();
     ArgumentCaptor<CodeRunRequest> requestCaptor = ArgumentCaptor.forClass(CodeRunRequest.class);
     ArgumentCaptor<CodeRunResult> resultCaptor = ArgumentCaptor.forClass(CodeRunResult.class);
 
@@ -51,9 +62,8 @@ public class CachingTest {
 
   @Test
   public void should_NotCacheCode_SecondTime() {
-    CodeRunCache codeRunCacheSpy = spy(new RedisCodeRunCache());
     codeRunService = TestUtils.codeRunService(new Morrigan(), codeRunCacheSpy);
-    CodeRunRequest request = TestUtils.codeRequest("abc");
+    CodeRunRequest request = TestUtils.randomCodeRequest();
 
     CodeRunResult result = codeRunService.run(request);
     codeRunService.run(request);
@@ -63,10 +73,9 @@ public class CachingTest {
 
   @Test
   public void should_GrabCodeRunResultFromCache_InsteadOfIntepreter() {
-    CodeRunCache codeRunCacheSpy = spy(new RedisCodeRunCache());
     Morrigan morriganSpy = spy(new Morrigan());
     codeRunService = TestUtils.codeRunService(morriganSpy, codeRunCacheSpy);
-    CodeRunRequest request = TestUtils.codeRequest("abc");
+    CodeRunRequest request = TestUtils.randomCodeRequest();
 
     CodeRunResult result = codeRunService.run(request);
     codeRunService.run(request);
@@ -78,8 +87,8 @@ public class CachingTest {
 
   @Test
   public void should_CacheInBatches() {
-    List<CodeRunRequest> batch = List.of(TestUtils.codeRequest("1"), TestUtils.codeRequest("1"), TestUtils.codeRequest("1"));
-    CodeRunCache codeRunCacheSpy = spy(new RedisCodeRunCache());
+    CodeRunRequest request = TestUtils.randomCodeRequest();
+    List<CodeRunRequest> batch = List.of(request, request, request);
     Morrigan morriganSpy = spy(new Morrigan());
     codeRunService = TestUtils.codeRunService(morriganSpy, codeRunCacheSpy);
 
@@ -89,4 +98,5 @@ public class CachingTest {
     verify(codeRunCacheSpy, times(1)).cache(any(), any());
     verify(morriganSpy, times(1)).interpret(any());
   }
+
 }

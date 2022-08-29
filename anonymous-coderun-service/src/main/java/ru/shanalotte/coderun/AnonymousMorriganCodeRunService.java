@@ -17,7 +17,7 @@ public class AnonymousMorriganCodeRunService implements CodeRunService {
   @Override
   public CodeRunResult run(CodeRunRequest request) {
     if (codeRunCache.contains(request)) {
-      return codeRunCache.get(request);
+      return codeRunCache.get(request).orElse(CodeRunResult.of(CodeRunResultMessages.TRY_AGAIN));
     }
     CodeRunResult result = new CodeRunResult();
     morrigan.interpret(request.code());

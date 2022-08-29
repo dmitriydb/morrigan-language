@@ -1,6 +1,8 @@
 package ru.shanalotte.coderun;
 
 import java.util.List;
+import java.util.UUID;
+import static org.mockito.Mockito.mock;
 import ru.shanalotte.Morrigan;
 import ru.shanalotte.coderun.api.CodeRunRequest;
 import ru.shanalotte.coderun.api.SimpleCodeRunRequest;
@@ -27,5 +29,19 @@ public class TestUtils {
 
   public static List<CodeRunRequest> prepareCodeRequestBatch() {
     return List.of(codeRequest("1"), codeRequest("2"), codeRequest("3"));
+  }
+
+  public static CodeRunRequest randomCodeRequest() {
+    var randomValue = "string" + UUID.randomUUID().toString();
+    randomValue = randomValue.replace("-", "");
+    return codeRequest(randomValue);
+  }
+
+  private static void generateRandomString() {
+
+  }
+
+  public static CodeRunService codeRunServiceWithMockedCache() {
+    return new AnonymousMorriganCodeRunService(new Morrigan(), mock(CodeRunCache.class));
   }
 }
