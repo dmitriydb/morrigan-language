@@ -9,10 +9,11 @@ import lombok.ToString;
 @Getter
 @EqualsAndHashCode
 @ToString
-public class SimpleCodeRunRequest implements CodeRunRequest {
+public class UserCodeRunRequest implements CodeRunRequest {
 
   private SupportedLanguage language;
   private String code;
+  private String username;
 
   @Override
   public SupportedLanguage language() {
@@ -24,4 +25,8 @@ public class SimpleCodeRunRequest implements CodeRunRequest {
     return code;
   }
 
+  @Override
+  public String username() {
+    return username;
+  }
 }

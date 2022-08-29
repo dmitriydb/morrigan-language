@@ -3,17 +3,15 @@ package ru.shanalotte.coderun;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
-import ru.shanalotte.Morrigan;
-import static ru.shanalotte.coderun.TestUtils.codeRequest;
 import ru.shanalotte.coderun.api.CodeRunRequest;
-import ru.shanalotte.coderun.api.SimpleCodeRunRequest;
+import ru.shanalotte.coderun.api.AnonymousCodeRunRequest;
 import ru.shanalotte.coderun.api.SupportedLanguage;
 
 public class CodeRunTest {
 
   @Test
   public void should_RunSomething() {
-    CodeRunRequest codeRunRequest = SimpleCodeRunRequest.builder()
+    CodeRunRequest codeRunRequest = AnonymousCodeRunRequest.builder()
         .language(SupportedLanguage.MORRIGAN)
         .code("""
             morrigan says that a is 10.
@@ -29,7 +27,7 @@ public class CodeRunTest {
 
   @Test
   public void should_RunSomethingElse() {
-    CodeRunRequest codeRunRequest = SimpleCodeRunRequest.builder()
+    CodeRunRequest codeRunRequest = AnonymousCodeRunRequest.builder()
         .language(SupportedLanguage.MORRIGAN)
         .code("""
             morrigan remembers what is [Hello, world.].

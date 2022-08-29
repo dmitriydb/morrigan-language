@@ -23,18 +23,23 @@ public class RedisCodeRunCache implements CodeRunCache {
   @Override
   public void cache(CodeRunRequest request, CodeRunResult result) {
     try {
-      String key = objectMapper.writeValueAsString(request);
+      String key = buildRedisKey(request);
       String value = objectMapper.writeValueAsString(result);
       jedis.set(key, value);
+      jedis.expire(key, 60 * 60 * 2);
     } catch (JsonProcessingException e) {
       e.printStackTrace();
     }
   }
 
+  private String buildRedisKey(CodeRunRequest request) throws JsonProcessingException {
+    return "user." + request.username() + "." + objectMapper.writeValueAsString(request);
+  }
+
   @Override
   public boolean contains(CodeRunRequest request) {
     try {
-      return jedis.exists(objectMapper.writeValueAsString(request));
+      return jedis.exists(buildRedisKey(request));
     } catch (JsonProcessingException e) {
       e.printStackTrace();
       return false;
@@ -44,7 +49,7 @@ public class RedisCodeRunCache implements CodeRunCache {
   @Override
   public Optional<CodeRunResult> get(CodeRunRequest request) {
     try {
-      String key = objectMapper.writeValueAsString(request);
+      String key = buildRedisKey(request);
       String value = jedis.get(key);
       CodeRunResult result = objectMapper.readValue(value, CodeRunResult.class);
       return Optional.of(result);

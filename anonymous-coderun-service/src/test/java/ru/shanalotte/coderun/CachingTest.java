@@ -2,6 +2,7 @@ package ru.shanalotte.coderun;
 
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -97,6 +98,12 @@ public class CachingTest {
     verify(codeRunCacheSpy, times(2)).get(any());
     verify(codeRunCacheSpy, times(1)).cache(any(), any());
     verify(morriganSpy, times(1)).interpret(any());
+  }
+
+  @Test
+  public void should_NotCacheAbovePerUserLimit() {
+    CodeRunRequest request = TestUtils.randomCodeRequest();
+
   }
 
 }

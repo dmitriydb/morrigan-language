@@ -5,7 +5,7 @@ import java.util.UUID;
 import static org.mockito.Mockito.mock;
 import ru.shanalotte.Morrigan;
 import ru.shanalotte.coderun.api.CodeRunRequest;
-import ru.shanalotte.coderun.api.SimpleCodeRunRequest;
+import ru.shanalotte.coderun.api.AnonymousCodeRunRequest;
 import ru.shanalotte.coderun.api.SupportedLanguage;
 import ru.shanalotte.coderun.cache.CodeRunCache;
 import ru.shanalotte.coderun.cache.RedisCodeRunCache;
@@ -13,7 +13,7 @@ import ru.shanalotte.coderun.cache.RedisCodeRunCache;
 public class TestUtils {
 
   public static CodeRunRequest codeRequest(String line) {
-    return SimpleCodeRunRequest.builder()
+    return AnonymousCodeRunRequest.builder()
         .language(SupportedLanguage.MORRIGAN)
         .code("morrigan remembers what is " + line + ".")
         .build();
