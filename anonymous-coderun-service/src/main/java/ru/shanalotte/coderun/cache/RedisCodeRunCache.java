@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import redis.clients.jedis.Jedis;
 import ru.shanalotte.coderun.CodeRunResult;
+import ru.shanalotte.coderun.CommonProperties;
 import ru.shanalotte.coderun.api.CodeRunRequest;
 
 public class RedisCodeRunCache implements CodeRunCache {
@@ -26,7 +27,9 @@ public class RedisCodeRunCache implements CodeRunCache {
       String key = buildRedisKey(request);
       String value = objectMapper.writeValueAsString(result);
       jedis.set(key, value);
-      jedis.expire(key, 60 * 60 * 2);
+      long ttl = 60L * 60 * Integer.parseInt((String) CommonProperties.property("cache.expiry.time.hours"));
+      jedis.expire(key, ttl);
+      System.out.printf("Expiring %s to %d \n", key, ttl);
     } catch (JsonProcessingException e) {
       e.printStackTrace();
     }

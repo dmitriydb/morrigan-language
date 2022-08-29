@@ -3,17 +3,22 @@ package ru.shanalotte.coderun.api;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 @Builder
 @Getter
 @EqualsAndHashCode
 @ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
 public class UserCodeRunRequest implements CodeRunRequest {
 
-  private SupportedLanguage language;
-  private String code;
-  private String username;
+  private @NonNull SupportedLanguage language;
+  private @NonNull String code;
+  private @NonNull String username;
 
   @Override
   public SupportedLanguage language() {
