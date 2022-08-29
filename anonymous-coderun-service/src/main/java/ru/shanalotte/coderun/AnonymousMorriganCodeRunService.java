@@ -6,20 +6,28 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import ru.shanalotte.Morrigan;
 import ru.shanalotte.coderun.api.CodeRunRequest;
+import ru.shanalotte.coderun.cache.CodeRunCache;
 
 @RequiredArgsConstructor
 public class AnonymousMorriganCodeRunService implements CodeRunService {
 
   private final @NonNull Morrigan morrigan;
+  private final @NonNull CodeRunCache codeRunCache;
 
   @Override
-  public CodeRunResult run(CodeRunRequest codeRunRequest) {
-    CodeRunResult codeRunResult = new CodeRunResult();
-    morrigan.interpret(codeRunRequest.code());
+  public CodeRunResult run(CodeRunRequest request) {
+    if (codeRunCache.contains(request)) {
+      return codeRunCache.get(request);
+    }
+    CodeRunResult result = new CodeRunResult();
+    morrigan.interpret(request.code());
     morrigan.getInterpreter()
         .getResult()
-        .forEach(codeRunResult::addToStdout);
-    return codeRunResult;
+        .forEach(result::addToStdout);
+    if (!codeRunCache.contains(request)) {
+      codeRunCache.cache(request, result);
+    }
+    return result;
   }
 
   @Override

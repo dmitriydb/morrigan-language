@@ -4,6 +4,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import ru.shanalotte.Morrigan;
+import static ru.shanalotte.coderun.TestUtils.codeRequest;
 import ru.shanalotte.coderun.api.CodeRunRequest;
 import ru.shanalotte.coderun.api.SimpleCodeRunRequest;
 import ru.shanalotte.coderun.api.SupportedLanguage;
@@ -19,7 +20,7 @@ public class CodeRunTest {
             morrigan remembers what is a.
             """)
         .build();
-    CodeRunService codeRunService = new AnonymousMorriganCodeRunService(new Morrigan());
+    CodeRunService codeRunService = TestUtils.simpleCodeRunService();
 
     CodeRunResult codeRunResult = codeRunService.run(codeRunRequest);
 
@@ -34,7 +35,7 @@ public class CodeRunTest {
             morrigan remembers what is [Hello, world.].
             """)
         .build();
-    CodeRunService codeRunService = new AnonymousMorriganCodeRunService(new Morrigan());
+    CodeRunService codeRunService = TestUtils.simpleCodeRunService();
 
     CodeRunResult codeRunResult = codeRunService.run(codeRunRequest);
 
@@ -43,8 +44,8 @@ public class CodeRunTest {
 
   @Test
   public void should_RunCodeInBatches() {
-    List<CodeRunRequest> batch = List.of(codeRequest("1"), codeRequest("2"), codeRequest("3"));
-    CodeRunService codeRunService = new AnonymousMorriganCodeRunService(new Morrigan());
+    List<CodeRunRequest> batch = TestUtils.prepareCodeRequestBatch();
+    CodeRunService codeRunService = TestUtils.simpleCodeRunService();
 
     List<CodeRunResult> result = codeRunService.batchRun(batch);
 
@@ -53,10 +54,4 @@ public class CodeRunTest {
     assertThat(result.get(2).stdout().get(0)).isEqualTo("3");
   }
 
-  private CodeRunRequest codeRequest(String line) {
-    return SimpleCodeRunRequest.builder()
-        .language(SupportedLanguage.MORRIGAN)
-        .code("morrigan remembers what is " + line + ".")
-        .build();
-  }
 }
