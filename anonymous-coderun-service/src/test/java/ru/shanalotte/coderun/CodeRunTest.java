@@ -46,7 +46,7 @@ public class CodeRunTest {
     CodeRunService codeRunService = TestUtils.codeRunServiceWithMockedCache();
 
     List<CodeRunResult> result = codeRunService.batchRun(batch);
-
+    System.out.println(result);
     assertThat(result.get(0).stdout().get(0)).isEqualTo("1");
     assertThat(result.get(1).stdout().get(0)).isEqualTo("2");
     assertThat(result.get(2).stdout().get(0)).isEqualTo("3");

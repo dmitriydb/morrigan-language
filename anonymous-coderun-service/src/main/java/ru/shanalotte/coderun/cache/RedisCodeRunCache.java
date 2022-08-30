@@ -27,7 +27,7 @@ public class RedisCodeRunCache implements CodeRunCache {
       String key = buildRedisKey(request);
       String value = objectMapper.writeValueAsString(result);
       jedis.set(key, value);
-      long ttl = 60L * 60 * Integer.parseInt((String) CommonProperties.property("cache.expiry.time.hours"));
+      long ttl = 60L * 60 * (Integer)CommonProperties.property("cache.expiry.time.hours");
       jedis.expire(key, ttl);
       System.out.printf("Expiring %s to %d \n", key, ttl);
     } catch (JsonProcessingException e) {
