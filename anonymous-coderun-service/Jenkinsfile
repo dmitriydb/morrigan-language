@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+
+    stages {
+      stage('Pulling from repo') {
+          steps {
+              cleanWs()
+              bat 'git clone https://github.com/dmitriydb/morrigan-language'
+              bat 'dir'
+          }
+      }
+      stage('Build') {
+          steps {
+              dir('morrigan-language') {
+                 bat 'mvn install'
+              }
+          }
+      }
+      stage('Integration tests') {
+          steps {
+              dir('morrigan-language/anonymous-coderun-service') {
+                  bat 'mvn verify -PIT'
+              }
+          }
+      }
+    }
+}
