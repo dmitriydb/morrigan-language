@@ -65,14 +65,6 @@ public class FunctionCallTest extends AbstractInterpreterTest {
   }
 
   @Test
-  public void testingGlobalVariablesReset() {
-    morrigan.interpret("morrigan says that a is 10."
-        + "morrigan says that m is function() {"
-        + "morrigan says that a is 5}.");
-    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("a")).isEqualTo(5);
-  }
-
-  @Test
   public void returnTest() {
     morrigan.interpret("morrigan says that a is function() {morrigan returns 5}."
         + "morrigan says that b is a().");

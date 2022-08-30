@@ -25,7 +25,7 @@ public class ReturningValuesTest {
     morrigan.interpret("morrigan says that a is [Hello world]. morrigan remembers what is a.");
     morrigan.interpret("morrigan says that a is [Hello world 2]. morrigan remembers what is a.");
     assertThat(morrigan.getInterpreter().getResult()).contains("Hello world 2");
-    assertThat(morrigan.getInterpreter().getResult()).contains("Hello world");
+    assertThat(morrigan.getInterpreter().getResult()).doesNotContain("Hello world");
   }
 
   @Test
