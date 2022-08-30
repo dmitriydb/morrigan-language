@@ -3,11 +3,13 @@ package ru.shanalotte.coderun.cache;
 import java.util.Optional;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Jedis;
 import ru.shanalotte.coderun.CodeRunResult;
 import ru.shanalotte.coderun.CommonProperties;
 import ru.shanalotte.coderun.api.CodeRunRequest;
 
+@Slf4j
 public class RedisCodeRunCache implements CodeRunCache {
 
   private final Jedis jedis;
@@ -27,11 +29,12 @@ public class RedisCodeRunCache implements CodeRunCache {
       String key = buildRedisKey(request);
       String value = objectMapper.writeValueAsString(result);
       jedis.set(key, value);
+      log.debug("Cached {} = {}", key, value);
       long ttl = 60L * 60 * (Integer)CommonProperties.property("cache.expiry.time.hours");
       jedis.expire(key, ttl);
-      System.out.printf("Expiring %s to %d \n", key, ttl);
+      log.debug("EXPIRY {} FOR {}", key, ttl);
     } catch (JsonProcessingException e) {
-      e.printStackTrace();
+      log.error("Error while caching", e);
     }
   }
 
@@ -44,7 +47,7 @@ public class RedisCodeRunCache implements CodeRunCache {
     try {
       return jedis.exists(buildRedisKey(request));
     } catch (JsonProcessingException e) {
-      e.printStackTrace();
+      log.error("Error when checking if cache contains request " + request, e);
       return false;
     }
   }
@@ -57,7 +60,7 @@ public class RedisCodeRunCache implements CodeRunCache {
       CodeRunResult result = objectMapper.readValue(value, CodeRunResult.class);
       return Optional.of(result);
     } catch (JsonProcessingException e) {
-      e.printStackTrace();
+      log.error("Error when retrieving cached value for request " + request, e);
       return Optional.empty();
     }
   }

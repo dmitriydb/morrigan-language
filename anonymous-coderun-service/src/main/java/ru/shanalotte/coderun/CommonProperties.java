@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class CommonProperties {
 
   private static Map<String, Object> propertiesMap = new HashMap<>();
@@ -23,6 +25,7 @@ public class CommonProperties {
     Properties properties = new Properties();
     properties.load(CommonProperties.class.getClassLoader().getResourceAsStream("application.properties"));
     for (String property : properties.stringPropertyNames()) {
+      log.debug("Loaded property {} = {}", property, properties.get(property));
       Object obj = properties.get(property);
       propertiesMap.put(property, obj);
     }
