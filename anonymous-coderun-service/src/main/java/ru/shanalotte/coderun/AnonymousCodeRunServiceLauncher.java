@@ -22,6 +22,7 @@ public class AnonymousCodeRunServiceLauncher {
         .create()
         .start((int)CommonProperties.property("server.port"));
     app.get("/run", CodeRunController.handleRunRequest);
+    app.get("/batch", CodeRunController.handleBatchRequest);
   }
 
   private static void printProperties() {

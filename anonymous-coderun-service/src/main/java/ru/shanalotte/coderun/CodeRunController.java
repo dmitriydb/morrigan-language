@@ -1,5 +1,8 @@
 package ru.shanalotte.coderun;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.http.Handler;
 import io.javalin.http.HttpCode;
@@ -19,7 +22,19 @@ public class CodeRunController {
       CodeRunRequest codeRunRequest = objectMapper.readValue(ctx.body(), UserCodeRunRequest.class);
       CodeRunResult result = codeRunService.run(codeRunRequest);
       String response = objectMapper.writeValueAsString(result);
-      System.out.println(response);
+      ctx.status(200);
+      ctx.json(response);
+    } catch (Throwable t) {
+      t.printStackTrace();
+      ctx.status(HttpCode.BAD_REQUEST);
+    }
+  };
+
+  static Handler handleBatchRequest = ctx -> {
+    try {
+      CodeRunRequest[] codeRunRequest = objectMapper.readValue(ctx.body(), UserCodeRunRequest[].class);
+      List<CodeRunResult> result = codeRunService.batchRun(Arrays.stream(codeRunRequest).collect(Collectors.toList()));
+      String response = objectMapper.writeValueAsString(result);
       ctx.status(200);
       ctx.json(response);
     } catch (Throwable t) {
