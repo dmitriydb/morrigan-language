@@ -16,11 +16,11 @@ public class AnonymousCodeRunServiceLauncher {
 
   private static void startWebServer() {
     String redisHost = (String) CommonProperties.property("redis.host");
-    int redisPort = Integer.parseInt((String) CommonProperties.property("redis.port"));
+    int redisPort = (int)CommonProperties.property("redis.port");
     CodeRunController.setCodeRunService(new AnonymousMorriganCodeRunService(new Morrigan(), new RedisCodeRunCache(redisHost, redisPort)));
     Javalin app = Javalin
         .create()
-        .start(Integer.parseInt((String) CommonProperties.property("server.port")));
+        .start((int)CommonProperties.property("server.port"));
     app.get("/run", CodeRunController.handleRunRequest);
   }
 

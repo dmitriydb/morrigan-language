@@ -20,10 +20,15 @@ public class AnonymousMorriganCodeRunService implements CodeRunService {
       return codeRunCache.get(request).orElse(CodeRunResult.of(CodeRunResultMessages.TRY_AGAIN));
     }
     CodeRunResult result = new CodeRunResult();
-    morrigan.interpret(request.code());
-    morrigan.getInterpreter()
-        .getResult()
-        .forEach(result::addToStdout);
+    try {
+      morrigan.interpret(request.code());
+      morrigan.getInterpreter()
+          .getResult()
+          .forEach(result::addToStdout);
+    } catch (Throwable t) {
+      morrigan.getStderr()
+          .forEach(result::addToStderr);
+    }
     if (!codeRunCache.contains(request)) {
       codeRunCache.cache(request, result);
     }

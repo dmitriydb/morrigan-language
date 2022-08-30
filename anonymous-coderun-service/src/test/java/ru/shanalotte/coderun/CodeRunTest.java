@@ -52,4 +52,22 @@ public class CodeRunTest {
     assertThat(result.get(2).stdout().get(0)).isEqualTo("3");
   }
 
+  @Test
+  public void stdErr_shouldBeEmpty_WhenCodeIsValid() {
+    CodeRunService codeRunService = TestUtils.codeRunServiceWithMockedCache();
+    CodeRunResult codeRunResult = codeRunService.run(TestUtils.randomCodeRequest());
+    assertThat(codeRunResult.stderr()).isEmpty();
+    assertThat(codeRunResult.stdout()).isNotEmpty();
+  }
+
+  @Test
+  public void stdErr_shouldBeNotEmpty_WhenCodeIsInvalid() {
+    CodeRunService codeRunService = TestUtils.codeRunServiceWithMockedCache();
+    CodeRunResult codeRunResult = codeRunService.run(AnonymousCodeRunRequest.builder()
+        .code(".")
+        .language(SupportedLanguage.MORRIGAN)
+        .build());
+    assertThat(codeRunResult.stdout()).isEmpty();
+    assertThat(codeRunResult.stderr()).isNotEmpty();
+  }
 }

@@ -24,5 +24,11 @@ pipeline {
           }
       }
     }
-}
 
+    post {
+        always {
+            junit 'morrigan-language/anonymous-coderun-service/target/surefire-reports/*.xml'
+            archiveArtifacts artifacts: 'morrigan-language/anonymous-coderun-service/target/*.jar', fingerprint: true
+        }
+    }
+}

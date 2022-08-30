@@ -1,5 +1,6 @@
 package ru.shanalotte;
 
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,8 @@ public class Morrigan {
   private final Interpreter interpreter;
   @Getter
   private final Scanner scanner;
+  @Getter
+  private final List<String> stderr = new ArrayList<>();
 
   public Morrigan() {
     this.interpreter = new Interpreter();
@@ -24,18 +27,29 @@ public class Morrigan {
   }
 
   public Object evaluate(String line) {
-    interpreter.clearResults();
+    prepareForWork();
     List<Token> tokens = scanner.scan(line);
     Expression root = new Parser(tokens).parseExpression();
     return interpreter.evaluate(root);
   }
 
   public void interpret (String line) {
-    interpreter.clearResults();
+    prepareForWork();
     List<Token> tokens = scanner.scan(line);
-    List<Statement> statements = new Parser(tokens).parse();
-    for (Statement st : statements) {
-      interpreter.evaluate(st);
+    try {
+      List<Statement> statements = new Parser(tokens).parse();
+      for (Statement st : statements) {
+        interpreter.evaluate(st);
+      }
+    } catch (Throwable t) {
+      stderr.add(t.getMessage());
+      throw new RuntimeException(t);
     }
   }
+
+  private void prepareForWork() {
+    interpreter.clearResults();
+    stderr.clear();
+  }
+
 }

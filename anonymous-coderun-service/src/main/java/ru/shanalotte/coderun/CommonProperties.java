@@ -2,6 +2,7 @@ package ru.shanalotte.coderun;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -22,7 +23,22 @@ public class CommonProperties {
     Properties properties = new Properties();
     properties.load(CommonProperties.class.getClassLoader().getResourceAsStream("application.properties"));
     for (String property : properties.stringPropertyNames()) {
-      propertiesMap.put(property, properties.get(property));
+      Object obj = properties.get(property);
+      propertiesMap.put(property, obj);
+    }
+    convertPropertiesToIntegers();
+  }
+
+  private static void convertPropertiesToIntegers() {
+    var propertiesToConvert = List.of("cache.limit.per.user", "cache.expiry.time.hours", "server.port", "redis.port");
+    for (String property : propertiesToConvert) {
+      try {
+        var string = propertiesMap.get(property);
+        int value = Integer.parseInt((String) string);
+        propertiesMap.put(property, value);
+      } catch (Throwable t) {
+
+      }
     }
   }
 

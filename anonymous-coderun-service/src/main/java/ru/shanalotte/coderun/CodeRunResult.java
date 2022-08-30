@@ -20,12 +20,15 @@ public class CodeRunResult {
   }
 
   private final @NonNull List<String> stdout = new ArrayList<>();
+  private final @NonNull List<String> stderr = new ArrayList<>();
 
   public List<String> stdout() {
     return stdout;
   }
+  public List<String> stderr() {return stderr; }
 
   public void addToStdout(String stdout) {
     this.stdout.add(stdout);
   }
+  public void addToStderr(String stderr) { this.stderr.add(stderr); }
 }
