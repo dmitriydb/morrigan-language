@@ -1,8 +1,7 @@
-package ru.shanalotte.coderun;
+package ru.shanalotte.it;
 
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -17,12 +16,15 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 import ru.shanalotte.Morrigan;
+import ru.shanalotte.coderun.CodeRunResult;
+import ru.shanalotte.coderun.CodeRunService;
+import ru.shanalotte.coderun.TestUtils;
 import ru.shanalotte.coderun.api.CodeRunRequest;
 import ru.shanalotte.coderun.cache.CodeRunCache;
 import ru.shanalotte.coderun.cache.RedisCodeRunCache;
 
 @Testcontainers
-public class CachingTest {
+public class CachingIT {
 
   @Container
   public GenericContainer redis = new GenericContainer(DockerImageName.parse("redis:5.0.3-alpine"))
@@ -98,12 +100,6 @@ public class CachingTest {
     verify(codeRunCacheSpy, times(2)).get(any());
     verify(codeRunCacheSpy, times(1)).cache(any(), any());
     verify(morriganSpy, times(1)).interpret(any());
-  }
-
-  @Test
-  public void should_NotCacheAbovePerUserLimit() {
-    CodeRunRequest request = TestUtils.randomCodeRequest();
-
   }
 
 }
