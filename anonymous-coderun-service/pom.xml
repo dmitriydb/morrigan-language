@@ -15,7 +15,31 @@
 
     <profiles>
         <profile>
+            <id>dev</id>
+            <properties>
+                <redisHost>localhost</redisHost>
+                <redisPort>6379</redisPort>
+                <serverPort>8003</serverPort>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>production</id>
+            <properties>
+                <redisHost>coderun-redis.morrigan</redisHost>
+                <redisPort>6379</redisPort>
+                <serverPort>8005</serverPort>
+            </properties>
+        </profile>
+        <profile>
             <id>IT</id>
+            <properties>
+                <redisHost>localhost</redisHost>
+                <redisPort>6379</redisPort>
+                <serverPort>8003</serverPort>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -152,6 +176,38 @@
                     </dependency>
                 </dependencies>
             </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <!-- specify UTF-8, ISO-8859-1 or any other file encoding -->
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>ru.shanalotte.coderun.AnonymousCodeRunServiceLauncher</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
 </project>

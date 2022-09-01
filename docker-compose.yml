@@ -1,0 +1,22 @@
+version: "1.0"
+
+networks:
+  morrigan:
+    external: true
+
+services:
+  coderun-redis:
+    image: redis/redis-stack-server
+    container_name: coderun-redis
+    networks:
+      - morrigan
+  anonymous-coderun-service-1:
+    build:
+      context: anonymous-coderun-service
+      dockerfile: Dockerfile
+    ports:
+      - "8005:8005"
+    depends_on:
+      - coderun-redis
+    networks:
+      - morrigan

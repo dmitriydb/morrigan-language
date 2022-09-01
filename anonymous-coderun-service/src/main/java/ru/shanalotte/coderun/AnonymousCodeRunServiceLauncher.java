@@ -2,10 +2,7 @@ package ru.shanalotte.coderun;
 
 
 import java.io.IOException;
-import io.javalin.Javalin;
 import lombok.extern.slf4j.Slf4j;
-import ru.shanalotte.Morrigan;
-import ru.shanalotte.coderun.cache.RedisCodeRunCache;
 
 @Slf4j
 public class AnonymousCodeRunServiceLauncher {
@@ -15,8 +12,6 @@ public class AnonymousCodeRunServiceLauncher {
     printProperties();
     new WebServer().start();
   }
-
-
 
   private static void printProperties() {
     CommonProperties.printProperties();
