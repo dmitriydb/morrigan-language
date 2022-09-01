@@ -11,6 +11,7 @@ services:
     networks:
       - morrigan
   anonymous-coderun-service-1:
+    container_name: anonymous-coderun-service-1
     build:
       context: anonymous-coderun-service
       dockerfile: Dockerfile

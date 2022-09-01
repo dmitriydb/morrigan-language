@@ -23,6 +23,17 @@ pipeline {
               }
           }
       }
+      stage('Deploy to production') {
+        steps {
+            dir ('morrigan-language/anonymous-coderun-service') {
+                bat 'mvn package assembly:single -Pproduction'
+            }
+            dir ('morrigan-language') {
+                bat 'docker compose rm -svf'
+                bat 'docker compose up --build'
+            }
+        }
+      }
     }
 
     post {
