@@ -30,7 +30,7 @@ pipeline {
             }
             dir ('morrigan-language') {
                 bat 'docker compose rm -svf'
-                bat 'docker compose up --build'
+                bat 'docker compose up --build -d'
             }
         }
       }
