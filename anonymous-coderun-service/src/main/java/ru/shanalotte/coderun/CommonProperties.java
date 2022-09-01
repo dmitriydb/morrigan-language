@@ -10,6 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CommonProperties {
 
+  public static final String REDIS_HOST = "redis.host";
+  public static final String REDIS_PORT = "redis.port";
+  public static final String SERVER_PORT = "server.port";
+
+
   private static Map<String, Object> propertiesMap = new HashMap<>();
 
   static {
@@ -20,6 +25,9 @@ public class CommonProperties {
     propertiesMap.put("redis.host", "localhost");
   }
 
+  public static void setProperty(String propertyName, Object propertyValue) {
+    propertiesMap.put(propertyName, propertyValue);
+  }
 
   public static void loadProperties() throws IOException {
     Properties properties = new Properties();

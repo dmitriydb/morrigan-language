@@ -13,19 +13,10 @@ public class AnonymousCodeRunServiceLauncher {
   public static void main(String[] args) {
     loadProperties();
     printProperties();
-    startWebServer();
+    new WebServer().start();
   }
 
-  private static void startWebServer() {
-    String redisHost = (String) CommonProperties.property("redis.host");
-    int redisPort = (int)CommonProperties.property("redis.port");
-    CodeRunController.setCodeRunService(new AnonymousMorriganCodeRunService(new Morrigan(), new RedisCodeRunCache(redisHost, redisPort)));
-    Javalin app = Javalin
-        .create()
-        .start((int)CommonProperties.property("server.port"));
-    app.get("/run", CodeRunController.handleRunRequest);
-    app.get("/batch", CodeRunController.handleBatchRequest);
-  }
+
 
   private static void printProperties() {
     CommonProperties.printProperties();

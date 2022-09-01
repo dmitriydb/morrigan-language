@@ -19,12 +19,16 @@ public class TestUtils {
         .build();
   }
 
+  public static CodeRunService codeRunService(CodeRunCache codeRunCache) {
+    return new AnonymousMorriganCodeRunService(codeRunCache);
+  }
+
   public static CodeRunService codeRunService(Morrigan morrigan, CodeRunCache codeRunCache) {
     return new AnonymousMorriganCodeRunService(morrigan, codeRunCache);
   }
 
   public static CodeRunService simpleCodeRunService() {
-    return new AnonymousMorriganCodeRunService(new Morrigan(), new RedisCodeRunCache());
+    return new AnonymousMorriganCodeRunService(new RedisCodeRunCache());
   }
 
   public static List<CodeRunRequest> prepareCodeRequestBatch() {
@@ -42,6 +46,10 @@ public class TestUtils {
   }
 
   public static CodeRunService codeRunServiceWithMockedCache() {
-    return new AnonymousMorriganCodeRunService(new Morrigan(), mock(CodeRunCache.class));
+    return new AnonymousMorriganCodeRunService(mock(CodeRunCache.class));
+  }
+
+  public static CodeRunRequest invalidRequest() {
+    return codeRequest(". asd .");
   }
 }

@@ -31,13 +31,13 @@ public class CachingIT {
       .withExposedPorts(6379);
 
   private CodeRunCache mockedCodeRunCache = Mockito.mock(CodeRunCache.class);
-  private CodeRunService codeRunService = TestUtils.codeRunService(new Morrigan(), mockedCodeRunCache);
+  private CodeRunService codeRunService = TestUtils.codeRunService(mockedCodeRunCache);
   private CodeRunCache codeRunCacheSpy;
 
   @BeforeEach
   public void setUp() {
     mockedCodeRunCache = Mockito.mock(CodeRunCache.class);
-    codeRunService = TestUtils.codeRunService(new Morrigan(), mockedCodeRunCache);
+    codeRunService = TestUtils.codeRunService(mockedCodeRunCache);
     codeRunCacheSpy = spy(new RedisCodeRunCache(redis.getHost(), redis.getFirstMappedPort()));
   }
 
@@ -65,7 +65,7 @@ public class CachingIT {
 
   @Test
   public void should_NotCacheCode_SecondTime() {
-    codeRunService = TestUtils.codeRunService(new Morrigan(), codeRunCacheSpy);
+    codeRunService = TestUtils.codeRunService(codeRunCacheSpy);
     CodeRunRequest request = TestUtils.randomCodeRequest();
 
     CodeRunResult result = codeRunService.run(request);

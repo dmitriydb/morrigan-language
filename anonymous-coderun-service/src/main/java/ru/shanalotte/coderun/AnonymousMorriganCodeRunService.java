@@ -8,13 +8,23 @@ import lombok.extern.slf4j.Slf4j;
 import ru.shanalotte.Morrigan;
 import ru.shanalotte.coderun.api.CodeRunRequest;
 import ru.shanalotte.coderun.cache.CodeRunCache;
+import ru.shanalotte.interpreter.Interpreter;
+import ru.shanalotte.scanner.Scanner;
 
-@RequiredArgsConstructor
 @Slf4j
 public class AnonymousMorriganCodeRunService implements CodeRunService {
 
-  private final @NonNull Morrigan morrigan;
   private final @NonNull CodeRunCache codeRunCache;
+  private Morrigan morrigan;
+
+  public AnonymousMorriganCodeRunService(@NonNull CodeRunCache codeRunCache) {
+    this.codeRunCache = codeRunCache;
+  }
+
+  public AnonymousMorriganCodeRunService(@NonNull Morrigan morrigan, @NonNull CodeRunCache codeRunCache) {
+    this.codeRunCache = codeRunCache;
+    this.morrigan = morrigan;
+  }
 
   @Override
   public CodeRunResult run(CodeRunRequest request) {
@@ -24,6 +34,7 @@ public class AnonymousMorriganCodeRunService implements CodeRunService {
       return codeRunCache.get(request).orElse(CodeRunResult.of(CodeRunResultMessages.TRY_AGAIN));
     }
     CodeRunResult result = new CodeRunResult();
+    Morrigan morrigan = this.morrigan == null ? new Morrigan(new Interpreter(), new Scanner()) : this.morrigan;
     try {
       morrigan.interpret(request.code());
       morrigan.getInterpreter()

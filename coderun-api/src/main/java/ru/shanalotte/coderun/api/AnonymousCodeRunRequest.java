@@ -26,6 +26,6 @@ public class AnonymousCodeRunRequest implements CodeRunRequest {
 
   @Override
   public String username() {
-    return "<not set>";
+    return UsernameConstants.USERNAME_NOT_SET;
   }
 }
