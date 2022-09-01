@@ -22,7 +22,8 @@ public class CodeRunController {
     log.info("GET /run IP {} body {}", ctx.ip(), ctx.body());
     try {
       CodeRunRequest codeRunRequest = objectMapper.readValue(ctx.body(), UserCodeRunRequest.class);
-      CodeRunResult result = codeRunService.run(codeRunRequest);
+      CodeRunResult result;
+      result = codeRunService.run(codeRunRequest);
       String response = objectMapper.writeValueAsString(result);
       ctx.status(200);
       log.info("{} IP {} body {} response {}", ctx.status(), ctx.ip(), ctx.body(), response);
@@ -37,7 +38,8 @@ public class CodeRunController {
     log.info("GET /batch IP {} body {}", ctx.ip(), ctx.body());
     try {
       CodeRunRequest[] codeRunRequest = objectMapper.readValue(ctx.body(), UserCodeRunRequest[].class);
-      List<CodeRunResult> result = codeRunService.batchRun(Arrays.stream(codeRunRequest).collect(Collectors.toList()));
+      List<CodeRunResult> result;
+      result = codeRunService.batchRun(Arrays.stream(codeRunRequest).collect(Collectors.toList()));
       String response = objectMapper.writeValueAsString(result);
       log.info("{} IP {} body {} response {}", ctx.status(), ctx.ip(), ctx.body(), response);
       ctx.status(200);

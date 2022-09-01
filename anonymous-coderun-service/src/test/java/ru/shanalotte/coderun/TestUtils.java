@@ -7,6 +7,7 @@ import ru.shanalotte.Morrigan;
 import ru.shanalotte.coderun.api.CodeRunRequest;
 import ru.shanalotte.coderun.api.AnonymousCodeRunRequest;
 import ru.shanalotte.coderun.api.SupportedLanguage;
+import ru.shanalotte.coderun.api.UserCodeRunRequest;
 import ru.shanalotte.coderun.cache.CodeRunCache;
 import ru.shanalotte.coderun.cache.RedisCodeRunCache;
 
@@ -51,5 +52,14 @@ public class TestUtils {
 
   public static CodeRunRequest invalidRequest() {
     return codeRequest(". asd .");
+  }
+
+  public static CodeRunRequest randomCodeRequest(String username) {
+    CodeRunRequest randomRequest = randomCodeRequest();
+    return UserCodeRunRequest.builder()
+        .language(SupportedLanguage.MORRIGAN)
+        .code(randomRequest.code())
+        .username(username)
+        .build();
   }
 }

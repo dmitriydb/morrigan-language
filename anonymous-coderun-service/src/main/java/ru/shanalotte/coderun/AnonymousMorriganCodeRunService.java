@@ -15,7 +15,7 @@ import ru.shanalotte.scanner.Scanner;
 public class AnonymousMorriganCodeRunService implements CodeRunService {
 
   private final @NonNull CodeRunCache codeRunCache;
-  private Morrigan morrigan;
+  private volatile Morrigan morrigan;
 
   public AnonymousMorriganCodeRunService(@NonNull CodeRunCache codeRunCache) {
     this.codeRunCache = codeRunCache;
@@ -62,4 +62,5 @@ public class AnonymousMorriganCodeRunService implements CodeRunService {
     log.debug("Batch {} processed, result {}", batch, results);
     return results;
   }
+
 }
