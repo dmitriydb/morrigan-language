@@ -15,7 +15,7 @@ public class StderrTest {
     assertThrows(Throwable.class, () -> {
       morrigan.interpret(".");
     });
-    assertThat(morrigan.getStderr()).contains("what?");
+    assertThat(morrigan.getStderr().get(0)).contains("what?");
   }
 
   @Test

@@ -59,7 +59,24 @@ public class Parser {
 
   private Token consume(TokenType type, String message) {
     if (check(type)) return advance();
-    throw new Error(message);
+    throw error(message);
+  }
+
+  private Error error(String message) {
+    int position = 0;
+    Token errorToken;
+    if (current >= tokens.size()) {
+      position = previous().getEndPosition();
+      errorToken = previous();
+    } else {
+      position = peek().getStartPosition();
+      errorToken = peek();
+    }
+    return new Error(errorMessage(errorToken.getLineNumber(), position, message));
+  }
+
+  private String errorMessage(int lineNumber, int startPosition, String message) {
+    return String.format("Error at line %d position %d: %s", lineNumber, startPosition, message);
   }
 
   public Expression parseExpression() {
@@ -98,7 +115,7 @@ public class Parser {
       }
       return declarationStatement();
     };
-    throw new IllegalStateException("morrigan what?");
+    throw error("morrigan what?");
   }
 
   private ReturnStatement returnStatement() {
@@ -148,7 +165,7 @@ public class Parser {
       if (match(RIGHT_BRACKET)) break;
       if (match(COMMA)) continue;
       if (isAtEnd()) {
-        throw new IllegalStateException("Missing ) in function declaration while EOF");
+        throw error("Missing ) in function declaration while EOF");
       }
     }
     return parameters;
@@ -304,7 +321,7 @@ public class Parser {
       if (match(RIGHT_BRACKET)) break;
       if (match(COMMA)) continue;
       if (isAtEnd()) {
-        throw new IllegalStateException("Missing ) in function call while EOF");
+        throw error("Missing ) in function call while EOF");
       }
     }
     return arguments;

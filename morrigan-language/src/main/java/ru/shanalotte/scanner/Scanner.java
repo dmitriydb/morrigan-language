@@ -57,7 +57,7 @@ public class Scanner {
   }
 
   public List<Token> scan(String codeLine) {
-    List<String> source = Collections.singletonList(codeLine);
+    List<String> source = codeLine.lines().collect(Collectors.toList());
     List<Line> lines = IntStream.rangeClosed(1, source.size())
         .mapToObj(lineNumber -> Line.of(lineNumber, source.get(lineNumber - 1)))
         .collect(Collectors.toList());
