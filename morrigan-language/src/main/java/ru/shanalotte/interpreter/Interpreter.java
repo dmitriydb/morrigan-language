@@ -14,6 +14,7 @@ import ru.shanalotte.expression.Literal;
 import ru.shanalotte.expression.LogicalExpression;
 import ru.shanalotte.expression.UnaryExpression;
 import ru.shanalotte.parser.Visitor;
+import ru.shanalotte.scanner.Token;
 import ru.shanalotte.scanner.TokenType;
 import ru.shanalotte.statements.AssignStatement;
 import ru.shanalotte.statements.CallStatement;
@@ -38,36 +39,40 @@ public class Interpreter implements Visitor<Object> {
   public Object visit(BinaryExpression binaryExpression) {
     Object leftValue = binaryExpression.getLeftSide().accept(this);
     Object rightValue = binaryExpression.getRightSide().accept(this);
-    switch (binaryExpression.getOperator().getTokenType()) {
-      case PLUS:
-        if (isInteger(leftValue) && isInteger((rightValue))) {
-          return (int) leftValue + (int) rightValue;
-        } else {
-          return leftValue + String.valueOf(rightValue);
-        }
-      case MINUS:
-        if (bothNotIntegers(leftValue, rightValue)) {
-          throw new IllegalArgumentException("Substracting strings/booleans is illegal: " + leftValue.toString() + ", " + rightValue.toString());
-        }
-        return (int) leftValue - (int) rightValue;
-      case STAR:
-        if (bothNotIntegers(leftValue, rightValue)) {
-          throw new IllegalArgumentException("Multiplying strings/booleans is illegal: " + leftValue.toString() + ", " + rightValue.toString());
-        }
-        return (int) leftValue * (int) rightValue;
-      case SLASH:
-        if (bothNotIntegers(leftValue, rightValue)) {
-          throw new IllegalArgumentException("Dividing strings/booleans is illegal: " + leftValue.toString() + ", " + rightValue.toString());
-        }
-        return (int) leftValue / (int) rightValue;
-      case MORE:
-        return isMore(leftValue, rightValue);
-      case LESS:
-        return !isMore(leftValue, rightValue) && !isEquals(leftValue, rightValue);
-      case EQUALS:
-        return isEquals(leftValue, rightValue);
-      default:
-        return 0;
+    try {
+      switch (binaryExpression.getOperator().getTokenType()) {
+        case PLUS:
+          if (isInteger(leftValue) && isInteger((rightValue))) {
+            return (int) leftValue + (int) rightValue;
+          } else {
+            return leftValue + String.valueOf(rightValue);
+          }
+        case MINUS:
+          if (bothNotIntegers(leftValue, rightValue)) {
+            throw runtimeError(binaryExpression.getOperator(), "Substracting strings/booleans is illegal: " + leftValue.toString() + ", " + rightValue.toString());
+          }
+          return (int) leftValue - (int) rightValue;
+        case STAR:
+          if (bothNotIntegers(leftValue, rightValue)) {
+            throw runtimeError(binaryExpression.getOperator(), "Multiplying strings/booleans is illegal: " + leftValue.toString() + ", " + rightValue.toString());
+          }
+          return (int) leftValue * (int) rightValue;
+        case SLASH:
+          if (bothNotIntegers(leftValue, rightValue)) {
+            throw runtimeError(binaryExpression.getOperator(), "Dividing strings/booleans is illegal: " + leftValue.toString() + ", " + rightValue.toString());
+          }
+          return (int) leftValue / (int) rightValue;
+        case MORE:
+          return isMore(leftValue, rightValue);
+        case LESS:
+          return !isMore(leftValue, rightValue) && !isEquals(leftValue, rightValue);
+        case EQUALS:
+          return isEquals(leftValue, rightValue);
+        default:
+          return 0;
+      }
+    } catch (Throwable t) {
+      throw runtimeError(binaryExpression.getOperator(), t.getMessage());
     }
   }
 
@@ -138,13 +143,13 @@ public class Interpreter implements Visitor<Object> {
   public Object visit(UnaryExpression unaryExpression) {
     Object value = unaryExpression.getExpression().accept(this);
     if (isBoolean(value)) {
-      throw new IllegalArgumentException("Trying to perform unary operation on boolean value. Was: " + unaryExpression.getOperator().getLexeme() + "" + value);
+      throw runtimeError(unaryExpression.getOperator(), "Trying to perform unary operation on boolean value. Was: " + unaryExpression.getOperator().getLexeme() + "" + value);
     }
     if (isInteger(value)) {
       int intValue = Integer.parseInt(value.toString());
       return unaryExpression.getOperator().getTokenType() == TokenType.MINUS ? -intValue : intValue;
     }
-    throw new IllegalArgumentException("Wrong operation: " + unaryExpression.getOperator().getTokenType() + value);
+    throw runtimeError(unaryExpression.getOperator(), "Wrong operation: " + unaryExpression.getOperator().getTokenType() + value);
   }
 
   public Object evaluate(Expression expr) {
@@ -228,11 +233,11 @@ public class Interpreter implements Visitor<Object> {
       callee = Environment.getNativeFunction((String) callee);
     }
     if (!(callee instanceof MorriganCallable)) {
-      throw new UnsupportedOperationException("Can call only functions");
+      throw runtimeError(callExpression.getParenthesis(), "Can call only functions");
     }
     MorriganCallable function = (MorriganCallable) callee;
     if (function.arity() != arguments.size()) {
-      throw new IllegalStateException("Expected function arity is " + function.arity() + ", but got: " + arguments.size());
+      throw runtimeError(callExpression.getParenthesis(), "Expected function arity is " + function.arity() + ", but got: " + arguments.size());
     }
     return function.call(this, arguments);
   }
@@ -258,6 +263,19 @@ public class Interpreter implements Visitor<Object> {
 
   public void clearResults() {
     this.result.clear();
+  }
+
+  private Error runtimeError(int lineNumber, int position, String message) {
+    return new Error(String.format("Runtime error at line %d position %d: %s", lineNumber, position, message));
+  }
+
+  private Error runtimeError(Token token, String message) {
+    if (token == null) {
+      return new Error(String.format("Runtime error : %s", message));
+    } else {
+      return new Error(String.format("Runtime error at line %d position %d: %s", token.getLineNumber(), token.getStartPosition(), message));
+    }
+
   }
 
 }
