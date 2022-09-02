@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -176,8 +175,12 @@ public class Scanner {
     if (alertedCharCode == 10) {
       return;
     }
-    System.out.println("Error at position " + currentIndex + " at line " + currentLine.getNumber());
-    System.out.println("Unknown character code: " + alertedCharCode);
+    throw scanError(alertedChar, alertedCharCode);
+  }
+
+  private Error scanError(char errorChar, int errorCharCode) {
+    String message = "Error while scanning source at line %d, position %d: unknown character %c [characted code: %d]";
+    return new Error(message.formatted(currentLine.getNumber(), currentIndex, errorChar, errorCharCode));
   }
 
 

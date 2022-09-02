@@ -35,8 +35,8 @@ public class Morrigan {
 
   public void interpret (String line) {
     prepareForWork();
-    List<Token> tokens = scanner.scan(line);
     try {
+      List<Token> tokens = scanner.scan(line);
       List<Statement> statements = new Parser(tokens).parse();
       for (Statement st : statements) {
         interpreter.evaluate(st);
