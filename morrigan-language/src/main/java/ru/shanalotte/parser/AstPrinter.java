@@ -1,5 +1,6 @@
 package ru.shanalotte.parser;
 
+import java.util.List;
 import ru.shanalotte.expression.BinaryExpression;
 import ru.shanalotte.expression.CallExpression;
 import ru.shanalotte.expression.Expression;
@@ -16,8 +17,9 @@ import ru.shanalotte.statements.StatementGroup;
 import ru.shanalotte.statements.WhileStatement;
 
 public class AstPrinter implements Visitor<String> {
-  public String print(Expression expr) {
-    return expr.accept(this);
+
+  public void print(Expression expr) {
+    System.out.println(expr.accept(this));
   }
 
   @Override
@@ -31,12 +33,24 @@ public class AstPrinter implements Visitor<String> {
     if (literal.getLiteral() == null) return "null";
     return literal.getLiteral().toString();
   }
+
   @Override
   public String visit(UnaryExpression unaryExpression) {
     return parenthesize(unaryExpression.getOperator().getLexeme(), unaryExpression.getExpression());
   }
 
   private String parenthesize(String name, Expression... exprs) {
+    StringBuilder builder = new StringBuilder();
+    builder.append("(").append(name);
+    for (Expression expr : exprs) {
+      builder.append(" ");
+      builder.append(expr.accept(this));
+    }
+    builder.append(")");
+    return builder.toString();
+  }
+
+  private String parenthesize(String name, List<Expression> exprs) {
     StringBuilder builder = new StringBuilder();
     builder.append("(").append(name);
     for (Expression expr : exprs) {
@@ -54,47 +68,80 @@ public class AstPrinter implements Visitor<String> {
 
   @Override
   public String visit(AssignStatement assignStatement) {
-    return assignStatement.getIdentifier().getLexeme() + " = " + assignStatement.getExpression().accept(this);
-
+    return assignStatement.getIdentifier().getLexeme() + " := " + assignStatement.getExpression().accept(this);
   }
 
   @Override
   public String visit(IfStatement ifStatement) {
-    return null;
+    if (ifStatement.getFalseBranch() == null) {
+      return parenthesize("THEN " + ifStatement.getTrueBranch().accept(this) + " " +
+          parenthesize("IF", ifStatement.getCondition()));
+    } else {
+      return parenthesize("ELSE " + ifStatement.getFalseBranch().accept(this) + " " +
+          parenthesize("THEN " + ifStatement.getTrueBranch().accept(this) + " " +
+              parenthesize("IF", ifStatement.getCondition())));
+    }
   }
 
   @Override
   public String visit(WhileStatement whileStatement) {
-    return null;
+    return "DO " + whileStatement.getLoopStatement().accept(this) + " WHILE " + whileStatement.getLoopCondition().accept(this);
   }
 
   @Override
   public String visit(StatementGroup statementGroup) {
-    return null;
+    StringBuilder result = new StringBuilder();
+    for (var statement : statementGroup.getStatements()) {
+      result.append(statement.accept(this)).append(", ");
+    }
+    if (!result.isEmpty()) {
+      result.deleteCharAt(result.length() - 1);
+      result.deleteCharAt(result.length() - 1);
+    }
+    return result.toString();
   }
 
   @Override
   public String visit(LogicalExpression logicalExpression) {
-    return null;
+     StringBuilder result = new StringBuilder();
+     var operand = logicalExpression.getOperands().iterator();
+     var operator = logicalExpression.getOperators().iterator();
+     var first = operand.next();
+     while (operator.hasNext()) {
+       var nextOperator = operator.next();
+       var second = operand.next();
+       String localResult = parenthesize(nextOperator.name(), first, second);
+       first = second;
+       result.append(localResult).append(" ");
+     }
+     return result.toString();
   }
 
   @Override
   public String visit(CallExpression callExpression) {
-    return null;
+    var result = new StringBuilder();
+    result.append(callExpression.getCallee().accept(this)).append(" ");
+    for (var arg : callExpression.getArguments()) {
+      result.append(arg.accept(this)).append(" ");
+    }
+    if (!result.isEmpty()) {
+      result.deleteCharAt(result.length() - 1);
+    }
+    return parenthesize("CALL " + result);
   }
 
   @Override
   public String visit(FunctionDeclarationStatement functionDeclarationStatement) {
-    return null;
+    return "FUN " + functionDeclarationStatement.getFunctionName() + " ::= " + functionDeclarationStatement.getFunctionBody().accept(this);
   }
 
   @Override
   public String visit(CallStatement callStatement) {
-    return null;
+    return callStatement.getFunctionCall().accept(this);
   }
 
   @Override
   public String visit(ReturnStatement returnStatement) {
-    return null;
+    return parenthesize("RETURN" ,returnStatement.getReturnExpression());
   }
 }
