@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: morrigan-service-registry
+  cloud:
+    config:
+      username: root
+      name: morrigan-service-registry
+      password: celestial
+      fail-fast: true
+      retry:
+        max-attempts: 100
+  profiles:
+    active: dev

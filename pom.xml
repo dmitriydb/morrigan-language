@@ -14,6 +14,7 @@
         <module>coderun-api</module>
         <module>morrigan-language</module>
         <module>config-server</module>
+        <module>service-registry</module>
     </modules>
 
     <properties>
