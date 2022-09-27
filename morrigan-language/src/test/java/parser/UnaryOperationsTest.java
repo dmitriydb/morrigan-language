@@ -8,17 +8,17 @@ public class UnaryOperationsTest extends AbstractInterpreterTest{
 
   @Test
   public void minusNumber() {
-    assertThat(morrigan.evaluate("-3")).isEqualTo(-3);
+    assertThat(morrigan.evaluate("-3")).isEqualTo(-3.0d);
   }
 
   @Test
   public void plusNumber() {
-    assertThat(morrigan.evaluate("+3")).isEqualTo(3);
+    assertThat(morrigan.evaluate("+3")).isEqualTo(3.0d);
   }
 
   @Test
   public void plus3254() {
-    assertThat(morrigan.evaluate("+3254")).isEqualTo(3254);
+    assertThat(morrigan.evaluate("+3254")).isEqualTo(3254.0d);
   }
 
   @Test

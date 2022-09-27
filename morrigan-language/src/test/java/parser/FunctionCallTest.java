@@ -68,7 +68,7 @@ public class FunctionCallTest extends AbstractInterpreterTest {
   public void returnTest() {
     morrigan.interpret("morrigan says that a is function() {morrigan returns 5}."
         + "morrigan says that b is a().");
-    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("b")).isEqualTo(5);
+    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("b")).isEqualTo(5.0d);
   }
 
   @Test
@@ -82,7 +82,7 @@ public class FunctionCallTest extends AbstractInterpreterTest {
         + "morrigan says that result is max(a, b)."
         + "morrigan remembers what is result.");
     assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("result")).
-        isEqualTo(15);
+        isEqualTo(15.0d);
   }
 
   @Test

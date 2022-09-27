@@ -155,10 +155,25 @@ public class Scanner {
             }
             tokensInLine.add(newToken(TokenType.STRING));
           } else if (isDigit(nextChar)) {
-            while (isDigit(peek())) {
+            boolean hasComma = false;
+            boolean wasComma = false;
+            while (isDigit(peek()) || peek() == ',') {
+              wasComma = false;
+              if (peek() == ',') {
+                wasComma = true;
+                if (hasComma) {
+                  wasComma = false;
+                  break;
+                }
+                hasComma = true;
+              }
               advance();
             }
             tokensInLine.add(newToken(TokenType.NUMBER));
+            // for cases like 'morrigan says that a is 0,3, b is 0,5.
+            if (wasComma) {
+              currentIndex--;
+            }
           } else {
             alertError();
           }
@@ -171,7 +186,7 @@ public class Scanner {
   private void alertError() {
     startIndex = currentIndex;
     char alertedChar = currentLine.getCode().charAt(currentIndex - 1);
-    int alertedCharCode = (int)alertedChar;
+    int alertedCharCode = (int) alertedChar;
     if (alertedCharCode == 10) {
       return;
     }
@@ -193,8 +208,7 @@ public class Scanner {
     String lexeme = currentLine.getCode().substring(startIndex, currentIndex);
     if (tokenType == TokenType.LITERAL_STRING) {
       tokenType = TokenType.STRING;
-    } else
-    if (tokenType == TokenType.STRING) {
+    } else if (tokenType == TokenType.STRING) {
       if (isKeyword(lexeme)) {
         tokenType = determineWhatKeywordTokenTypeByKeywordLexeme(lexeme);
       } else if (lexeme.equals("true")) {

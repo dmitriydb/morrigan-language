@@ -38,6 +38,6 @@ public class ReturningValuesTest {
     Scanner scanner = new Scanner();
     Morrigan morrigan = new Morrigan(interpreter, scanner);
     morrigan.interpret(code);
-    assertThat(interpreter.getResult()).containsExactlyInAnyOrder("100", "10", "117");
+    assertThat(interpreter.getResult()).containsExactlyInAnyOrder("100.0", "10.0", "117.0");
   }
 }

@@ -7,12 +7,12 @@ public class SimpleEvaluations extends AbstractInterpreterTest{
 
   @Test
   public void evaluatesNumbers() {
-    assertThat(morrigan.evaluate("3")).isEqualTo(3);
+    assertThat(morrigan.evaluate("3")).isEqualTo(3.0d);
   }
 
   @Test
   public void evaluatesNegativeNumber() {
-    assertThat(morrigan.evaluate("-3")).isEqualTo(-3);
+    assertThat(morrigan.evaluate("-3")).isEqualTo(-3.0d);
   }
 
   @Test

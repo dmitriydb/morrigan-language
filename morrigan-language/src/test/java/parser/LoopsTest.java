@@ -9,7 +9,7 @@ public class LoopsTest extends AbstractInterpreterTest{
   public void shouldIncrementVariableTenTimes() {
     morrigan.interpret("morrigan says that a is 0."
         + "morrigan says that a is a + 1 x 10.");
-    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("a")).isEqualTo(10);
+    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("a")).isEqualTo(10.0d);
   }
 
   @Test
@@ -21,7 +21,7 @@ public class LoopsTest extends AbstractInterpreterTest{
   public void whileEvaluationTest() {
     morrigan.interpret("morrigan says that a is 0. "
         + "morrigan says that while a < 10 morrigan says that a is a + 1.");
-    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("a")).isEqualTo(10);
+    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("a")).isEqualTo(10.0d);
   }
 
   @Test

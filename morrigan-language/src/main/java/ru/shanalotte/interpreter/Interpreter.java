@@ -35,6 +35,22 @@ public class Interpreter implements Visitor<Object> {
   @Setter
   private Environment environment = new Environment();
 
+  private String numberToString(Object value) {
+    if (value instanceof String) {
+      return (String) value;
+    }
+    if (value instanceof Boolean) {
+      return String.valueOf((boolean) value);
+    }
+    boolean isInteger = (double) value % 1 == 0;
+    if (isInteger) {
+      return String.valueOf(Double.valueOf((double) value).intValue());
+    } else {
+      return String.valueOf((double) value);
+    }
+
+  }
+
   @Override
   public Object visit(BinaryExpression binaryExpression) {
     Object leftValue = binaryExpression.getLeftSide().accept(this);
@@ -42,26 +58,29 @@ public class Interpreter implements Visitor<Object> {
     try {
       switch (binaryExpression.getOperator().getTokenType()) {
         case PLUS:
-          if (isInteger(leftValue) && isInteger((rightValue))) {
-            return (int) leftValue + (int) rightValue;
+          if (isNumber(leftValue) && isNumber((rightValue))) {
+            return (double) leftValue + (double) rightValue;
           } else {
-            return leftValue + String.valueOf(rightValue);
+            String result = "";
+            result += numberToString(leftValue);
+            result += numberToString(rightValue);
+            return result;
           }
         case MINUS:
-          if (bothNotIntegers(leftValue, rightValue)) {
+          if (bothNotNumbers(leftValue, rightValue)) {
             throw runtimeError(binaryExpression.getOperator(), "Substracting strings/booleans is illegal: " + leftValue.toString() + ", " + rightValue.toString());
           }
-          return (int) leftValue - (int) rightValue;
+          return (double) leftValue - (double) rightValue;
         case STAR:
-          if (bothNotIntegers(leftValue, rightValue)) {
+          if (bothNotNumbers(leftValue, rightValue)) {
             throw runtimeError(binaryExpression.getOperator(), "Multiplying strings/booleans is illegal: " + leftValue.toString() + ", " + rightValue.toString());
           }
-          return (int) leftValue * (int) rightValue;
+          return (double) leftValue * (double) rightValue;
         case SLASH:
-          if (bothNotIntegers(leftValue, rightValue)) {
+          if (bothNotNumbers(leftValue, rightValue)) {
             throw runtimeError(binaryExpression.getOperator(), "Dividing strings/booleans is illegal: " + leftValue.toString() + ", " + rightValue.toString());
           }
-          return (int) leftValue / (int) rightValue;
+          return (double) leftValue / (double) rightValue;
         case MORE:
           return isMore(leftValue, rightValue);
         case LESS:
@@ -80,9 +99,14 @@ public class Interpreter implements Visitor<Object> {
     if (isBoolean(a) && isBoolean(b)) {
       throw new IllegalArgumentException("It is illegal to compare two boolean values. Were: " + a + ", " + b);
     }
-    if (!bothNotIntegers(a, b)) {
-      return (int) a > (int) b;
+    if (!bothNotNumbers(a, b)) {
+      String sa = String.valueOf(a);
+      String sb = String.valueOf(b);
+      sa = sa.replace(",", ".");
+      sb = sb.replace(",", ".");
+      return Double.parseDouble(sa) > Double.parseDouble(sb);
     }
+    System.out.println("2222");
     return String.valueOf(a).compareTo(String.valueOf(b)) > 0;
   }
 
@@ -93,8 +117,8 @@ public class Interpreter implements Visitor<Object> {
     return !isMore(a, b) && !isMore(b, a);
   }
 
-  private boolean bothNotIntegers(Object leftValue, Object rightValue) {
-    return !isInteger(leftValue) || !isInteger(rightValue);
+  private boolean bothNotNumbers(Object leftValue, Object rightValue) {
+    return !isNumber(leftValue) || !isNumber(rightValue);
   }
 
   @Override
@@ -106,8 +130,9 @@ public class Interpreter implements Visitor<Object> {
       return environment.getVariableValue(literal.getLiteral().toString());
     }
     try {
-      int intValue = Integer.parseInt(literal.getLiteral().toString());
-      return intValue;
+      String stringValue = literal.getLiteral().toString();
+      stringValue = stringValue.replace(",", ".");
+      return Double.parseDouble(stringValue);
     } catch (Throwable t) {
       return literal.getLiteral().toString();
     }
@@ -145,9 +170,9 @@ public class Interpreter implements Visitor<Object> {
     if (isBoolean(value)) {
       throw runtimeError(unaryExpression.getOperator(), "Trying to perform unary operation on boolean value. Was: " + unaryExpression.getOperator().getLexeme() + "" + value);
     }
-    if (isInteger(value)) {
-      int intValue = Integer.parseInt(value.toString());
-      return unaryExpression.getOperator().getTokenType() == TokenType.MINUS ? -intValue : intValue;
+    if (isNumber(value)) {
+      double doubleValue = Double.parseDouble(value.toString());
+      return unaryExpression.getOperator().getTokenType() == TokenType.MINUS ? -doubleValue : doubleValue;
     }
     throw runtimeError(unaryExpression.getOperator(), "Wrong operation: " + unaryExpression.getOperator().getTokenType() + value);
   }
@@ -160,9 +185,11 @@ public class Interpreter implements Visitor<Object> {
     return value instanceof Boolean;
   }
 
-  private boolean isInteger(Object value) {
+  private boolean isNumber(Object value) {
     try {
-      int intValue = Integer.parseInt(value.toString());
+      String stringValue = value.toString();
+      stringValue = stringValue.replace(",", ".");
+      double doubleValue = Double.parseDouble(stringValue);
       return true;
     } catch (Throwable t) {
       return false;

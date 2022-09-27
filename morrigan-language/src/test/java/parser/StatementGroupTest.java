@@ -8,8 +8,8 @@ public class StatementGroupTest extends AbstractInterpreterTest{
   @Test
   public void simpleStatementGroupTest() {
     morrigan.interpret("morrigan says that a is 3, b is 5.");
-    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("a")).isEqualTo(3);
-    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("b")).isEqualTo(5);
+    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("a")).isEqualTo(3.0d);
+    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("b")).isEqualTo(5.0d);
   }
 
   @Test
@@ -20,10 +20,10 @@ public class StatementGroupTest extends AbstractInterpreterTest{
         + "  morrigan says that c is 2 and morrigan says that d is 2 "
         + "else"
         + "  morrigan says that c is 3 and morrigan says that d is 3.");
-    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("a")).isEqualTo(1);
-    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("b")).isEqualTo(1);
-    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("c")).isEqualTo(3);
-    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("d")).isEqualTo(3);
+    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("a")).isEqualTo(1.0d);
+    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("b")).isEqualTo(1.0d);
+    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("c")).isEqualTo(3.0d);
+    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("d")).isEqualTo(3.0d);
   }
 
   @Test

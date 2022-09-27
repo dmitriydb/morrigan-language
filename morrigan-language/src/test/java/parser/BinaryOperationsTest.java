@@ -8,7 +8,7 @@ public class BinaryOperationsTest extends AbstractInterpreterTest{
 
   @Test
   public void addingNumbers() {
-    assertThat(morrigan.evaluate("2   + 3")).isEqualTo(5);
+    assertThat(morrigan.evaluate("2  + 3")).isEqualTo(5.0d);
   }
 
   @Test
@@ -18,7 +18,7 @@ public class BinaryOperationsTest extends AbstractInterpreterTest{
 
   @Test
   public void addingNumberAndTrue() {
-    assertThat(morrigan.evaluate("2   + true")).isEqualTo("2true");
+    assertThat(morrigan.evaluate("2 + true")).isEqualTo("2true");
   }
 
   @Test
@@ -38,12 +38,12 @@ public class BinaryOperationsTest extends AbstractInterpreterTest{
 
   @Test
   public void addingNegativeNumbers() {
-    assertThat(morrigan.evaluate("-3 + -3")).isEqualTo(-6);
+    assertThat(morrigan.evaluate("-3 + -3")).isEqualTo(-6.0d);
   }
 
   @Test
   public void multiplyingNumbers() {
-    assertThat(morrigan.evaluate("-3 * -3")).isEqualTo(9);
+    assertThat(morrigan.evaluate("-3 * -3")).isEqualTo(9.0d);
   }
 
   @Test

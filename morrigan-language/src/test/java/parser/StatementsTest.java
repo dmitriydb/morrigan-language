@@ -19,7 +19,7 @@ public class StatementsTest extends AbstractInterpreterTest{
   @Test
   public void usingVariableInExpressions() {
     runSomeCode("morrigan says that a is 3. morrigan says that b is a + 7. morrigan remembers what is b.");
-    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("b")).isEqualTo(10);
+    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("b")).isEqualTo(10.0d);
   }
 
   @Test
@@ -31,7 +31,7 @@ public class StatementsTest extends AbstractInterpreterTest{
   @Test
   public void addTwoNumbers() {
     runSomeCode("morrigan says that a is 5. morrigan says that b is 5. morrigan says that c is a + b.");
-    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("c")).isEqualTo(10);
+    assertThat(morrigan.getInterpreter().getEnvironment().getVariableValue("c")).isEqualTo(10.0d);
   }
 
   @Test
