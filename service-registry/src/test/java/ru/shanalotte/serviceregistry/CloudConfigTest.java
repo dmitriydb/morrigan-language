@@ -17,4 +17,5 @@ public class CloudConfigTest {
   public void testProperty() {
     assertThat(test).isEqualTo("hello");
   }
+
 }

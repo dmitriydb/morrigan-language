@@ -9,6 +9,6 @@ public class MorriganPlatformServiceUptime {
   private Long serviceId;
   private LocalDateTime lastHeartbeatTs;
   private long lag;
-  private long upTime;
+  private long uptime;
 
 }

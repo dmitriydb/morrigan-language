@@ -4,12 +4,13 @@ create table service(
    number integer not null default 1,
    host varchar(200) not null unique,
    registration_ts timestamp not null default CURRENT_TIMESTAMP,
-   abandon_ts timestamp default null
+   abandon_ts timestamp default null,
+   active boolean not null default true
 );
 
 create table service_uptime (
   service_id integer primary key references service(id),
-  last_heartbeat_ts timestamp,
+  last_heartbeat_ts timestamp default CURRENT_TIMESTAMP,
   lag integer not null default 0,
   uptime integer not null default 0
  );
