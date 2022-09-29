@@ -10,6 +10,9 @@ import ru.shanalotte.serviceregistry.domain.MorriganPlatformService;
 
 public interface ServiceMapper {
 
+  @Update("UPDATE service SET abandon_ts = CURRENT_TIMESTAMP where id = #{id}")
+  void setAbandonTs(long id);
+
   @Update("UPDATE service SET active = false where id = #{id}")
   void setInactive(long id);
 
@@ -52,4 +55,17 @@ public interface ServiceMapper {
       @Result(property = "isActive", column = "active"),
   })
   List<MorriganPlatformService> findActiveByName(String name);
+
+  @Select("SELECT * FROM service WHERE active = true")
+  @Results(value = {
+      @Result(property = "id", column = "id"),
+      @Result(property = "name", column = "name"),
+      @Result(property = "number", column = "number"),
+      @Result(property = "host", column = "host"),
+      @Result(property = "registrationTs", column = "registration_ts"),
+      @Result(property = "abandonTs", column = "abandon_ts"),
+      @Result(property = "isActive", column = "active"),
+  })
+  List<MorriganPlatformService> findAllActive();
+
 }

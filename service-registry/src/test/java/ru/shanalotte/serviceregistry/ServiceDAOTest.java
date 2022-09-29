@@ -84,6 +84,7 @@ public class ServiceDAOTest {
     dao.abandon(id);
     var serviceAfterCreation = dao.findById(id);
     assertThat(serviceAfterCreation.isActive()).isFalse();
+    assertThat(serviceAfterCreation.getAbandonTs()).isNotNull();
   }
 
   @Test
@@ -124,6 +125,27 @@ public class ServiceDAOTest {
     assertThat(uptime.getUptime()).isNotEqualTo(0);
     assertThat(uptime.getLastHeartbeatTs()).isAfter(currentTs);
     assertThat(uptime.getLastHeartbeatTs()).isAfter(tsBefore);
+  }
+
+  @Test
+  public void uptimeAndLagCalculationTest() throws InterruptedException {
+    long id = dao.create(registration);
+    Thread.sleep(2000);
+    dao.refreshUptime(id);
+    var uptime = dao.getUptime(id);
+    assertThat(uptime.getUptime()).isLessThan(2200);
+    assertThat(uptime.getLag()).isLessThan(2200);
+  }
+
+  @Test
+  public void uptimeSimulation() throws InterruptedException {
+    long id = dao.create(registration);
+    for (int i = 0; i < 20; i++) {
+      Thread.sleep(150);
+      dao.refreshUptime(id);
+      var uptime = dao.getUptime(id);
+      System.out.println(uptime);
+    }
   }
 
   private MorriganServiceRegistration registration(String name, String host) {

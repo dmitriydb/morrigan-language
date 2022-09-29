@@ -1,6 +1,8 @@
 package ru.shanalotte.serviceregistry.dao;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import org.apache.ibatis.session.SqlSession;
@@ -11,13 +13,15 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import ru.shanalotte.serviceregistry.domain.MorriganPlatformService;
 import ru.shanalotte.serviceregistry.domain.MorriganPlatformServiceUptime;
-import ru.shanalotte.serviceregistry.dto.MorriganServiceHeartbeat;
 import ru.shanalotte.serviceregistry.dto.MorriganServiceRegistration;
 import ru.shanalotte.serviceregistry.mybatis.mappers.ServiceMapper;
 import ru.shanalotte.serviceregistry.mybatis.mappers.ServiceUptimeMapper;
 
 @Service
 public class ServicesDAOImpl implements ServicesDAO {
+
+  @Value("${session.timeout.ms}")
+  private long sessionTimeout;
 
   @Value("classpath:mybatis-config.xml")
   private Resource resource;
@@ -53,6 +57,7 @@ public class ServicesDAOImpl implements ServicesDAO {
     SqlSession sqlSession = sqlSessionFactory.openSession();
     ServiceMapper mapper = sqlSession.getMapper(ServiceMapper.class);
     mapper.setInactive(id);
+    mapper.setAbandonTs(id);
     sqlSession.commit();
     sqlSession.close();
   }
@@ -72,7 +77,11 @@ public class ServicesDAOImpl implements ServicesDAO {
     SqlSession sqlSession = sqlSessionFactory.openSession();
     ServiceUptimeMapper mapper = sqlSession.getMapper(ServiceUptimeMapper.class);
     var uptime = mapper.findById(id);
-    mapper.refreshUptime(id, 1, 1);
+    long lastHeartbeatMsBefore = uptime.getLastHeartbeatTs().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+    long lastHeartbeatMsNow = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+    long currentUptime = uptime.getUptime();
+    long lag = lastHeartbeatMsNow - lastHeartbeatMsBefore;
+    mapper.refreshUptime(id, lag, currentUptime + lag);
     sqlSession.commit();
     sqlSession.close();
   }
@@ -95,5 +104,15 @@ public class ServicesDAOImpl implements ServicesDAO {
     sqlSession.commit();
     sqlSession.close();
     return uptime;
+  }
+
+  @Override
+  public List<MorriganPlatformService> findAllActive() {
+    SqlSession sqlSession = sqlSessionFactory.openSession();
+    ServiceMapper mapper = sqlSession.getMapper(ServiceMapper.class);
+    var services = mapper.findAllActive();
+    sqlSession.commit();
+    sqlSession.close();
+    return services;
   }
 }
