@@ -77,6 +77,8 @@ public class ServicesDAOImpl implements ServicesDAO {
   public void refreshUptime(long id) {
     SqlSession sqlSession = sqlSessionFactory.openSession();
     ServiceUptimeMapper mapper = sqlSession.getMapper(ServiceUptimeMapper.class);
+    ServiceMapper serviceMapper = sqlSession.getMapper(ServiceMapper.class);
+    serviceMapper.setActive(id);
     var uptime = mapper.findById(id);
     long lastHeartbeatMsBefore = uptime.getLastHeartbeatTs().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
     long lastHeartbeatMsNow = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();

@@ -16,6 +16,9 @@ public interface ServiceMapper {
   @Update("UPDATE service SET active = false where id = #{id}")
   void setInactive(long id);
 
+  @Update("UPDATE service SET active = true where id = #{id}")
+  void setActive(long id);
+
   @Select("INSERT INTO service (name, number, host, port) values (#{name}, #{number}, #{host}, #{port}) returning id")
   @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
   long addNewService(MorriganPlatformService service);

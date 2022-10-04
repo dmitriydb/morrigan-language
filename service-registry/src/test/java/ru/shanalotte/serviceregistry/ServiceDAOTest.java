@@ -149,9 +149,21 @@ public class ServiceDAOTest {
     }
   }
 
+  @Test
+  public void should_makeServiceActiveAfterHeartbeat() {
+    long id = dao.create(registration);
+    dao.abandon(id);
+    var service = dao.findById(id);
+    assertThat(service.isActive()).isFalse();
+    dao.refreshUptime(id);
+    service = dao.findById(id);
+    assertThat(service.isActive()).isTrue();
+  }
+
   private MorriganServiceRegistration registration(String name, String host, int port) {
     return new MorriganServiceRegistration(name, host, port);
   }
+
 
 
 
