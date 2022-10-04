@@ -30,7 +30,7 @@ public class SpringBootServiceKafkaListener implements ServiceKafkaListener {
   }
 
   @Override
-  @KafkaListener(id = "launchRecordsListener", topics = "service.launches")
+  @KafkaListener(id = "launchRecordsListener", topics = "${kafka.topic.launch}")
   public void processLaunchRecord(String record) {
     try {
       ServiceLaunchRecord dto = objectMapper.readValue(record, ServiceLaunchRecord.class);
@@ -48,7 +48,7 @@ public class SpringBootServiceKafkaListener implements ServiceKafkaListener {
   }
 
   @Override
-  @KafkaListener(id = "heartbeatListener", topics = "service.heartbeats")
+  @KafkaListener(id = "heartbeatListener", topics = "${kafka.topic.heartbeat}")
   public void processHeartbeatRecord(String record) {
     try {
       ServiceHeartbeatRecord dto = objectMapper.readValue(record, ServiceHeartbeatRecord.class);
