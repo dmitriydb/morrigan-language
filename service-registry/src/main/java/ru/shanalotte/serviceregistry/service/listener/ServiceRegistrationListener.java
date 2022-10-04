@@ -5,5 +5,5 @@ import ru.shanalotte.serviceregistry.dto.MorriganServiceRegistration;
 
 @Service
 public interface ServiceRegistrationListener {
-  void processRegistration(MorriganServiceRegistration dto);
+  long processRegistration(MorriganServiceRegistration dto);
 }

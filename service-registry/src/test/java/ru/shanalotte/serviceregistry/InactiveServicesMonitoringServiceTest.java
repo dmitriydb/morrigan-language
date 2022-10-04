@@ -32,7 +32,7 @@ public class InactiveServicesMonitoringServiceTest {
   public void randomizeTestNames() {
     randomizeHost();
     serviceName = "name" + UUID.randomUUID();
-    registration = new MorriganServiceRegistration(serviceName, serviceHost);
+    registration = new MorriganServiceRegistration(serviceName, serviceHost, 99);
   }
 
   private void randomizeHost() {
@@ -41,9 +41,9 @@ public class InactiveServicesMonitoringServiceTest {
 
   @Test
   public void test() throws InterruptedException {
-    long id1 = servicesDAO.create(registration(serviceName, serviceHost + 1));
-    long id2 = servicesDAO.create(registration(serviceName, serviceHost + 2));
-    long id3 = servicesDAO.create(registration(serviceName, serviceHost + 3));
+    long id1 = servicesDAO.create(registration(serviceName, serviceHost + 1, 99));
+    long id2 = servicesDAO.create(registration(serviceName, serviceHost + 2, 99));
+    long id3 = servicesDAO.create(registration(serviceName, serviceHost + 3, 99));
     service.startMonitoring();
     Thread.sleep((long) (sessionTimeout * 1.3));
     var service1 = servicesDAO.findById(id1);
@@ -57,8 +57,8 @@ public class InactiveServicesMonitoringServiceTest {
     assertThat(service3.isActive()).isFalse();
   }
 
-  private MorriganServiceRegistration registration(String name, String host) {
-    return new MorriganServiceRegistration(name, host);
+  private MorriganServiceRegistration registration(String name, String host, int port) {
+    return new MorriganServiceRegistration(name, host, port);
   }
 
 }

@@ -19,6 +19,7 @@ public class MorriganPlatformService {
   private Long id;
   private String name;
   private int number;
+  private int port;
   private String host;
   private LocalDateTime registrationTs;
   private LocalDateTime abandonTs;

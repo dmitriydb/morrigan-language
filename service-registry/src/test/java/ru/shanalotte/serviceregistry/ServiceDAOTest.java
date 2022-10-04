@@ -32,7 +32,7 @@ public class ServiceDAOTest {
   public void randomizeTestNames() {
     randomizeHost();
     serviceName = "name" + UUID.randomUUID();
-    registration = new MorriganServiceRegistration(serviceName, serviceHost);
+    registration = new MorriganServiceRegistration(serviceName, serviceHost, 99);
   }
 
   private void randomizeHost() {
@@ -48,7 +48,7 @@ public class ServiceDAOTest {
   public void should_createDifferentNumbers() {
     long id1 = dao.create(registration);
     randomizeHost();
-    registration = new MorriganServiceRegistration(serviceName, serviceHost);
+    registration = new MorriganServiceRegistration(serviceName, serviceHost, 99);
     long id2 = dao.create(registration);
     MorriganPlatformService service1 = dao.findById(id1);
     MorriganPlatformService service2 = dao.findById(id2);
@@ -61,6 +61,7 @@ public class ServiceDAOTest {
     var serviceAfterCreation = dao.findById(id);
     assertThat(serviceAfterCreation.getHost()).isEqualTo(registration.getHost());
     assertThat(serviceAfterCreation.getName()).isEqualTo(registration.getName());
+    assertThat(serviceAfterCreation.getPort()).isEqualTo(registration.getPort());
     assertThat(serviceAfterCreation.getId()).isEqualTo(id);
   }
 
@@ -89,7 +90,7 @@ public class ServiceDAOTest {
 
   @Test
   public void shouldFindOnlyActiveServices() {
-    var entries = IntStream.rangeClosed(1, 6).mapToObj(i -> registration(serviceName, serviceHost + i)).collect(Collectors.toList());
+    var entries = IntStream.rangeClosed(1, 6).mapToObj(i -> registration(serviceName, serviceHost + i, 912)).collect(Collectors.toList());
     var ids = entries.stream().map(entry -> dao.create(entry)).collect(Collectors.toList());
     dao.abandon(ids.get(0));
     dao.abandon(ids.get(2));
@@ -148,8 +149,8 @@ public class ServiceDAOTest {
     }
   }
 
-  private MorriganServiceRegistration registration(String name, String host) {
-    return new MorriganServiceRegistration(name, host);
+  private MorriganServiceRegistration registration(String name, String host, int port) {
+    return new MorriganServiceRegistration(name, host, port);
   }
 
 

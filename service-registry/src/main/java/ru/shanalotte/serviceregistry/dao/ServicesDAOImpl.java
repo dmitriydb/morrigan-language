@@ -42,6 +42,7 @@ public class ServicesDAOImpl implements ServicesDAO {
     MorriganPlatformService service = MorriganPlatformService.builder()
         .host(dto.getHost())
         .name(dto.getName())
+        .port(dto.getPort())
         .number(number)
         .build();
     long id = mapper.addNewService(service);

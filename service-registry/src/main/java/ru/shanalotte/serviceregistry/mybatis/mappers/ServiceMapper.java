@@ -16,7 +16,7 @@ public interface ServiceMapper {
   @Update("UPDATE service SET active = false where id = #{id}")
   void setInactive(long id);
 
-  @Select("INSERT INTO service (name, number, host) values (#{name}, #{number}, #{host}) returning id")
+  @Select("INSERT INTO service (name, number, host, port) values (#{name}, #{number}, #{host}, #{port}) returning id")
   @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
   long addNewService(MorriganPlatformService service);
 
@@ -29,6 +29,7 @@ public interface ServiceMapper {
       @Result(property = "registrationTs", column = "registration_ts"),
       @Result(property = "abandonTs", column = "abandon_ts"),
       @Result(property = "isActive", column = "active"),
+      @Result(property = "port", column = "port")
   })
   MorriganPlatformService findMaxNumberByName(String name);
 
@@ -41,6 +42,7 @@ public interface ServiceMapper {
       @Result(property = "registrationTs", column = "registration_ts"),
       @Result(property = "abandonTs", column = "abandon_ts"),
       @Result(property = "isActive", column = "active"),
+      @Result(property = "port", column = "port")
   })
   MorriganPlatformService findById(long id);
 
@@ -53,6 +55,7 @@ public interface ServiceMapper {
       @Result(property = "registrationTs", column = "registration_ts"),
       @Result(property = "abandonTs", column = "abandon_ts"),
       @Result(property = "isActive", column = "active"),
+      @Result(property = "port", column = "port")
   })
   List<MorriganPlatformService> findActiveByName(String name);
 
@@ -65,6 +68,7 @@ public interface ServiceMapper {
       @Result(property = "registrationTs", column = "registration_ts"),
       @Result(property = "abandonTs", column = "abandon_ts"),
       @Result(property = "isActive", column = "active"),
+      @Result(property = "port", column = "port")
   })
   List<MorriganPlatformService> findAllActive();
 

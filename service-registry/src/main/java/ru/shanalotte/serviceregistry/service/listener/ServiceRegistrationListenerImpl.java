@@ -14,7 +14,8 @@ public class ServiceRegistrationListenerImpl implements ServiceRegistrationListe
   }
 
   @Override
-  public void processRegistration(MorriganServiceRegistration dto) {
-    servicesDAO.create(dto);
+  public long processRegistration(MorriganServiceRegistration dto) {
+    return servicesDAO.create(dto);
   }
+
 }
