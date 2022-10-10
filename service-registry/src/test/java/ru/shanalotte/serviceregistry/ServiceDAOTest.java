@@ -9,20 +9,11 @@ import java.util.stream.IntStream;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import ru.shanalotte.serviceregistry.dao.ServicesDAO;
 import ru.shanalotte.serviceregistry.domain.MorriganPlatformService;
 import ru.shanalotte.serviceregistry.domain.MorriganPlatformServiceUptime;
 import ru.shanalotte.serviceregistry.dto.MorriganServiceRegistration;
 
-@SpringBootTest
-@ActiveProfiles("dev")
-public class ServiceDAOTest {
-
-  @Autowired
-  ServicesDAO dao;
+public class ServiceDAOTest extends ContainerizedTest{
 
   private String serviceName;
   private String serviceHost;

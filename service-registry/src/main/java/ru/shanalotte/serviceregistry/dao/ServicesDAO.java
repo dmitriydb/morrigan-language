@@ -1,6 +1,7 @@
 package ru.shanalotte.serviceregistry.dao;
 
 import java.util.List;
+import org.apache.ibatis.session.SqlSessionFactory;
 import ru.shanalotte.serviceregistry.domain.MorriganPlatformService;
 import ru.shanalotte.serviceregistry.domain.MorriganPlatformServiceUptime;
 import ru.shanalotte.serviceregistry.dto.MorriganServiceRegistration;
@@ -21,5 +22,7 @@ public interface ServicesDAO {
 
   MorriganPlatformServiceUptime getUptime(long id);
 
+  List<MorriganPlatformService> findAll();
 
+  void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory);
 }

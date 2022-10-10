@@ -75,4 +75,17 @@ public interface ServiceMapper {
   })
   List<MorriganPlatformService> findAllActive();
 
+  @Select("SELECT * FROM service")
+  @Results(value = {
+      @Result(property = "id", column = "id"),
+      @Result(property = "name", column = "name"),
+      @Result(property = "number", column = "number"),
+      @Result(property = "host", column = "host"),
+      @Result(property = "registrationTs", column = "registration_ts"),
+      @Result(property = "abandonTs", column = "abandon_ts"),
+      @Result(property = "isActive", column = "active"),
+      @Result(property = "port", column = "port")
+  })
+  List<MorriganPlatformService> findAll();
+
 }

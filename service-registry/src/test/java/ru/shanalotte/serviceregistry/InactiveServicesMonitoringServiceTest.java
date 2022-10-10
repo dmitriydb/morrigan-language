@@ -13,16 +13,13 @@ import ru.shanalotte.serviceregistry.service.monitoring.InactiveServicesMonitori
 import ru.shanalotte.serviceregistry.service.monitoring.InactiveServicesMonitoringServiceImpl;
 
 @SpringBootTest
-public class InactiveServicesMonitoringServiceTest {
+public class InactiveServicesMonitoringServiceTest extends ContainerizedTest {
 
   @Value("${session.timeout.ms}")
   private int sessionTimeout;
 
   @Autowired
   private InactiveServicesMonitoringService service;
-
-  @Autowired
-  private ServicesDAO servicesDAO;
 
   private String serviceName;
   private String serviceHost;
@@ -41,14 +38,14 @@ public class InactiveServicesMonitoringServiceTest {
 
   @Test
   public void test() throws InterruptedException {
-    long id1 = servicesDAO.create(registration(serviceName, serviceHost + 1, 99));
-    long id2 = servicesDAO.create(registration(serviceName, serviceHost + 2, 99));
-    long id3 = servicesDAO.create(registration(serviceName, serviceHost + 3, 99));
+    long id1 = dao.create(registration(serviceName, serviceHost + 1, 99));
+    long id2 = dao.create(registration(serviceName, serviceHost + 2, 99));
+    long id3 = dao.create(registration(serviceName, serviceHost + 3, 99));
     service.startMonitoring();
     Thread.sleep((long) (sessionTimeout * 1.3));
-    var service1 = servicesDAO.findById(id1);
-    var service2 = servicesDAO.findById(id2);
-    var service3 = servicesDAO.findById(id3);
+    var service1 = dao.findById(id1);
+    var service2 = dao.findById(id2);
+    var service3 = dao.findById(id3);
     assertThat(service1.getAbandonTs()).isNotNull();
     assertThat(service2.getAbandonTs()).isNotNull();
     assertThat(service3.getAbandonTs()).isNotNull();

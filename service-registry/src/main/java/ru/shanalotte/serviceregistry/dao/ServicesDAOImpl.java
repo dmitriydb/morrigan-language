@@ -1,15 +1,12 @@
 package ru.shanalotte.serviceregistry.dao;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import ru.shanalotte.serviceregistry.domain.MorriganPlatformService;
 import ru.shanalotte.serviceregistry.domain.MorriganPlatformServiceUptime;
@@ -23,14 +20,11 @@ public class ServicesDAOImpl implements ServicesDAO {
   @Value("${session.timeout.ms}")
   private long sessionTimeout;
 
-  @Value("classpath:mybatis-config.xml")
-  private Resource resource;
-
   private SqlSessionFactory sqlSessionFactory;
 
-  @PostConstruct
-  public void initSessionFactory() throws IOException {
-    sqlSessionFactory = new SqlSessionFactoryBuilder().build(resource.getInputStream());
+  @Autowired
+  public ServicesDAOImpl(SqlSessionFactory sqlSessionFactory) {
+    this.sqlSessionFactory = sqlSessionFactory;
   }
 
   @Override
@@ -117,5 +111,20 @@ public class ServicesDAOImpl implements ServicesDAO {
     sqlSession.commit();
     sqlSession.close();
     return services;
+  }
+
+  @Override
+  public List<MorriganPlatformService> findAll() {
+    SqlSession sqlSession = sqlSessionFactory.openSession();
+    ServiceMapper mapper = sqlSession.getMapper(ServiceMapper.class);
+    var services = mapper.findAll();
+    sqlSession.commit();
+    sqlSession.close();
+    return services;
+  }
+
+  @Override
+  public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
+    this.sqlSessionFactory = sqlSessionFactory;
   }
 }
