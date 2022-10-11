@@ -44,7 +44,6 @@ public class SpringBootServiceKafkaListener implements ServiceKafkaListener {
     } catch (JsonProcessingException e) {
       e.printStackTrace();
     }
-
   }
 
   @Override
@@ -58,4 +57,5 @@ public class SpringBootServiceKafkaListener implements ServiceKafkaListener {
       e.printStackTrace();
     }
   }
+
 }

@@ -1,7 +1,6 @@
 package ru.shanalotte.serviceregistry.config;
 
 import java.io.IOException;
-import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +10,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
 
 @Configuration
-@Profile("dev")
 public class MyBatisConfig {
 
   @Value("classpath:mybatis-config.xml")
