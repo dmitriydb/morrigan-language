@@ -3,8 +3,3 @@ spring:
     name: morrigan-service-registry
   profiles:
     active: dev
-logging:
-  level:
-    com:
-      github:
-        dockerjava: ERROR

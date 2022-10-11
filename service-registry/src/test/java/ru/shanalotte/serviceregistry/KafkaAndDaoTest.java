@@ -31,6 +31,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -46,7 +47,8 @@ import ru.shanalotte.serviceregistry.mybatis.mappers.ServiceMapper;
 import ru.shanalotte.serviceregistry.mybatis.mappers.ServiceUptimeMapper;
 
 @SpringBootTest
-@ActiveProfiles("dev")
+@ActiveProfiles("test")
+@TestPropertySource("classpath:fake-cloud.properties")
 @Testcontainers
 public class KafkaAndDaoTest {
 

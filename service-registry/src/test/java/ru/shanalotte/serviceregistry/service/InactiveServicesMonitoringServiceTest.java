@@ -16,6 +16,8 @@ import org.postgresql.ds.PGSimpleDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -28,6 +30,8 @@ import ru.shanalotte.serviceregistry.service.monitoring.InactiveServicesMonitori
 
 @SpringBootTest
 @Testcontainers
+@ActiveProfiles("test")
+@TestPropertySource("classpath:fake-cloud.properties")
 public class InactiveServicesMonitoringServiceTest {
 
   @Autowired

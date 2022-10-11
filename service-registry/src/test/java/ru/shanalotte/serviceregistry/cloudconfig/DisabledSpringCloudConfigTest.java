@@ -21,6 +21,6 @@ public class DisabledSpringCloudConfigTest {
   @Test
   public void shouldWork() {
       assertThat(test).isEqualTo("abc");
-      assertThat(sessionTimeout).isEqualTo(1234);
+      assertThat(sessionTimeout).isEqualTo(10000);
   }
 }
