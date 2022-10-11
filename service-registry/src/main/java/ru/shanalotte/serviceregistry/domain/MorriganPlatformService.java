@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.shanalotte.serviceregistry.api.KnownService;
 
 @Builder
 @Getter
@@ -24,5 +25,9 @@ public class MorriganPlatformService {
   private LocalDateTime registrationTs;
   private LocalDateTime abandonTs;
   private boolean isActive;
+
+  public KnownService toKnownService() {
+    return new KnownService(name, port, host);
+  }
 
 }

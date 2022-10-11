@@ -141,9 +141,7 @@ public class WebServerIT {
       HttpResponse<String> response = null;
       try {
         response = localHttpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-      } catch (IOException e) {
-        e.printStackTrace();
-      } catch (InterruptedException e) {
+      } catch (IOException | InterruptedException e) {
         e.printStackTrace();
       }
 
