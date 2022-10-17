@@ -21,7 +21,8 @@ public class AnonymousMorriganCodeRunService implements CodeRunService {
     this.codeRunCache = codeRunCache;
   }
 
-  public AnonymousMorriganCodeRunService(@NonNull Morrigan morrigan, @NonNull CodeRunCache codeRunCache) {
+  public AnonymousMorriganCodeRunService(
+      @NonNull Morrigan morrigan, @NonNull CodeRunCache codeRunCache) {
     this.codeRunCache = codeRunCache;
     this.morrigan = morrigan;
   }
@@ -34,7 +35,8 @@ public class AnonymousMorriganCodeRunService implements CodeRunService {
       return codeRunCache.get(request).orElse(CodeRunResult.of(CodeRunResultMessages.TRY_AGAIN));
     }
     CodeRunResult result = new CodeRunResult();
-    Morrigan morrigan = this.morrigan == null ? new Morrigan(new Interpreter(), new Scanner()) : this.morrigan;
+    Morrigan morrigan =
+        this.morrigan == null ? new Morrigan(new Interpreter(), new Scanner()) : this.morrigan;
     try {
       morrigan.interpret(request.code());
       morrigan.getInterpreter()

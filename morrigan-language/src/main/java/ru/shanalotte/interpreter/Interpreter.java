@@ -51,53 +51,70 @@ public class Interpreter implements Visitor<Object> {
 
   }
 
-  @Override
-  public Object visit(BinaryExpression binaryExpression) {
-    Object leftValue = binaryExpression.getLeftSide().accept(this);
-    Object rightValue = binaryExpression.getRightSide().accept(this);
+
+
+  private boolean isBoolean(Object value) {
+    return value instanceof Boolean;
+  }
+
+  private boolean isNumber(Object value) {
     try {
-      switch (binaryExpression.getOperator().getTokenType()) {
-        case PLUS:
-          if (isNumber(leftValue) && isNumber((rightValue))) {
-            return (double) leftValue + (double) rightValue;
-          } else {
-            String result = "";
-            result += numberToString(leftValue);
-            result += numberToString(rightValue);
-            return result;
-          }
-        case MINUS:
-          if (bothNotNumbers(leftValue, rightValue)) {
-            throw runtimeError(binaryExpression.getOperator(), "Substracting strings/booleans is illegal: " + leftValue.toString() + ", " + rightValue.toString());
-          }
-          return (double) leftValue - (double) rightValue;
-        case STAR:
-          if (bothNotNumbers(leftValue, rightValue)) {
-            throw runtimeError(binaryExpression.getOperator(), "Multiplying strings/booleans is illegal: " + leftValue.toString() + ", " + rightValue.toString());
-          }
-          return (double) leftValue * (double) rightValue;
-        case SLASH:
-          if (bothNotNumbers(leftValue, rightValue)) {
-            throw runtimeError(binaryExpression.getOperator(), "Dividing strings/booleans is illegal: " + leftValue.toString() + ", " + rightValue.toString());
-          }
-          return (double) leftValue / (double) rightValue;
-        case MORE:
-          return isMore(leftValue, rightValue);
-        case LESS:
-          return !isMore(leftValue, rightValue) && !isEquals(leftValue, rightValue);
-        case EQUALS:
-          return isEquals(leftValue, rightValue);
-        default:
-          return 0;
-      }
+      String stringValue = value.toString();
+      stringValue = stringValue.replace(",", ".");
+      double doubleValue = Double.parseDouble(stringValue);
+      return true;
     } catch (Throwable t) {
-      throw runtimeError(binaryExpression.getOperator(), t.getMessage());
+      return false;
     }
+  }
+
+  private boolean evaluateCondition(Expression loopCondition) {
+    return (boolean) loopCondition.accept(this);
+  }
+
+  public Object evaluate(Expression expr) {
+    return expr.accept(this);
+  }
+
+  private Object evaluate(Object firstOperand, Object secondOperand, TokenType operator) {
+    if (!isBoolean(firstOperand) || !isBoolean(secondOperand)) {
+      throw new IllegalArgumentException("Both operands should be "
+          + "logical values in logical expression");
+    }
+    if (operator == TokenType.LOGICAL_OR) {
+      return (boolean) firstOperand || (boolean) secondOperand;
+    } else if (operator == TokenType.LOGICAL_AND) {
+      return (boolean) firstOperand && (boolean) secondOperand;
+    } else {
+      throw new IllegalArgumentException("Wrong logical operator "
+          + "in logical expression: " + operator);
+    }
+  }
+
+
+  public void clearResults() {
+    this.result.clear();
+  }
+
+  private Error runtimeError(int lineNumber, int position, String message) {
+    return new Error(String.format("Runtime error at line %d "
+        + "position %d: %s", lineNumber, position, message));
+  }
+
+  private Error runtimeError(Token token, String message) {
+    if (token == null) {
+      return new Error(String.format("Runtime error : %s", message));
+    } else {
+      return new Error(String.format("Runtime error at line %d position %d: %s",
+          token.getLineNumber(), token.getStartPosition(), message));
+    }
+
   }
 
   private boolean isMore(Object a, Object b) {
     if (isBoolean(a) && isBoolean(b)) {
-      throw new IllegalArgumentException("It is illegal to compare two boolean values. Were: " + a + ", " + b);
+      throw new IllegalArgumentException("It is illegal "
+          + "to compare two boolean values. Were: " + a + ", " + b);
     }
     if (!bothNotNumbers(a, b)) {
       String sa = String.valueOf(a);
@@ -153,6 +170,56 @@ public class Interpreter implements Visitor<Object> {
   }
 
   @Override
+  public Object visit(BinaryExpression binaryExpression) {
+    Object leftValue = binaryExpression.getLeftSide().accept(this);
+    Object rightValue = binaryExpression.getRightSide().accept(this);
+    try {
+      switch (binaryExpression.getOperator().getTokenType()) {
+        case PLUS:
+          if (isNumber(leftValue) && isNumber((rightValue))) {
+            return (double) leftValue + (double) rightValue;
+          } else {
+            String result = "";
+            result += numberToString(leftValue);
+            result += numberToString(rightValue);
+            return result;
+          }
+        case MINUS:
+          if (bothNotNumbers(leftValue, rightValue)) {
+            throw runtimeError(binaryExpression.getOperator(),
+                "Substracting strings/booleans is illegal: "
+                    + leftValue.toString() + ", " + rightValue.toString());
+          }
+          return (double) leftValue - (double) rightValue;
+        case STAR:
+          if (bothNotNumbers(leftValue, rightValue)) {
+            throw runtimeError(binaryExpression.getOperator(),
+                "Multiplying strings/booleans is illegal: "
+                    + leftValue.toString() + ", " + rightValue.toString());
+          }
+          return (double) leftValue * (double) rightValue;
+        case SLASH:
+          if (bothNotNumbers(leftValue, rightValue)) {
+            throw runtimeError(binaryExpression.getOperator(),
+                "Dividing strings/booleans is illegal: "
+                    + leftValue.toString() + ", " + rightValue.toString());
+          }
+          return (double) leftValue / (double) rightValue;
+        case MORE:
+          return isMore(leftValue, rightValue);
+        case LESS:
+          return !isMore(leftValue, rightValue) && !isEquals(leftValue, rightValue);
+        case EQUALS:
+          return isEquals(leftValue, rightValue);
+        default:
+          return 0;
+      }
+    } catch (Throwable t) {
+      throw runtimeError(binaryExpression.getOperator(), t.getMessage());
+    }
+  }
+
+  @Override
   public Object visit(WhileStatement whileStatement) {
     while (evaluateCondition(whileStatement.getLoopCondition())) {
       evaluate(whileStatement.getLoopStatement());
@@ -160,40 +227,21 @@ public class Interpreter implements Visitor<Object> {
     return null;
   }
 
-  private boolean evaluateCondition(Expression loopCondition) {
-    return (boolean) loopCondition.accept(this);
-  }
-
   @Override
   public Object visit(UnaryExpression unaryExpression) {
     Object value = unaryExpression.getExpression().accept(this);
     if (isBoolean(value)) {
-      throw runtimeError(unaryExpression.getOperator(), "Trying to perform unary operation on boolean value. Was: " + unaryExpression.getOperator().getLexeme() + "" + value);
+      throw runtimeError(unaryExpression.getOperator(), "Trying to perform "
+          + "unary operation on boolean value. Was: "
+          + "" + unaryExpression.getOperator().getLexeme() + "" + value);
     }
     if (isNumber(value)) {
       double doubleValue = Double.parseDouble(value.toString());
-      return unaryExpression.getOperator().getTokenType() == TokenType.MINUS ? -doubleValue : doubleValue;
+      return unaryExpression.getOperator().getTokenType()
+          == TokenType.MINUS ? -doubleValue : doubleValue;
     }
-    throw runtimeError(unaryExpression.getOperator(), "Wrong operation: " + unaryExpression.getOperator().getTokenType() + value);
-  }
-
-  public Object evaluate(Expression expr) {
-    return expr.accept(this);
-  }
-
-  private boolean isBoolean(Object value) {
-    return value instanceof Boolean;
-  }
-
-  private boolean isNumber(Object value) {
-    try {
-      String stringValue = value.toString();
-      stringValue = stringValue.replace(",", ".");
-      double doubleValue = Double.parseDouble(stringValue);
-      return true;
-    } catch (Throwable t) {
-      return false;
-    }
+    throw runtimeError(unaryExpression.getOperator(), "Wrong operation: "
+        + unaryExpression.getOperator().getTokenType() + value);
   }
 
   @Override
@@ -236,19 +284,6 @@ public class Interpreter implements Visitor<Object> {
     return firstOperand;
   }
 
-  private Object evaluate(Object firstOperand, Object secondOperand, TokenType operator) {
-    if (!isBoolean(firstOperand) || !isBoolean(secondOperand)) {
-      throw new IllegalArgumentException("Both operands should be logical values in logical expression");
-    }
-    if (operator == TokenType.LOGICAL_OR) {
-      return (boolean) firstOperand || (boolean) secondOperand;
-    } else if (operator == TokenType.LOGICAL_AND) {
-      return (boolean) firstOperand && (boolean) secondOperand;
-    } else {
-      throw new IllegalArgumentException("Wrong logical operator in logical expression: " + operator);
-    }
-  }
-
   @Override
   public Object visit(CallExpression callExpression) {
     Object callee = evaluate(callExpression.getCallee());
@@ -264,7 +299,8 @@ public class Interpreter implements Visitor<Object> {
     }
     MorriganCallable function = (MorriganCallable) callee;
     if (function.arity() != arguments.size()) {
-      throw runtimeError(callExpression.getParenthesis(), "Expected function arity is " + function.arity() + ", but got: " + arguments.size());
+      throw runtimeError(callExpression.getParenthesis(), "Expected function arity is "
+          + "" + function.arity() + ", but got: " + arguments.size());
     }
     return function.call(this, arguments);
   }
@@ -288,21 +324,5 @@ public class Interpreter implements Visitor<Object> {
     throw new Return(returnValue);
   }
 
-  public void clearResults() {
-    this.result.clear();
-  }
-
-  private Error runtimeError(int lineNumber, int position, String message) {
-    return new Error(String.format("Runtime error at line %d position %d: %s", lineNumber, position, message));
-  }
-
-  private Error runtimeError(Token token, String message) {
-    if (token == null) {
-      return new Error(String.format("Runtime error : %s", message));
-    } else {
-      return new Error(String.format("Runtime error at line %d position %d: %s", token.getLineNumber(), token.getStartPosition(), message));
-    }
-
-  }
 
 }

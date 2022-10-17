@@ -1,11 +1,11 @@
 package ru.shanalotte.coderun;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.http.Handler;
 import io.javalin.http.HttpCode;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import ru.shanalotte.coderun.api.CodeRunRequest;
@@ -37,7 +37,8 @@ public class CodeRunController {
   static Handler handleBatchRequest = ctx -> {
     log.info("GET /batch IP {} body {}", ctx.ip(), ctx.body());
     try {
-      CodeRunRequest[] codeRunRequest = objectMapper.readValue(ctx.body(), UserCodeRunRequest[].class);
+      CodeRunRequest[] codeRunRequest = objectMapper.readValue(ctx.body(),
+          UserCodeRunRequest[].class);
       List<CodeRunResult> result;
       result = codeRunService.batchRun(Arrays.stream(codeRunRequest).collect(Collectors.toList()));
       String response = objectMapper.writeValueAsString(result);

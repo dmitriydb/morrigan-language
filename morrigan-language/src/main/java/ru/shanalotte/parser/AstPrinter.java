@@ -30,13 +30,102 @@ public class AstPrinter implements Visitor<String> {
 
   @Override
   public String visit(Literal literal) {
-    if (literal.getLiteral() == null) return "null";
+    if (literal.getLiteral() == null) {
+      return "null";
+    }
     return literal.getLiteral().toString();
   }
 
   @Override
   public String visit(UnaryExpression unaryExpression) {
     return parenthesize(unaryExpression.getOperator().getLexeme(), unaryExpression.getExpression());
+  }
+
+  @Override
+  public String visit(PrintStatement printStatement) {
+    return "PRINT " + printStatement.getExpression().accept(this);
+  }
+
+  @Override
+  public String visit(AssignStatement assignStatement) {
+    return assignStatement.getIdentifier().getLexeme() + " := "
+        + assignStatement.getExpression().accept(this);
+  }
+
+  @Override
+  public String visit(IfStatement ifStatement) {
+    if (ifStatement.getFalseBranch() == null) {
+      return parenthesize("THEN " + ifStatement.getTrueBranch().accept(this) + " "
+          + parenthesize("IF", ifStatement.getCondition()));
+    } else {
+      return parenthesize("ELSE " + ifStatement.getFalseBranch().accept(this) + " "
+          + parenthesize("THEN " + ifStatement.getTrueBranch().accept(this) + " "
+          + parenthesize("IF", ifStatement.getCondition())));
+    }
+  }
+
+  @Override
+  public String visit(WhileStatement whileStatement) {
+    return "DO " + whileStatement.getLoopStatement().accept(this)
+        + " WHILE " + whileStatement.getLoopCondition().accept(this);
+  }
+
+  @Override
+  public String visit(StatementGroup statementGroup) {
+    StringBuilder result = new StringBuilder();
+    for (var statement : statementGroup.getStatements()) {
+      result.append(statement.accept(this)).append(", ");
+    }
+    if (!result.isEmpty()) {
+      result.deleteCharAt(result.length() - 1);
+      result.deleteCharAt(result.length() - 1);
+    }
+    return result.toString();
+  }
+
+  @Override
+  public String visit(LogicalExpression logicalExpression) {
+    StringBuilder result = new StringBuilder();
+    var operand = logicalExpression.getOperands().iterator();
+    var operator = logicalExpression.getOperators().iterator();
+    var first = operand.next();
+    while (operator.hasNext()) {
+      var nextOperator = operator.next();
+      var second = operand.next();
+      String localResult = parenthesize(nextOperator.name(), first, second);
+      first = second;
+      result.append(localResult).append(" ");
+    }
+    return result.toString();
+  }
+
+  @Override
+  public String visit(CallExpression callExpression) {
+    var result = new StringBuilder();
+    result.append(callExpression.getCallee().accept(this)).append(" ");
+    for (var arg : callExpression.getArguments()) {
+      result.append(arg.accept(this)).append(" ");
+    }
+    if (!result.isEmpty()) {
+      result.deleteCharAt(result.length() - 1);
+    }
+    return parenthesize("CALL " + result);
+  }
+
+  @Override
+  public String visit(FunctionDeclarationStatement functionDeclarationStatement) {
+    return "FUN " + functionDeclarationStatement.getFunctionName() + " ::= "
+        + functionDeclarationStatement.getFunctionBody().accept(this);
+  }
+
+  @Override
+  public String visit(CallStatement callStatement) {
+    return callStatement.getFunctionCall().accept(this);
+  }
+
+  @Override
+  public String visit(ReturnStatement returnStatement) {
+    return parenthesize("RETURN", returnStatement.getReturnExpression());
   }
 
   private String parenthesize(String name, Expression... exprs) {
@@ -59,89 +148,5 @@ public class AstPrinter implements Visitor<String> {
     }
     builder.append(")");
     return builder.toString();
-  }
-
-  @Override
-  public String visit(PrintStatement printStatement) {
-    return "PRINT " + printStatement.getExpression().accept(this);
-  }
-
-  @Override
-  public String visit(AssignStatement assignStatement) {
-    return assignStatement.getIdentifier().getLexeme() + " := " + assignStatement.getExpression().accept(this);
-  }
-
-  @Override
-  public String visit(IfStatement ifStatement) {
-    if (ifStatement.getFalseBranch() == null) {
-      return parenthesize("THEN " + ifStatement.getTrueBranch().accept(this) + " " +
-          parenthesize("IF", ifStatement.getCondition()));
-    } else {
-      return parenthesize("ELSE " + ifStatement.getFalseBranch().accept(this) + " " +
-          parenthesize("THEN " + ifStatement.getTrueBranch().accept(this) + " " +
-              parenthesize("IF", ifStatement.getCondition())));
-    }
-  }
-
-  @Override
-  public String visit(WhileStatement whileStatement) {
-    return "DO " + whileStatement.getLoopStatement().accept(this) + " WHILE " + whileStatement.getLoopCondition().accept(this);
-  }
-
-  @Override
-  public String visit(StatementGroup statementGroup) {
-    StringBuilder result = new StringBuilder();
-    for (var statement : statementGroup.getStatements()) {
-      result.append(statement.accept(this)).append(", ");
-    }
-    if (!result.isEmpty()) {
-      result.deleteCharAt(result.length() - 1);
-      result.deleteCharAt(result.length() - 1);
-    }
-    return result.toString();
-  }
-
-  @Override
-  public String visit(LogicalExpression logicalExpression) {
-     StringBuilder result = new StringBuilder();
-     var operand = logicalExpression.getOperands().iterator();
-     var operator = logicalExpression.getOperators().iterator();
-     var first = operand.next();
-     while (operator.hasNext()) {
-       var nextOperator = operator.next();
-       var second = operand.next();
-       String localResult = parenthesize(nextOperator.name(), first, second);
-       first = second;
-       result.append(localResult).append(" ");
-     }
-     return result.toString();
-  }
-
-  @Override
-  public String visit(CallExpression callExpression) {
-    var result = new StringBuilder();
-    result.append(callExpression.getCallee().accept(this)).append(" ");
-    for (var arg : callExpression.getArguments()) {
-      result.append(arg.accept(this)).append(" ");
-    }
-    if (!result.isEmpty()) {
-      result.deleteCharAt(result.length() - 1);
-    }
-    return parenthesize("CALL " + result);
-  }
-
-  @Override
-  public String visit(FunctionDeclarationStatement functionDeclarationStatement) {
-    return "FUN " + functionDeclarationStatement.getFunctionName() + " ::= " + functionDeclarationStatement.getFunctionBody().accept(this);
-  }
-
-  @Override
-  public String visit(CallStatement callStatement) {
-    return callStatement.getFunctionCall().accept(this);
-  }
-
-  @Override
-  public String visit(ReturnStatement returnStatement) {
-    return parenthesize("RETURN" ,returnStatement.getReturnExpression());
   }
 }

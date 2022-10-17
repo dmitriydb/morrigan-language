@@ -17,7 +17,6 @@ public class MyBatisConfig {
 
   @Bean
   public SqlSessionFactory sqlSessionFactory() throws IOException {
-    SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resource.getInputStream());
-    return sqlSessionFactory;
+    return new SqlSessionFactoryBuilder().build(resource.getInputStream());
   }
 }

@@ -21,12 +21,11 @@ import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import ru.shanalotte.serviceregistry.dao.ServicesDAO;
+import ru.shanalotte.serviceregistry.dao.ServicesDao;
 import ru.shanalotte.serviceregistry.dto.MorriganServiceRegistration;
 import ru.shanalotte.serviceregistry.mybatis.mappers.ServiceMapper;
 import ru.shanalotte.serviceregistry.mybatis.mappers.ServiceUptimeMapper;
 import ru.shanalotte.serviceregistry.service.monitoring.InactiveServicesMonitoringService;
-import ru.shanalotte.serviceregistry.service.monitoring.InactiveServicesMonitoringServiceImpl;
 
 @SpringBootTest
 @Testcontainers
@@ -35,7 +34,7 @@ import ru.shanalotte.serviceregistry.service.monitoring.InactiveServicesMonitori
 public class InactiveServicesMonitoringServiceTest {
 
   @Autowired
-  private ServicesDAO dao;
+  private ServicesDao dao;
 
   @Container
   protected static final PostgreSQLContainer<?> POSTGRESQL_CONTAINER =

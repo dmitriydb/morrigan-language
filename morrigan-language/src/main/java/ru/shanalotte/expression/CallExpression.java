@@ -10,7 +10,7 @@ import ru.shanalotte.scanner.Token;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class CallExpression extends Expression{
+public class CallExpression extends Expression {
   private final Expression callee;
   private final Token parenthesis;
   private final List<Expression> arguments;

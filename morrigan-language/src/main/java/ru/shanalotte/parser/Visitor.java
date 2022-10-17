@@ -15,17 +15,31 @@ import ru.shanalotte.statements.StatementGroup;
 import ru.shanalotte.statements.WhileStatement;
 
 public interface Visitor<R> {
+
   R visit(BinaryExpression binaryExpression);
+
   R visit(Literal literal);
+
   R visit(UnaryExpression unaryExpression);
+
   R visit(PrintStatement printStatement);
+
   R visit(AssignStatement assignStatement);
+
   R visit(IfStatement ifStatement);
+
   R visit(WhileStatement whileStatement);
+
   R visit(StatementGroup statementGroup);
+
   R visit(LogicalExpression logicalExpression);
+
   R visit(CallExpression callExpression);
+
   R visit(FunctionDeclarationStatement functionDeclarationStatement);
+
   R visit(CallStatement callStatement);
+
   R visit(ReturnStatement returnStatement);
+
 }

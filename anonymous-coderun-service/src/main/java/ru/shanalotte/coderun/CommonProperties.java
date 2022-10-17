@@ -31,7 +31,8 @@ public class CommonProperties {
 
   public static void loadProperties() throws IOException {
     Properties properties = new Properties();
-    properties.load(CommonProperties.class.getClassLoader().getResourceAsStream("application.properties"));
+    properties.load(CommonProperties.class.getClassLoader().getResourceAsStream(
+        "application.properties"));
     for (String property : properties.stringPropertyNames()) {
       log.debug("Loaded property {} = {}", property, properties.get(property));
       Object obj = properties.get(property);
@@ -41,21 +42,30 @@ public class CommonProperties {
   }
 
   private static void convertPropertiesToIntegers() {
-    var propertiesToConvert = List.of("cache.limit.per.user", "cache.expiry.time.hours", "server.port", "redis.port");
+    var propertiesToConvert = List.of(
+        "cache.limit.per.user", "cache.expiry.time.hours", "server.port", "redis.port");
     for (String property : propertiesToConvert) {
-      try {
-        var string = propertiesMap.get(property);
+      String string = (String) propertiesMap.get(property);
+      if (isParseable(string)) {
         int value = Integer.parseInt((String) string);
         propertiesMap.put(property, value);
-      } catch (Throwable t) {
-
       }
+    }
+  }
+
+  private static boolean isParseable(String value) {
+    try {
+      Integer.parseInt((String) value);
+      return true;
+    } catch (Throwable t) {
+      return false;
     }
   }
 
   public static void printProperties() {
     System.out.println("=== Using properties ===");
-    propertiesMap.entrySet().forEach(p -> System.out.printf("%s = %s \n", p.getKey(), p.getValue()));
+    propertiesMap
+        .forEach((key, value) -> System.out.printf("%s = %s \n", key, value));
   }
 
   public static Object property(String property) {

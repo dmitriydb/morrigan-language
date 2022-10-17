@@ -6,7 +6,7 @@ import ru.shanalotte.serviceregistry.domain.MorriganPlatformService;
 import ru.shanalotte.serviceregistry.domain.MorriganPlatformServiceUptime;
 import ru.shanalotte.serviceregistry.dto.MorriganServiceRegistration;
 
-public interface ServicesDAO {
+public interface ServicesDao {
 
   long create(MorriganServiceRegistration dto);
 

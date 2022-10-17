@@ -6,7 +6,7 @@ import ru.shanalotte.expression.Expression;
 import ru.shanalotte.parser.Visitor;
 
 @RequiredArgsConstructor
-public class ReturnStatement extends Statement{
+public class ReturnStatement extends Statement {
 
   @Getter
   private final Expression returnExpression;

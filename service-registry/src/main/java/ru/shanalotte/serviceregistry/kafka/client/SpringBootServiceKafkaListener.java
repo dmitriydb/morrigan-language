@@ -22,7 +22,10 @@ public class SpringBootServiceKafkaListener implements ServiceKafkaListener {
   private final ServiceHeartbeatListener serviceHeartbeatListener;
   private final KafkaTemplate<String, String> template;
 
-  public SpringBootServiceKafkaListener(ObjectMapper objectMapper, ServiceRegistrationListener serviceRegistrationListener, ServiceHeartbeatListener serviceHeartbeatListener, KafkaTemplate<String, String> template) {
+  public SpringBootServiceKafkaListener(ObjectMapper objectMapper,
+                                        ServiceRegistrationListener serviceRegistrationListener,
+                                        ServiceHeartbeatListener serviceHeartbeatListener,
+                                        KafkaTemplate<String, String> template) {
     this.objectMapper = objectMapper;
     this.serviceRegistrationListener = serviceRegistrationListener;
     this.serviceHeartbeatListener = serviceHeartbeatListener;

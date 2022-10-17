@@ -23,6 +23,7 @@ public interface ServiceUptimeMapper {
   )
   MorriganPlatformServiceUptime findById(long id);
 
-  @Update("UPDATE service_uptime SET lag = #{lag}, uptime = #{uptime}, last_heartbeat_ts=CURRENT_TIMESTAMP where service_id = #{id}")
+  @Update("UPDATE service_uptime SET lag = #{lag}, uptime = #{uptime}, "
+      + "last_heartbeat_ts=CURRENT_TIMESTAMP where service_id = #{id}")
   public void refreshUptime(long id, long lag, long uptime);
 }

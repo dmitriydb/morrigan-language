@@ -2,8 +2,6 @@ package ru.shanalotte.serviceregistry.rest;
 
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.sql.DataSource;
@@ -42,7 +40,7 @@ import org.testcontainers.utility.DockerImageName;
 import ru.shanalotte.serviceregistry.KafkaTestConsumer;
 import ru.shanalotte.serviceregistry.KafkaTestConsumerWithReply;
 import ru.shanalotte.serviceregistry.api.KnownService;
-import ru.shanalotte.serviceregistry.dao.ServicesDAO;
+import ru.shanalotte.serviceregistry.dao.ServicesDao;
 import ru.shanalotte.serviceregistry.dto.MorriganServiceRegistration;
 import ru.shanalotte.serviceregistry.mybatis.mappers.ServiceMapper;
 import ru.shanalotte.serviceregistry.mybatis.mappers.ServiceUptimeMapper;
@@ -55,7 +53,7 @@ import ru.shanalotte.serviceregistry.mybatis.mappers.ServiceUptimeMapper;
 public class RestTest {
 
   @Autowired
-  ServicesDAO dao;
+  ServicesDao dao;
 
   @Value("${session.timeout.ms}")
   private String value;

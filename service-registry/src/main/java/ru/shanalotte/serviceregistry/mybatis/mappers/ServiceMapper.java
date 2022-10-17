@@ -19,11 +19,13 @@ public interface ServiceMapper {
   @Update("UPDATE service SET active = true where id = #{id}")
   void setActive(long id);
 
-  @Select("INSERT INTO service (name, number, host, port) values (#{name}, #{number}, #{host}, #{port}) returning id")
+  @Select("INSERT INTO service (name, number, host, port) "
+      + "values (#{name}, #{number}, #{host}, #{port}) returning id")
   @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
   long addNewService(MorriganPlatformService service);
 
-  @Select("SELECT * FROM service WHERE name = #{name} and active = true ORDER BY number DESC LIMIT 1")
+  @Select("SELECT * FROM service WHERE name = #{name} and active = true "
+      + "ORDER BY number DESC LIMIT 1")
   @Results(value = {
       @Result(property = "id", column = "id"),
       @Result(property = "name", column = "name"),

@@ -6,7 +6,7 @@ import ru.shanalotte.expression.Expression;
 import ru.shanalotte.parser.Visitor;
 
 @RequiredArgsConstructor
-public class CallStatement extends Statement{
+public class CallStatement extends Statement {
 
   @Getter
   private final Expression functionCall;

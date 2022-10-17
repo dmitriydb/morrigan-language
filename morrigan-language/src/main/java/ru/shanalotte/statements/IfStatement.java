@@ -8,7 +8,7 @@ import ru.shanalotte.parser.Visitor;
 
 @RequiredArgsConstructor
 @Getter
-public class IfStatement extends Statement{
+public class IfStatement extends Statement {
   private final Expression condition;
   private final Expression trueBranch;
   private final Expression falseBranch;

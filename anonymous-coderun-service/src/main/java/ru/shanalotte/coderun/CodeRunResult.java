@@ -13,22 +13,28 @@ import lombok.ToString;
 @Getter
 public class CodeRunResult {
 
-  public static CodeRunResult of (String message) {
+  private final @NonNull List<String> stdout = new ArrayList<>();
+  private final @NonNull List<String> stderr = new ArrayList<>();
+
+  public static CodeRunResult of(String message) {
     CodeRunResult codeRunResult = new CodeRunResult();
     codeRunResult.addToStdout(message);
     return codeRunResult;
   }
 
-  private final @NonNull List<String> stdout = new ArrayList<>();
-  private final @NonNull List<String> stderr = new ArrayList<>();
-
   public List<String> stdout() {
     return stdout;
   }
-  public List<String> stderr() {return stderr; }
+
+  public List<String> stderr() {
+    return stderr;
+  }
 
   public void addToStdout(String stdout) {
     this.stdout.add(stdout);
   }
-  public void addToStderr(String stderr) { this.stderr.add(stderr); }
+
+  public void addToStderr(String stderr) {
+    this.stderr.add(stderr);
+  }
 }

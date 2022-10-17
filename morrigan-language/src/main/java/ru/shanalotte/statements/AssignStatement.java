@@ -10,10 +10,13 @@ import ru.shanalotte.statements.Statement;
 @Data
 @RequiredArgsConstructor
 public class AssignStatement extends Statement {
+
   private final Token identifier;
   private final Expression expression;
+
   @Override
   public <R> R accept(Visitor<R> visitor) {
     return visitor.visit(this);
   }
+
 }

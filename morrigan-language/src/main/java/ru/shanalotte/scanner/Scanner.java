@@ -194,8 +194,10 @@ public class Scanner {
   }
 
   private Error scanError(char errorChar, int errorCharCode) {
-    String message = "Error while scanning source at line %d, position %d: unknown character %c [characted code: %d]";
-    return new Error(message.formatted(currentLine.getNumber(), currentIndex, errorChar, errorCharCode));
+    String message = "Error while scanning source at line %d,"
+        + " position %d: unknown character %c [characted code: %d]";
+    return new Error(message.formatted(currentLine.getNumber(),
+        currentIndex, errorChar, errorCharCode));
   }
 
 

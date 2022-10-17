@@ -8,7 +8,7 @@ import ru.shanalotte.scanner.Token;
 
 @RequiredArgsConstructor
 @Getter
-public class FunctionDeclarationStatement extends Statement{
+public class FunctionDeclarationStatement extends Statement {
 
   private final String functionName;
   private final List<Token> parameters;

@@ -39,7 +39,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 import ru.shanalotte.kafka.api.schemas.GrantedIdRecord;
 import ru.shanalotte.kafka.api.schemas.ServiceLaunchRecord;
-import ru.shanalotte.serviceregistry.dao.ServicesDAO;
+import ru.shanalotte.serviceregistry.dao.ServicesDao;
 import ru.shanalotte.serviceregistry.domain.MorriganPlatformService;
 import ru.shanalotte.serviceregistry.domain.MorriganPlatformServiceUptime;
 import ru.shanalotte.serviceregistry.dto.MorriganServiceRegistration;
@@ -53,7 +53,7 @@ import ru.shanalotte.serviceregistry.mybatis.mappers.ServiceUptimeMapper;
 public class KafkaAndDaoTest {
 
   @Autowired
-  ServicesDAO dao;
+  ServicesDao dao;
 
   @Value("${session.timeout.ms}")
   private String value;

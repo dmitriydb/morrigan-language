@@ -2,7 +2,7 @@ package ru.shanalotte.exception;
 
 import lombok.Getter;
 
-public class Return extends RuntimeException{
+public class Return extends RuntimeException {
   @Getter
   private final Object value;
 

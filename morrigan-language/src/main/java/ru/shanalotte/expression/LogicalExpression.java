@@ -7,9 +7,9 @@ import ru.shanalotte.parser.Visitor;
 import ru.shanalotte.scanner.TokenType;
 
 @Getter
-public class LogicalExpression extends Expression{
-  private List<Expression> operands = new ArrayList<>();
-  private List<TokenType> operators = new ArrayList<>();
+public class LogicalExpression extends Expression {
+  private final List<Expression> operands = new ArrayList<>();
+  private final List<TokenType> operators = new ArrayList<>();
 
   public void addOperand(Expression expression) {
     operands.add(expression);

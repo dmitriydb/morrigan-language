@@ -15,7 +15,7 @@ import ru.shanalotte.serviceregistry.mybatis.mappers.ServiceMapper;
 import ru.shanalotte.serviceregistry.mybatis.mappers.ServiceUptimeMapper;
 
 @Service
-public class ServicesDAOImpl implements ServicesDAO {
+public class ServicesDaoImpl implements ServicesDao {
 
   @Value("${session.timeout.ms}")
   private long sessionTimeout;
@@ -23,7 +23,7 @@ public class ServicesDAOImpl implements ServicesDAO {
   private SqlSessionFactory sqlSessionFactory;
 
   @Autowired
-  public ServicesDAOImpl(SqlSessionFactory sqlSessionFactory) {
+  public ServicesDaoImpl(SqlSessionFactory sqlSessionFactory) {
     this.sqlSessionFactory = sqlSessionFactory;
   }
 
@@ -31,8 +31,10 @@ public class ServicesDAOImpl implements ServicesDAO {
   public long create(MorriganServiceRegistration dto) {
     SqlSession sqlSession = sqlSessionFactory.openSession();
     ServiceMapper mapper = sqlSession.getMapper(ServiceMapper.class);
-    MorriganPlatformService serviceWithSameNameAndLastNumber = mapper.findMaxNumberByName(dto.getName());
-    int number = serviceWithSameNameAndLastNumber == null ? 1 : serviceWithSameNameAndLastNumber.getNumber() + 1;
+    MorriganPlatformService serviceWithSameNameAndLastNumber =
+        mapper.findMaxNumberByName(dto.getName());
+    int number = serviceWithSameNameAndLastNumber == null
+        ? 1 : serviceWithSameNameAndLastNumber.getNumber() + 1;
     MorriganPlatformService service = MorriganPlatformService.builder()
         .host(dto.getHost())
         .name(dto.getName())
@@ -74,8 +76,16 @@ public class ServicesDAOImpl implements ServicesDAO {
     ServiceMapper serviceMapper = sqlSession.getMapper(ServiceMapper.class);
     serviceMapper.setActive(id);
     var uptime = mapper.findById(id);
-    long lastHeartbeatMsBefore = uptime.getLastHeartbeatTs().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-    long lastHeartbeatMsNow = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+    long lastHeartbeatMsBefore = uptime
+        .getLastHeartbeatTs()
+        .atZone(ZoneId.systemDefault())
+        .toInstant()
+        .toEpochMilli();
+    long lastHeartbeatMsNow = LocalDateTime
+        .now()
+        .atZone(ZoneId.systemDefault())
+        .toInstant()
+        .toEpochMilli();
     long currentUptime = uptime.getUptime();
     long lag = lastHeartbeatMsNow - lastHeartbeatMsBefore;
     mapper.refreshUptime(id, lag, currentUptime + lag);

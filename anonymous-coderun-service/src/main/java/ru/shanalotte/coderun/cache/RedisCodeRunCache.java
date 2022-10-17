@@ -1,11 +1,10 @@
 package ru.shanalotte.coderun.cache;
 
-import java.util.Optional;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 import ru.shanalotte.coderun.CodeRunResult;
 import ru.shanalotte.coderun.CommonProperties;
 import ru.shanalotte.coderun.api.CodeRunRequest;
@@ -18,7 +17,9 @@ public class RedisCodeRunCache implements CodeRunCache {
 
   public RedisCodeRunCache(String host, int port) {
     jedis = ThreadLocal.withInitial(() -> new Jedis(host, port));
-  };
+  }
+
+  ;
 
   public RedisCodeRunCache() {
     jedis = ThreadLocal.withInitial(() -> new Jedis());
@@ -31,7 +32,7 @@ public class RedisCodeRunCache implements CodeRunCache {
       String value = objectMapper.writeValueAsString(result);
       jedis().set(key, value);
       log.debug("Cached {} = {}", key, value);
-      long ttl = 60L * 60 * (Integer)CommonProperties.property("cache.expiry.time.hours");
+      long ttl = 60L * 60 * (Integer) CommonProperties.property("cache.expiry.time.hours");
       jedis().expire(key, ttl);
       log.debug("EXPIRY {} FOR {}", key, ttl);
     } catch (JsonProcessingException e) {

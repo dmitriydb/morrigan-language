@@ -24,7 +24,8 @@ public class UserCodeRunRequest implements CodeRunRequest {
     this.code = code;
   }
 
-  public UserCodeRunRequest(@NonNull SupportedLanguage language, @NonNull String code, @NonNull String username) {
+  public UserCodeRunRequest(@NonNull SupportedLanguage language,
+                            @NonNull String code, @NonNull String username) {
     this.language = language;
     this.code = code;
     this.username = username;

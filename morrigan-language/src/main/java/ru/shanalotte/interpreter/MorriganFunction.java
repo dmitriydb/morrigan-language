@@ -8,7 +8,7 @@ import ru.shanalotte.exception.Return;
 import ru.shanalotte.statements.FunctionDeclarationStatement;
 
 @RequiredArgsConstructor
-public class MorriganFunction implements MorriganCallable{
+public class MorriganFunction implements MorriganCallable {
 
   private final @NonNull FunctionDeclarationStatement declarationStatement;
 
@@ -29,8 +29,7 @@ public class MorriganFunction implements MorriganCallable{
       } catch (Return r) {
         functionCallResult = r.getValue();
       }
-    }
-    finally {
+    } finally {
       interpreter.setEnvironment(originalEnvironment);
     }
     return functionCallResult;

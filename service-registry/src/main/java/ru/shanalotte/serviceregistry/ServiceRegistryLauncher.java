@@ -14,7 +14,8 @@ public class ServiceRegistryLauncher implements CommandLineRunner {
 
   private InactiveServicesMonitoringService inactiveServicesMonitoringService;
 
-  public ServiceRegistryLauncher(InactiveServicesMonitoringService inactiveServicesMonitoringService) {
+  public ServiceRegistryLauncher(InactiveServicesMonitoringService
+                                     inactiveServicesMonitoringService) {
     this.inactiveServicesMonitoringService = inactiveServicesMonitoringService;
   }
 

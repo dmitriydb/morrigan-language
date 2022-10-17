@@ -1,16 +1,5 @@
 package ru.shanalotte.parser;
 
-import java.util.ArrayList;
-import java.util.List;
-import lombok.RequiredArgsConstructor;
-import ru.shanalotte.expression.BinaryExpression;
-import ru.shanalotte.expression.CallExpression;
-import ru.shanalotte.expression.Expression;
-import ru.shanalotte.expression.Literal;
-import ru.shanalotte.expression.LogicalExpression;
-import ru.shanalotte.expression.UnaryExpression;
-import ru.shanalotte.scanner.Token;
-import ru.shanalotte.scanner.TokenType;
 import static ru.shanalotte.scanner.TokenType.AND;
 import static ru.shanalotte.scanner.TokenType.CALLS;
 import static ru.shanalotte.scanner.TokenType.COMMA;
@@ -42,6 +31,18 @@ import static ru.shanalotte.scanner.TokenType.THEN;
 import static ru.shanalotte.scanner.TokenType.TRUE;
 import static ru.shanalotte.scanner.TokenType.WHAT;
 import static ru.shanalotte.scanner.TokenType.WHILE;
+
+import java.util.ArrayList;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
+import ru.shanalotte.expression.BinaryExpression;
+import ru.shanalotte.expression.CallExpression;
+import ru.shanalotte.expression.Expression;
+import ru.shanalotte.expression.Literal;
+import ru.shanalotte.expression.LogicalExpression;
+import ru.shanalotte.expression.UnaryExpression;
+import ru.shanalotte.scanner.Token;
+import ru.shanalotte.scanner.TokenType;
 import ru.shanalotte.statements.AssignStatement;
 import ru.shanalotte.statements.CallStatement;
 import ru.shanalotte.statements.FunctionDeclarationStatement;
@@ -58,7 +59,9 @@ public class Parser {
   private int current = 0;
 
   private Token consume(TokenType type, String message) {
-    if (check(type)) return advance();
+    if (check(type)) {
+      return advance();
+    }
     throw error(message);
   }
 
@@ -102,9 +105,15 @@ public class Parser {
 
   private Statement statement() {
     consume(MORRIGAN, "what?");
-    if (match(CALLS)) return callStatement();
-    if (match(RETURNS)) return returnStatement();
-    if (match(REMEMBERS)) return printStatement();
+    if (match(CALLS)) {
+      return callStatement();
+    }
+    if (match(RETURNS)) {
+      return returnStatement();
+    }
+    if (match(REMEMBERS)) {
+      return printStatement();
+    }
     if (match(SAYS)) {
       consume(THAT, "morrigan says what?");
       if (match(IF)) {
@@ -114,7 +123,8 @@ public class Parser {
         return whileStatement();
       }
       return declarationStatement();
-    };
+    }
+    ;
     throw error("morrigan what?");
   }
 
@@ -137,15 +147,15 @@ public class Parser {
 
   private Statement declarationStatement() {
     Token identifier = consume(IDENTIFIER, "morrigan says that what?");
-      consume(IS, "morrigan says that " + identifier.getLexeme() + " what?");
-      if (match(FUNCTION)) {
-        return functionDeclaration(identifier);
-      }
-      Expression expression = expression();
-      if (!match(COMMA)) {
-        return new AssignStatement(identifier, expression);
-      }
-      return assignmentGroup(new AssignStatement(identifier, expression));
+    consume(IS, "morrigan says that " + identifier.getLexeme() + " what?");
+    if (match(FUNCTION)) {
+      return functionDeclaration(identifier);
+    }
+    Expression expression = expression();
+    if (!match(COMMA)) {
+      return new AssignStatement(identifier, expression);
+    }
+    return assignmentGroup(new AssignStatement(identifier, expression));
   }
 
   private Statement functionDeclaration(Token functionName) {
@@ -159,11 +169,15 @@ public class Parser {
 
   private List<Token> parameters() {
     List<Token> parameters = new ArrayList<>();
-    while(true) {
+    while (true) {
       consume(IDENTIFIER, "missing parameter name in function parameter list");
       parameters.add(previous());
-      if (match(RIGHT_BRACKET)) break;
-      if (match(COMMA)) continue;
+      if (match(RIGHT_BRACKET)) {
+        break;
+      }
+      if (match(COMMA)) {
+        continue;
+      }
       if (isAtEnd()) {
         throw error("Missing ) in function declaration while EOF");
       }
@@ -193,7 +207,6 @@ public class Parser {
   }
 
   private Statement ifStatement() {
-    Expression condition = expression();
     consume(THEN, "missing <then> after if expression");
     Statement trueBranch = statement();
     if (match(AND)) {
@@ -206,6 +219,7 @@ public class Parser {
         falseBranch = statementGroup(falseBranch);
       }
     }
+    Expression condition = expression();
     return new IfStatement(condition, trueBranch, falseBranch);
   }
 
@@ -281,7 +295,9 @@ public class Parser {
   }
 
   private boolean check(TokenType type) {
-    if (isAtEnd()) return false;
+    if (isAtEnd()) {
+      return false;
+    }
     return peek().getTokenType() == type;
   }
 
@@ -316,10 +332,14 @@ public class Parser {
 
   private List<Expression> arguments() {
     List<Expression> arguments = new ArrayList<>();
-    while(true) {
+    while (true) {
       arguments.add(expression());
-      if (match(RIGHT_BRACKET)) break;
-      if (match(COMMA)) continue;
+      if (match(RIGHT_BRACKET)) {
+        break;
+      }
+      if (match(COMMA)) {
+        continue;
+      }
       if (isAtEnd()) {
         throw error("Missing ) in function call while EOF");
       }
@@ -330,11 +350,15 @@ public class Parser {
   private Expression primary() {
     if (match(NUMBER, STRING, IDENTIFIER, FALSE, TRUE)) {
       return new Literal(previous().getLiteral());
-    } else return null;
+    } else {
+      return null;
+    }
   }
 
   private Token advance() {
-    if (!isAtEnd()) current++;
+    if (!isAtEnd()) {
+      current++;
+    }
     return previous();
   }
 

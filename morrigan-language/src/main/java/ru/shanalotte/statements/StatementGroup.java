@@ -6,7 +6,7 @@ import lombok.Getter;
 import ru.shanalotte.parser.Visitor;
 
 @Getter
-public class StatementGroup extends Statement{
+public class StatementGroup extends Statement {
   private List<Statement> statements = new ArrayList<>();
 
   @Override

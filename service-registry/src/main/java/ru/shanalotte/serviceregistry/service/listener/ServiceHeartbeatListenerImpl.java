@@ -1,20 +1,20 @@
 package ru.shanalotte.serviceregistry.service.listener;
 
 import org.springframework.stereotype.Service;
-import ru.shanalotte.serviceregistry.dao.ServicesDAO;
+import ru.shanalotte.serviceregistry.dao.ServicesDao;
 import ru.shanalotte.serviceregistry.dto.MorriganServiceHeartbeat;
 
 @Service
 public class ServiceHeartbeatListenerImpl implements ServiceHeartbeatListener {
 
-  private ServicesDAO servicesDAO;
+  private ServicesDao servicesDao;
 
-  public ServiceHeartbeatListenerImpl(ServicesDAO servicesDAO) {
-    this.servicesDAO = servicesDAO;
+  public ServiceHeartbeatListenerImpl(ServicesDao servicesDao) {
+    this.servicesDao = servicesDao;
   }
 
   @Override
   public void processHeartbeat(MorriganServiceHeartbeat dto) {
-    servicesDAO.refreshUptime(dto.getId());
+    servicesDao.refreshUptime(dto.getId());
   }
 }

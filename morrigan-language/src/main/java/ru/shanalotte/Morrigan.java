@@ -33,7 +33,7 @@ public class Morrigan {
     return interpreter.evaluate(root);
   }
 
-  public void interpret (String line) {
+  public void interpret(String line) {
     prepareForWork();
     try {
       List<Token> tokens = scanner.scan(line);
