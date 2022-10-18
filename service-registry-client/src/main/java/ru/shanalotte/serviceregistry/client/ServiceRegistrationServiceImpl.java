@@ -2,8 +2,10 @@ package ru.shanalotte.serviceregistry.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.kafka.common.errors.TimeoutException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
+import org.springframework.kafka.KafkaException;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 import ru.shanalotte.kafka.api.schemas.ServiceLaunchRecord;
@@ -39,6 +41,10 @@ public class ServiceRegistrationServiceImpl implements ServiceRegistrationServic
       System.out.println("Sent");
     } catch (JsonProcessingException e) {
       e.printStackTrace();
+    }
+    catch (KafkaException ex) {
+      System.out.println("Couldn't send the launch record, shutting down the app. ");
+      System.exit(0);
     }
   }
 
