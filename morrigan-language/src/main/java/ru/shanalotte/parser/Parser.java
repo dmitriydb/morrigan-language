@@ -207,6 +207,7 @@ public class Parser {
   }
 
   private Statement ifStatement() {
+    Expression condition = expression();
     consume(THEN, "missing <then> after if expression");
     Statement trueBranch = statement();
     if (match(AND)) {
@@ -219,7 +220,6 @@ public class Parser {
         falseBranch = statementGroup(falseBranch);
       }
     }
-    Expression condition = expression();
     return new IfStatement(condition, trueBranch, falseBranch);
   }
 
