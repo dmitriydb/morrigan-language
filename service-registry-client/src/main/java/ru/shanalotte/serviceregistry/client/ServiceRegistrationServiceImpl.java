@@ -15,9 +15,9 @@ public class ServiceRegistrationServiceImpl implements ServiceRegistrationServic
   private final ServiceIdGrantingListener serviceIdGrantingListener;
   private final KafkaTemplate<String, String> kafkaTemplate;
   private final ObjectMapper objectMapper = new ObjectMapper();
-  @Value("kafka.topic.launch")
+  @Value("${kafka.topic.launch}")
   private String launchTopic;
-  @Value("kafka.topic.replyto")
+  @Value("${kafka.topic.replyto}")
   private String replyToTopic;
 
   public ServiceRegistrationServiceImpl(ServiceIdGrantingListener serviceIdGrantingListener, KafkaTemplate<String, String> kafkaTemplate) {
