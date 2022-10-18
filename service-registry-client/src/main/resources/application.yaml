@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: morrigan-service-registry-client
+  profiles:
+    active: dev
