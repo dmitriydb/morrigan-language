@@ -7,8 +7,8 @@ spring:
         name: morrigan-service-registry-client
         password: celestial
         fail-fast: true
-        retry:
-          max-attempts: 100
+#        retry:
+#          max-attempts: 100
   kafka:
     consumer:
       auto-offset-reset: earliest

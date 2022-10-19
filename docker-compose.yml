@@ -102,18 +102,18 @@ services:
 #      - zookeeper
 #      - kafka-broker-1
 #      - kafka-broker-2
-#  kafdrop:
-#    image: obsidiandynamics/kafdrop
-#    ports:
-#      - "9001:9000"
-#    environment:
-#      KAFKA_BROKERCONNECT: "kafka-broker-1.morrigan:9092"
-#      JVM_OPTS: "-Xms16M -Xmx48M -Xss180K -XX:-TieredCompilation -XX:+UseStringDeduplication -noverify"
-#    depends_on:
-#      - kafka-broker-1
-#      - zookeeper
-#    networks:
-#      - morrigan
+  kafdrop:
+    image: obsidiandynamics/kafdrop
+    ports:
+      - "9001:9000"
+    environment:
+      KAFKA_BROKERCONNECT: "kafka-broker-1.morrigan:9092"
+      JVM_OPTS: "-Xms16M -Xmx48M -Xss180K -XX:-TieredCompilation -XX:+UseStringDeduplication -noverify"
+    depends_on:
+      - kafka-broker-1
+      - zookeeper
+    networks:
+      - morrigan
   service-registry-1:
     container_name: service-registry-1
     build:

@@ -14,7 +14,13 @@ spring:
   kafka:
     consumer:
       auto-offset-reset: earliest
-    bootstrap-servers:
+      bootstrap-servers:
       - kafka-broker-1.morrigan:9092
       - kafka-broker-2.morrigan:9092
       - kafka-broker-3.morrigan:9092
+    producer:
+      bootstrap-servers:
+        - kafka-broker-1.morrigan:9092
+        - kafka-broker-2.morrigan:9092
+        - kafka-broker-3.morrigan:9092
+
