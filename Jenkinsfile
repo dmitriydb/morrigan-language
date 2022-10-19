@@ -6,13 +6,12 @@ pipeline {
           steps {
               cleanWs()
               bat 'git clone https://github.com/dmitriydb/morrigan-language'
-              bat 'dir'
           }
       }
       stage('Unit tests') {
           steps {
               dir('morrigan-language') {
-                 bat 'mvn test'
+                 bat 'mvn clean install'
               }
           }
       }
@@ -28,11 +27,8 @@ pipeline {
       }
       stage('Build') {
           steps {
-              dir('morrigan-language') {
-                 bat 'mvn package'
-              }
               dir ('morrigan-language/anonymous-coderun-service') {
-                  bat 'mvn clean package -Pproduction -DskipTests'
+                  bat 'mvn package -Pproduction -DskipTests'
               }
           }
       }
@@ -44,7 +40,7 @@ pipeline {
             }
         }
       }
-    }
+     }
 
     post {
         always {
