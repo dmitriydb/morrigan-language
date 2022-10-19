@@ -1,6 +1,6 @@
 spring:
   config:
-    import: optional:configserver:http://localhost:8888
+    import: optional:configserver:http://config-server.morrigan:8888
   cloud:
       config:
         username: root
@@ -10,6 +10,10 @@ spring:
         retry:
           max-attempts: 100
   kafka:
+    bootstrap-servers:
+      - kafka-broker-1.morrigan:9092
+      - kafka-broker-2.morrigan:9092
+      - kafka-broker-3.morrigan:9092
     consumer:
       auto-offset-reset: earliest
       group-id: ${random.uuid}
@@ -18,5 +22,3 @@ spring:
         request.timeout.ms: 1000
         delivery.timeout.ms: 2000
         max.block.ms: 5000
-server:
-  port: 13013

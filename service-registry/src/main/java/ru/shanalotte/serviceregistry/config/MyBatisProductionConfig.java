@@ -10,9 +10,10 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
 
 @Configuration
-public class MyBatisConfig {
+@Profile({"production"})
+public class MyBatisProductionConfig {
 
-  @Value("classpath:mybatis-config.xml")
+  @Value("classpath:mybatis-production-config.xml")
   private Resource resource;
 
   @Bean

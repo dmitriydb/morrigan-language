@@ -32,7 +32,7 @@ public class CommonProperties {
   public static void loadProperties() throws IOException {
     Properties properties = new Properties();
     properties.load(CommonProperties.class.getClassLoader().getResourceAsStream(
-        "application.properties"));
+        "service.properties"));
     for (String property : properties.stringPropertyNames()) {
       log.debug("Loaded property {} = {}", property, properties.get(property));
       Object obj = properties.get(property);
