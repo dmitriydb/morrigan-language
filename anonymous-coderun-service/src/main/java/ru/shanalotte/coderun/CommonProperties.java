@@ -13,7 +13,7 @@ public class CommonProperties {
   public static final String REDIS_HOST = "redis.host";
   public static final String REDIS_PORT = "redis.port";
   public static final String SERVER_PORT = "server.port";
-
+  public static final String SERVICE_NAME = "service.name";
 
   private static Map<String, Object> propertiesMap = new HashMap<>();
 
@@ -23,6 +23,7 @@ public class CommonProperties {
     propertiesMap.put("server.port", 8003);
     propertiesMap.put("redis.port", 6379);
     propertiesMap.put("redis.host", "localhost");
+    propertiesMap.put("service.name", "anonymous-coderun-service");
   }
 
   public static void setProperty(String propertyName, Object propertyValue) {

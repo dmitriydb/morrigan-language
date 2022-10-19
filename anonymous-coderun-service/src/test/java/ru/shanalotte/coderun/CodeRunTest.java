@@ -22,7 +22,7 @@ public class CodeRunTest {
 
     CodeRunResult codeRunResult = codeRunService.run(codeRunRequest);
 
-    assertThat(codeRunResult.stdout().contains("10")).isTrue();
+    assertThat(codeRunResult.stdout().contains("10.0")).isTrue();
   }
 
   @Test
@@ -47,9 +47,9 @@ public class CodeRunTest {
 
     List<CodeRunResult> result = codeRunService.batchRun(batch);
     System.out.println(result);
-    assertThat(result.get(0).stdout().get(0)).isEqualTo("1");
-    assertThat(result.get(1).stdout().get(0)).isEqualTo("2");
-    assertThat(result.get(2).stdout().get(0)).isEqualTo("3");
+    assertThat(result.get(0).stdout().get(0)).isEqualTo("1.0");
+    assertThat(result.get(1).stdout().get(0)).isEqualTo("2.0");
+    assertThat(result.get(2).stdout().get(0)).isEqualTo("3.0");
   }
 
   @Test
