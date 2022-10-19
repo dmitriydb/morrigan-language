@@ -53,7 +53,7 @@
             <artifactId>spring-kafka</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.example</groupId>
+            <groupId>ru.shanalotte</groupId>
             <artifactId>kafka-schemas</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>

@@ -18,7 +18,6 @@
         <module>service-registry-api</module>
         <module>kafka-schemas</module>
         <module>service-registry-client</module>
-
     </modules>
 
     <properties>
