@@ -10,7 +10,7 @@ import org.springframework.test.context.TestPropertySource;
 @SpringBootTest
 @ActiveProfiles("test")
 @TestPropertySource("classpath:fake-cloud.properties")
-public class DisabledSpringCloudConfigTest {
+public class DisabledSpringCloudConfigTestIT {
 
   @Value("${session.timeout.ms}")
   private int sessionTimeout;

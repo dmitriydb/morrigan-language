@@ -50,7 +50,7 @@ import ru.shanalotte.serviceregistry.mybatis.mappers.ServiceUptimeMapper;
 @ActiveProfiles("test")
 @TestPropertySource("classpath:fake-cloud.properties")
 @Testcontainers
-public class KafkaAndDaoTest {
+public class KafkaAndDaoTestIT {
 
   @Autowired
   ServicesDao dao;

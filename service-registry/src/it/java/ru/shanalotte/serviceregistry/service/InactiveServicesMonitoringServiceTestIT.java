@@ -31,7 +31,7 @@ import ru.shanalotte.serviceregistry.service.monitoring.InactiveServicesMonitori
 @Testcontainers
 @ActiveProfiles("test")
 @TestPropertySource("classpath:fake-cloud.properties")
-public class InactiveServicesMonitoringServiceTest {
+public class InactiveServicesMonitoringServiceTestIT {
 
   @Autowired
   private ServicesDao dao;

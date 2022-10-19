@@ -50,7 +50,7 @@ import ru.shanalotte.serviceregistry.mybatis.mappers.ServiceUptimeMapper;
 @TestPropertySource("classpath:fake-cloud.properties")
 @Testcontainers
 @AutoConfigureMockMvc
-public class RestTest {
+public class RestTestIT {
 
   @Autowired
   ServicesDao dao;
