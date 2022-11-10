@@ -53,17 +53,18 @@ public class ServiceIdGrantingListener {
         serviceHeartbeatRecord.setServiceId(grantedId);
         try {
           String json = objectMapper.writeValueAsString(serviceHeartbeatRecord);
-          ListenableFuture<SendResult<String, String>> future = kafkaTemplate.send(heartbeatTopic, serviceHeartbeatRecord.getRecordId(), json);
+          ListenableFuture<SendResult<String, String>> future = kafkaTemplate
+              .send(heartbeatTopic, serviceHeartbeatRecord.getRecordId(), json);
           future.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
             @Override
             public void onFailure(Throwable ex) {
-              System.out.println(123);
               ex.printStackTrace();
             }
 
             @Override
             public void onSuccess(SendResult<String, String> result) {
-              System.out.println(result.getRecordMetadata().partition() + ":" + result.getRecordMetadata().offset());
+              System.out.println(result.getRecordMetadata().partition() + ":" + result
+                  .getRecordMetadata().offset());
             }
           });
           System.out.println("Heartbeat sent");

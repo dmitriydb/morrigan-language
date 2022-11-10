@@ -15,7 +15,8 @@ public class AnonymousCodeRunServiceLauncher {
     loadProperties();
     printProperties();
     new WebServer().start();
-    ServiceRegistryClient serviceRegistryClient = Application.initializeContext(args).getBean(ServiceRegistryClient.class);
+    ServiceRegistryClient serviceRegistryClient =
+        Application.initializeContext(args).getBean(ServiceRegistryClient.class);
     serviceRegistryClient.startWorking(InetAddress.getLocalHost().getHostName(), (String) CommonProperties.property(CommonProperties.SERVICE_NAME), (Integer) CommonProperties.property("server.port"));
   }
 

@@ -1,13 +1,14 @@
 package ru.shanalotte.coderun.cache;
 
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Jedis;
-import ru.shanalotte.coderun.api.CodeRunResult;
 import ru.shanalotte.coderun.CommonProperties;
 import ru.shanalotte.coderun.api.CodeRunRequest;
+import ru.shanalotte.coderun.api.CodeRunResult;
 
 @Slf4j
 public class RedisCodeRunCache implements CodeRunCache {
@@ -22,7 +23,7 @@ public class RedisCodeRunCache implements CodeRunCache {
   ;
 
   public RedisCodeRunCache() {
-    jedis = ThreadLocal.withInitial(() -> new Jedis());
+    jedis = ThreadLocal.withInitial(Jedis::new);
   }
 
   @Override

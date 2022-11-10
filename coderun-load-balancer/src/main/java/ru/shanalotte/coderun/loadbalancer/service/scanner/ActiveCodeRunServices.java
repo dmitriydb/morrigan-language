@@ -47,7 +47,8 @@ public class ActiveCodeRunServices {
         System.out.printf("service-registry #%d is not responding %n", i + 1);
         continue;
       }
-      KnownService[] knownServicesConverted = objectMapper.readValue(response.body(), KnownService[].class);
+      KnownService[] knownServicesConverted = objectMapper
+          .readValue(response.body(), KnownService[].class);
       knownServices.addAll(Arrays.asList(knownServicesConverted));
     }
   }

@@ -7,9 +7,10 @@ import org.springframework.stereotype.Component;
 public class SpringBootBasedServiceRegistryClient implements ServiceRegistryClient {
 
   private final AtomicBoolean isStarted = new AtomicBoolean(false);
-  private ServiceRegistrationService serviceRegistrationService;
+  private final ServiceRegistrationService serviceRegistrationService;
 
-  public SpringBootBasedServiceRegistryClient(ServiceRegistrationService serviceRegistrationService) {
+  public SpringBootBasedServiceRegistryClient(ServiceRegistrationService
+                                                  serviceRegistrationService) {
     this.serviceRegistrationService = serviceRegistrationService;
   }
 

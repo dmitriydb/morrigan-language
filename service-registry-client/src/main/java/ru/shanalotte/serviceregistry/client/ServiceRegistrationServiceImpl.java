@@ -22,7 +22,8 @@ public class ServiceRegistrationServiceImpl implements ServiceRegistrationServic
   @Value("${kafka.topic.replyto}")
   private String replyToTopic;
 
-  public ServiceRegistrationServiceImpl(ServiceIdGrantingListener serviceIdGrantingListener, KafkaTemplate<String, String> kafkaTemplate) {
+  public ServiceRegistrationServiceImpl(ServiceIdGrantingListener serviceIdGrantingListener,
+                                        KafkaTemplate<String, String> kafkaTemplate) {
     this.serviceIdGrantingListener = serviceIdGrantingListener;
     this.kafkaTemplate = kafkaTemplate;
   }
