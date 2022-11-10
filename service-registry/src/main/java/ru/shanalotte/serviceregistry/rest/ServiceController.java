@@ -24,11 +24,21 @@ public class ServiceController {
 
   @GetMapping("/service")
   @Operation(summary = "Поиск активных сервисов по имени")
-  public List<KnownService> getAllServices(
+  public List<KnownService> getServicesByName(
       @Parameter(description = "Имя искомого сервиса") @RequestParam("name") String name) {
     List<MorriganPlatformService> activeServices = dao.findActiveServicesByName(name);
     return activeServices
         .stream()
         .map(MorriganPlatformService::toKnownService).collect(Collectors.toList());
   }
+
+  @GetMapping("/service/all")
+  @Operation(summary = "Получение списка всех сервисов")
+  public List<KnownService> getAllServices() {
+    List<MorriganPlatformService> activeServices = dao.findAll();
+    return activeServices
+        .stream()
+        .map(MorriganPlatformService::toKnownService).collect(Collectors.toList());
+  }
+
 }
