@@ -10,12 +10,14 @@ import java.net.http.HttpResponse;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.shanalotte.serviceregistry.api.KnownService;
 
 @Service
+@Slf4j
 public class ActiveCodeRunServices {
 
   @Value("${coderun.balancer.max.services.to.scan}")
@@ -31,7 +33,7 @@ public class ActiveCodeRunServices {
     this.serviceRegistryUrlPattern = serviceRegistryUrlPattern;
   }
 
-  @Scheduled(initialDelay = 0, fixedDelay = 1000)
+  @Scheduled(initialDelay = 0, fixedDelay = 10000)
   public void refresh() throws InterruptedException, JsonProcessingException {
     for (int i = 0; i < maxServicesToScan; i++) {
       String serviceRegistryUrl = serviceRegistryUrlPattern.pattern().formatted(i + 1);
@@ -44,12 +46,15 @@ public class ActiveCodeRunServices {
       try {
         response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
       } catch (IOException e) {
-        System.out.printf("service-registry #%d is not responding %n", i + 1);
+        log.warn("Service {} is not responding", serviceRegistryUrl);
         continue;
       }
       KnownService[] knownServicesConverted = objectMapper
           .readValue(response.body(), KnownService[].class);
       knownServices.addAll(Arrays.asList(knownServicesConverted));
+      log.debug("Service registry {} returned {}", serviceRegistryUrl,
+          Arrays.toString(knownServicesConverted));
+      log.info("Currently known services are: {}", knownServices);
     }
   }
 

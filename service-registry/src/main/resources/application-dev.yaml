@@ -14,3 +14,6 @@ spring:
   kafka:
     consumer:
       auto-offset-reset: earliest
+logging:
+  file:
+    path: logs/service-registry

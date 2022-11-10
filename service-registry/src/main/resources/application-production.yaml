@@ -23,4 +23,6 @@ spring:
         - kafka-broker-1.morrigan:9092
         - kafka-broker-2.morrigan:9092
         - kafka-broker-3.morrigan:9092
-
+logging:
+  file:
+    path: /var/log/morrigan
