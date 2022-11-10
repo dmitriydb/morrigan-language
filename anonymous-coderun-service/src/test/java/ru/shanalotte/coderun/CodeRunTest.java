@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import ru.shanalotte.coderun.api.CodeRunRequest;
 import ru.shanalotte.coderun.api.AnonymousCodeRunRequest;
+import ru.shanalotte.coderun.api.CodeRunResult;
 import ru.shanalotte.coderun.api.SupportedLanguage;
 
 public class CodeRunTest {

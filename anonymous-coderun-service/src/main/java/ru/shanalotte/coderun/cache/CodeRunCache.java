@@ -1,7 +1,7 @@
 package ru.shanalotte.coderun.cache;
 
 import java.util.Optional;
-import ru.shanalotte.coderun.CodeRunResult;
+import ru.shanalotte.coderun.api.CodeRunResult;
 import ru.shanalotte.coderun.api.CodeRunRequest;
 
 public interface CodeRunCache {

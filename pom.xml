@@ -18,6 +18,7 @@
         <module>service-registry-api</module>
         <module>kafka-schemas</module>
         <module>service-registry-client</module>
+        <module>coderun-load-balancer</module>
     </modules>
 
     <properties>

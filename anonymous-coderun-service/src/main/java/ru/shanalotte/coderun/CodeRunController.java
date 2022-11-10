@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import ru.shanalotte.coderun.api.CodeRunRequest;
+import ru.shanalotte.coderun.api.CodeRunResult;
 import ru.shanalotte.coderun.api.UserCodeRunRequest;
 
 @Slf4j

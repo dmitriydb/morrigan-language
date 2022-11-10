@@ -19,7 +19,7 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
-import ru.shanalotte.coderun.CodeRunResult;
+import ru.shanalotte.coderun.api.CodeRunResult;
 import ru.shanalotte.coderun.CommonProperties;
 import ru.shanalotte.coderun.TestUtils;
 import ru.shanalotte.coderun.WebServer;

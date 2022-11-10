@@ -1,11 +1,10 @@
-package ru.shanalotte.coderun;
+package ru.shanalotte.coderun.api;
 
 import java.util.ArrayList;
 import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 import lombok.ToString;
 
 @EqualsAndHashCode

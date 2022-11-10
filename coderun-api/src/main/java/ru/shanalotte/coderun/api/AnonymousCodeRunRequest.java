@@ -1,5 +1,6 @@
 package ru.shanalotte.coderun.api;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import lombok.ToString;
 @Builder
 @Getter
 @EqualsAndHashCode
+@AllArgsConstructor
 @ToString
 public class AnonymousCodeRunRequest implements CodeRunRequest {
 
