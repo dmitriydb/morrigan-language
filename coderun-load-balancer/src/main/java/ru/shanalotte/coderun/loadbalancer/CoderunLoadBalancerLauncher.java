@@ -2,6 +2,7 @@ package ru.shanalotte.coderun.loadbalancer;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -23,6 +24,7 @@ import java.util.Properties;
 @SpringBootApplication
 @ComponentScan("ru.shanalotte.coderun.loadbalancer")
 @EnableScheduling
+@Slf4j
 public class CoderunLoadBalancerLauncher implements CommandLineRunner {
 
   @Autowired
@@ -44,9 +46,9 @@ public class CoderunLoadBalancerLauncher implements CommandLineRunner {
   public void run(String... args) throws Exception {
     ServiceRegistryClient serviceRegistryClient =
         Application.initializeContext(args).getBean(ServiceRegistryClient.class);
+    log.info("Starting gRPC server on port {}", grpcServicePort);
     serviceRegistryClient.startWorking(
         InetAddress.getLocalHost().getHostName(), applicationName, grpcServicePort);
-
     Server server = ServerBuilder
         .forPort(grpcServicePort)
         .addService(coderunService).build();

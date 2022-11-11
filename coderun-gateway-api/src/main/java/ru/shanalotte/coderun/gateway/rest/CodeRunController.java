@@ -1,10 +1,17 @@
 package ru.shanalotte.coderun.gateway.rest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.common.quota.ClientQuotaAlteration;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import ru.shanalotte.coderun.api.UserCodeRunRequest;
 import ru.shanalotte.coderun.gateway.grpc.CodeRunRequest;
 import ru.shanalotte.coderun.gateway.grpc.CodeRunResult;
 import ru.shanalotte.coderun.gateway.grpc.CoderunBalancerGrpc;
@@ -17,37 +24,49 @@ import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 @RestController
+@Slf4j
 public class CodeRunController {
 
   private final ActiveCoderunLoadBalancers activeCoderunLoadBalancers;
-  @Value("${coderun.loadbalancer.url.pattern}")
-  private String codeRunBalancerUrlPattern;
-  @Value("${coderun.loadbalancer.port}")
-  private int codeRunBalancerPort;
+
+  private final ObjectMapper objectMapper = new ObjectMapper();
 
   public CodeRunController(ActiveCoderunLoadBalancers activeCoderunLoadBalancers) {
     this.activeCoderunLoadBalancers = activeCoderunLoadBalancers;
   }
 
-  @PostMapping("/run")
-  public @ResponseBody
-  ResponseEntity<CodeRunResult> run(@RequestBody CodeRunRequest codeRunRequest) {
+  @PostMapping(value = "/run", produces = "application/json", consumes = "application/json")
+  public ResponseEntity<ru.shanalotte.coderun.api.CodeRunResult> run(@RequestBody String payload) {
+    log.info("POST /run Received {}", payload);
+    UserCodeRunRequest codeRunRequest = null;
+    try {
+      codeRunRequest = objectMapper.readValue(payload, UserCodeRunRequest.class);
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+      return ResponseEntity.status(500).build();
+    }
     List<KnownService> knownServices = new ArrayList<>(activeCoderunLoadBalancers.all());
     if (knownServices.size() == 0) {
       return ResponseEntity.status(500).build();
     }
-    KnownService knownService = knownServices.get(ThreadLocalRandom.current().nextInt());
+    KnownService knownService = knownServices.get(ThreadLocalRandom.current().nextInt(knownServices.size()));
+    log.info("Calling gRPC procedure at {}:{}", knownService.getHost(), knownService.getPort());
     ManagedChannel channel = ManagedChannelBuilder.forAddress(knownService.getHost(), knownService.getPort())
         .usePlaintext()
         .build();
     CoderunBalancerGrpc.CoderunBalancerBlockingStub stub
         = CoderunBalancerGrpc.newBlockingStub(channel);
+    log.info("deserialized {}", codeRunRequest);
     CodeRunResult result = stub.runCode(CodeRunRequest.newBuilder()
-        .setCode(codeRunRequest.getCode())
-        .setLanguage(codeRunRequest.getLanguage())
+        .setCode(codeRunRequest.code())
+        .setLanguage(codeRunRequest.language().toString())
+        .setUsername(codeRunRequest.username())
         .build());
     channel.shutdown();
-    return ResponseEntity.of(Optional.of(result));
+    ru.shanalotte.coderun.api.CodeRunResult codeRunResult = new ru.shanalotte.coderun.api.CodeRunResult();
+    codeRunResult.addToStderr(result.getStderr());
+    codeRunResult.addToStdout(result.getStdout());
+    return ResponseEntity.of(Optional.of(codeRunResult));
   }
 
 }

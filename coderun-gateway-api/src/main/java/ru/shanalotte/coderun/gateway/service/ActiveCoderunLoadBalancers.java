@@ -30,30 +30,36 @@ public class ActiveCoderunLoadBalancers {
   @Value("${coderun.loadbalancer.service.name}")
   private String serviceName;
 
+  private final ServiceRegistryUrl serviceRegistryUrl;
+
   private final ObjectMapper objectMapper = new ObjectMapper();
 
   private final Set<KnownService> knownServices = new CopyOnWriteArraySet<>();
 
+  public ActiveCoderunLoadBalancers(ServiceRegistryUrl serviceRegistryUrl) {
+    this.serviceRegistryUrl = serviceRegistryUrl;
+  }
+
   @Scheduled(initialDelay = 0, fixedDelay = 10000)
   public void refresh() throws InterruptedException, JsonProcessingException {
     for (int i = 0; i < maxServicesToScan; i++) {
-      String serviceRegistryUrl = serviceRegistryUrlPattern.formatted(i + 1, serviceName);
+      String url = serviceRegistryUrl.prepare(serviceRegistryUrlPattern, i + 1, serviceName);
       HttpClient httpClient = HttpClient.newHttpClient();
       HttpRequest httpRequest = HttpRequest.newBuilder()
           .GET()
-          .uri(URI.create(serviceRegistryUrl))
+          .uri(URI.create(url))
           .build();
       HttpResponse<String> response = null;
       try {
         response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
       } catch (IOException e) {
-        log.warn("Service {} is not responding", serviceRegistryUrl);
+        log.warn("Service {} is not responding", url);
         continue;
       }
       KnownService[] knownServicesConverted = objectMapper
           .readValue(response.body(), KnownService[].class);
       knownServices.addAll(Arrays.asList(knownServicesConverted));
-      log.debug("Service registry {} returned {}", serviceRegistryUrl,
+      log.debug("Service registry {} returned {}", url,
           Arrays.toString(knownServicesConverted));
       log.info("Currently known services are: {}", knownServices);
     }

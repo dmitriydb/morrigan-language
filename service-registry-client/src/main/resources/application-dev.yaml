@@ -18,5 +18,3 @@ spring:
         request.timeout.ms: 1000
         delivery.timeout.ms: 2000
         max.block.ms: 5000
-server:
-  port: 13013
