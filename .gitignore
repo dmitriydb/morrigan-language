@@ -1,3 +1,5 @@
 target/
 *.iml
-.idea/
+kafka-dev.bat
+logs/
+.idea

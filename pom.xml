@@ -19,6 +19,7 @@
         <module>kafka-schemas</module>
         <module>service-registry-client</module>
         <module>coderun-load-balancer</module>
+        <module>coderun-gateway-api</module>
     </modules>
 
     <properties>

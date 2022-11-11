@@ -1,0 +1,19 @@
+syntax = "proto3";
+option java_multiple_files = true;
+
+
+
+service CoderunBalancer {
+  rpc runCode (CodeRunRequest) returns (CodeRunResult);
+}
+
+message CodeRunRequest {
+  string language = 1;
+  string code = 2;
+  string username = 3;
+}
+
+message CodeRunResult {
+  string stderr = 1;
+  string stdout = 2;
+}
