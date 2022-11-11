@@ -1,5 +1,7 @@
 package ru.shanalotte.coderun.loadbalancer;
 
+import io.grpc.Server;
+import io.grpc.ServerBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -31,35 +33,24 @@ public class CoderunLoadBalancerLauncher implements CommandLineRunner {
 
   @Value("${spring.application.name}")
   private String applicationName;
+  @Autowired
+  private Environment env;
 
   public static void main(String[] args) throws IOException, InterruptedException {
     SpringApplication.run(CoderunLoadBalancerLauncher.class, args);
   }
 
-  @Autowired
-  private Environment env;
-
   @Override
   public void run(String... args) throws Exception {
-
-
-      CompositePropertySource bootstrapProperties = (CompositePropertySource)  ((AbstractEnvironment) env).getPropertySources().get("bootstrapProperties");
-      for (String propertyName : bootstrapProperties.getPropertyNames()) {
-        System.out.println(propertyName +":" + bootstrapProperties.getProperty(propertyName));
-      }
-
-
-
-
     ServiceRegistryClient serviceRegistryClient =
         Application.initializeContext(args).getBean(ServiceRegistryClient.class);
     serviceRegistryClient.startWorking(
         InetAddress.getLocalHost().getHostName(), applicationName, grpcServicePort);
 
-//    Server server = ServerBuilder
-//        .forPort(grpcServicePort)
-//        .addService(coderunService).build();
-//    server.start();
-//    server.awaitTermination();
+    Server server = ServerBuilder
+        .forPort(grpcServicePort)
+        .addService(coderunService).build();
+    server.start();
+    server.awaitTermination();
   }
 }
