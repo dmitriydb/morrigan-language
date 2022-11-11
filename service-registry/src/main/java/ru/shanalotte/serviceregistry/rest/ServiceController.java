@@ -32,10 +32,10 @@ public class ServiceController {
         .map(MorriganPlatformService::toKnownService).collect(Collectors.toList());
   }
 
-  @GetMapping("/service/all")
-  @Operation(summary = "Получение списка всех сервисов")
+  @GetMapping("/service/active")
+  @Operation(summary = "Получение списка всех активных сервисов")
   public List<KnownService> getAllServices() {
-    List<MorriganPlatformService> activeServices = dao.findAll();
+    List<MorriganPlatformService> activeServices = dao.findAllActive();
     return activeServices
         .stream()
         .map(MorriganPlatformService::toKnownService).collect(Collectors.toList());
