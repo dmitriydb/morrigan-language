@@ -9,7 +9,7 @@ spring:
   cloud:
     config:
       username: root
-      name: morrigan-service-registry
+      name: coderun-gateway-api
       password: celestial
       fail-fast: true
       retry:
