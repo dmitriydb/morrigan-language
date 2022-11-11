@@ -36,7 +36,8 @@ public class CoderunLoadBalancerLauncher implements CommandLineRunner {
   public void run(String... args) throws Exception {
     ServiceRegistryClient serviceRegistryClient =
         Application.initializeContext(args).getBean(ServiceRegistryClient.class);
-    serviceRegistryClient.startWorking(InetAddress.getLocalHost().getHostName(), applicationName, grpcServicePort);
+    serviceRegistryClient.startWorking(
+        InetAddress.getLocalHost().getHostName(), applicationName, grpcServicePort);
 
 //    Server server = ServerBuilder
 //        .forPort(grpcServicePort)

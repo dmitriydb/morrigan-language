@@ -23,20 +23,19 @@ public class ActiveCodeRunServices {
   @Value("${coderun.balancer.max.services.to.scan}")
   private int maxServicesToScan;
 
-  private final ServiceRegistryUrlPattern serviceRegistryUrlPattern;
+  @Value("${service.registry.url.pattern}")
+  private String serviceRegistryUrlPattern;
 
   private final ObjectMapper objectMapper = new ObjectMapper();
 
   private final Set<KnownService> knownServices = new CopyOnWriteArraySet<>();
 
-  public ActiveCodeRunServices(ServiceRegistryUrlPattern serviceRegistryUrlPattern) {
-    this.serviceRegistryUrlPattern = serviceRegistryUrlPattern;
-  }
+
 
   @Scheduled(initialDelay = 0, fixedDelay = 10000)
   public void refresh() throws InterruptedException, JsonProcessingException {
     for (int i = 0; i < maxServicesToScan; i++) {
-      String serviceRegistryUrl = serviceRegistryUrlPattern.pattern().formatted(i + 1);
+      String serviceRegistryUrl = serviceRegistryUrlPattern.formatted(i + 1);
       HttpClient httpClient = HttpClient.newHttpClient();
       HttpRequest httpRequest = HttpRequest.newBuilder()
           .GET()
