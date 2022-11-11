@@ -1,0 +1,16 @@
+logging:
+  file:
+    path: /var/log/morrigan
+  level:
+    ru.shanalotte: DEBUG
+spring:
+  config:
+    import: optional:configserver:http://config-server.morrigan:8888
+  cloud:
+    config:
+      username: root
+      name: morrigan-service-registry
+      password: celestial
+      fail-fast: true
+      retry:
+        max-attempts: 100

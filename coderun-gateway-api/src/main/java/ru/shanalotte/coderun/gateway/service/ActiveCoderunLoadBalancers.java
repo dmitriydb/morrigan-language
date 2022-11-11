@@ -1,7 +1,13 @@
-package ru.shanalotte.coderun.loadbalancer.service.scanner;
+package ru.shanalotte.coderun.gateway.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+import ru.shanalotte.serviceregistry.api.KnownService;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -10,15 +16,10 @@ import java.net.http.HttpResponse;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
-import ru.shanalotte.serviceregistry.api.KnownService;
 
 @Service
 @Slf4j
-public class ActiveCodeRunServices {
+public class ActiveCoderunLoadBalancers {
 
   @Value("${coderun.balancer.max.services.to.scan}")
   private int maxServicesToScan;
@@ -26,7 +27,7 @@ public class ActiveCodeRunServices {
   @Value("${service.registry.url.pattern}")
   private String serviceRegistryUrlPattern;
 
-  @Value("${coderun.service.name}")
+  @Value("${coderun.loadbalancer.service.name}")
   private String serviceName;
 
   private final ObjectMapper objectMapper = new ObjectMapper();

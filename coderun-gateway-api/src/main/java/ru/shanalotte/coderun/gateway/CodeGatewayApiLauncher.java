@@ -1,28 +1,37 @@
 package ru.shanalotte.coderun.gateway;
 
 
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
-import ru.shanalotte.coderun.gateway.grpc.CodeRunRequest;
-import ru.shanalotte.coderun.gateway.grpc.CodeRunResult;
-import ru.shanalotte.coderun.gateway.grpc.CoderunBalancerGrpc;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import ru.shanalotte.serviceregistry.client.Application;
+import ru.shanalotte.serviceregistry.client.ServiceRegistryClient;
 
-public class CodeGatewayApiLauncher {
+import java.net.InetAddress;
+
+@EnableScheduling
+@SpringBootApplication
+@ComponentScan("ru.shanalotte.coderun.gateway")
+public class CodeGatewayApiLauncher implements CommandLineRunner {
+
+  @Value("${spring.application.name}")
+  private String applicationName;
+
+  @Value("${server.port}")
+  private int serverPort;
 
   public static void main(String[] args) {
-    ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8866)
-        .usePlaintext()
-        .build();
+    SpringApplication.run(CodeGatewayApiLauncher.class, args);
+  }
 
-    CoderunBalancerGrpc.CoderunBalancerBlockingStub stub
-        = CoderunBalancerGrpc.newBlockingStub(channel);
-
-    CodeRunResult result = stub.runCode(CodeRunRequest.newBuilder()
-        .setCode("morrigan remembers what is 5.")
-        .setLanguage("morrigan")
-        .build());
-
-    System.out.println(result);
-    channel.shutdown();
+  @Override
+  public void run(String... args) throws Exception {
+    ServiceRegistryClient serviceRegistryClient =
+        Application.initializeContext(args).getBean(ServiceRegistryClient.class);
+    serviceRegistryClient.startWorking(
+        InetAddress.getLocalHost().getHostName(), applicationName, serverPort);
   }
 }
