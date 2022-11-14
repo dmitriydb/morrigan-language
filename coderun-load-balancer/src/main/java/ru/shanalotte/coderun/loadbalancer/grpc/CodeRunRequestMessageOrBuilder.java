@@ -3,8 +3,8 @@
 
 package ru.shanalotte.coderun.loadbalancer.grpc;
 
-public interface CodeRunRequestOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:ru.shanalotte.coderun.loadbalancer.grpc.CodeRunRequest)
+public interface CodeRunRequestMessageOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:ru.shanalotte.coderun.loadbalancer.grpc.CodeRunRequestMessage)
     com.google.protobuf.MessageOrBuilder {
 
   /**

@@ -12,32 +12,32 @@ public final class CoderunBalancerGrpc {
 
   private CoderunBalancerGrpc() {}
 
-  public static final String SERVICE_NAME = "ru.shanalotte.coderun.loadbalancer.CoderunBalancer";
+  public static final String SERVICE_NAME = "ru.shanalotte.coderun.loadbalancer.grpc.CoderunBalancer";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<CodeRunRequest,
-      CodeRunResult> getRunCodeMethod;
+  private static volatile io.grpc.MethodDescriptor<CodeRunRequestMessage,
+      CodeRunResultMessage> getRunCodeMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "runCode",
-      requestType = CodeRunRequest.class,
-      responseType = CodeRunResult.class,
+      requestType = CodeRunRequestMessage.class,
+      responseType = CodeRunResultMessage.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<CodeRunRequest,
-      CodeRunResult> getRunCodeMethod() {
-    io.grpc.MethodDescriptor<CodeRunRequest, CodeRunResult> getRunCodeMethod;
+  public static io.grpc.MethodDescriptor<CodeRunRequestMessage,
+      CodeRunResultMessage> getRunCodeMethod() {
+    io.grpc.MethodDescriptor<CodeRunRequestMessage, CodeRunResultMessage> getRunCodeMethod;
     if ((getRunCodeMethod = CoderunBalancerGrpc.getRunCodeMethod) == null) {
       synchronized (CoderunBalancerGrpc.class) {
         if ((getRunCodeMethod = CoderunBalancerGrpc.getRunCodeMethod) == null) {
           CoderunBalancerGrpc.getRunCodeMethod = getRunCodeMethod =
-              io.grpc.MethodDescriptor.<CodeRunRequest, CodeRunResult>newBuilder()
+              io.grpc.MethodDescriptor.<CodeRunRequestMessage, CodeRunResultMessage>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "runCode"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  CodeRunRequest.getDefaultInstance()))
+                  CodeRunRequestMessage.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  CodeRunResult.getDefaultInstance()))
+                  CodeRunResultMessage.getDefaultInstance()))
               .setSchemaDescriptor(new CoderunBalancerMethodDescriptorSupplier("runCode"))
               .build();
         }
@@ -96,8 +96,8 @@ public final class CoderunBalancerGrpc {
 
     /**
      */
-    public void runCode(CodeRunRequest request,
-                        io.grpc.stub.StreamObserver<CodeRunResult> responseObserver) {
+    public void runCode(CodeRunRequestMessage request,
+                        io.grpc.stub.StreamObserver<CodeRunResultMessage> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getRunCodeMethod(), responseObserver);
     }
 
@@ -107,8 +107,8 @@ public final class CoderunBalancerGrpc {
             getRunCodeMethod(),
             io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
-                  CodeRunRequest,
-                  CodeRunResult>(
+                CodeRunRequestMessage,
+                CodeRunResultMessage>(
                   this, METHODID_RUN_CODE)))
           .build();
     }
@@ -130,8 +130,8 @@ public final class CoderunBalancerGrpc {
 
     /**
      */
-    public void runCode(CodeRunRequest request,
-                        io.grpc.stub.StreamObserver<CodeRunResult> responseObserver) {
+    public void runCode(CodeRunRequestMessage request,
+                        io.grpc.stub.StreamObserver<CodeRunResultMessage> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getRunCodeMethod(), getCallOptions()), request, responseObserver);
     }
@@ -153,7 +153,7 @@ public final class CoderunBalancerGrpc {
 
     /**
      */
-    public CodeRunResult runCode(CodeRunRequest request) {
+    public CodeRunResultMessage runCode(CodeRunRequestMessage request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getRunCodeMethod(), getCallOptions(), request);
     }
@@ -175,8 +175,8 @@ public final class CoderunBalancerGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<CodeRunResult> runCode(
-        CodeRunRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<CodeRunResultMessage> runCode(
+        CodeRunRequestMessage request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getRunCodeMethod(), getCallOptions()), request);
     }
@@ -202,8 +202,8 @@ public final class CoderunBalancerGrpc {
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
         case METHODID_RUN_CODE:
-          serviceImpl.runCode((CodeRunRequest) request,
-              (io.grpc.stub.StreamObserver<CodeRunResult>) responseObserver);
+          serviceImpl.runCode((CodeRunRequestMessage) request,
+              (io.grpc.stub.StreamObserver<CodeRunResultMessage>) responseObserver);
           break;
         default:
           throw new AssertionError();

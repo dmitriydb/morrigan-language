@@ -15,15 +15,15 @@ public final class Coderun {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_ru_shanalotte_coderun_loadbalancer_CodeRunRequest_descriptor;
+    internal_static_ru_shanalotte_coderun_loadbalancer_grpc_CodeRunRequestMessage_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_ru_shanalotte_coderun_loadbalancer_CodeRunRequest_fieldAccessorTable;
+      internal_static_ru_shanalotte_coderun_loadbalancer_grpc_CodeRunRequestMessage_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_ru_shanalotte_coderun_loadbalancer_CodeRunResult_descriptor;
+    internal_static_ru_shanalotte_coderun_loadbalancer_grpc_CodeRunResultMessage_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_ru_shanalotte_coderun_loadbalancer_CodeRunResult_fieldAccessorTable;
+      internal_static_ru_shanalotte_coderun_loadbalancer_grpc_CodeRunResultMessage_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -33,30 +33,31 @@ public final class Coderun {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\rcoderun.proto\022\"ru.shanalotte.coderun.l" +
-      "oadbalancer\"B\n\016CodeRunRequest\022\020\n\010languag" +
-      "e\030\001 \001(\t\022\014\n\004code\030\002 \001(\t\022\020\n\010username\030\003 \001(\t\"" +
-      "/\n\rCodeRunResult\022\016\n\006stderr\030\001 \001(\t\022\016\n\006stdo" +
-      "ut\030\002 \001(\t2\203\001\n\017CoderunBalancer\022p\n\007runCode\022" +
-      "2.ru.shanalotte.coderun.loadbalancer.Cod" +
-      "eRunRequest\0321.ru.shanalotte.coderun.load" +
-      "balancer.CodeRunResultB\002P\001b\006proto3"
+      "\n\rcoderun.proto\022\'ru.shanalotte.coderun.l" +
+      "oadbalancer.grpc\"I\n\025CodeRunRequestMessag" +
+      "e\022\020\n\010language\030\001 \001(\t\022\014\n\004code\030\002 \001(\t\022\020\n\010use" +
+      "rname\030\003 \001(\t\"6\n\024CodeRunResultMessage\022\016\n\006s" +
+      "tderr\030\001 \001(\t\022\016\n\006stdout\030\002 \001(\t2\234\001\n\017CoderunB" +
+      "alancer\022\210\001\n\007runCode\022>.ru.shanalotte.code" +
+      "run.loadbalancer.grpc.CodeRunRequestMess" +
+      "age\032=.ru.shanalotte.coderun.loadbalancer" +
+      ".grpc.CodeRunResultMessageB\002P\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         });
-    internal_static_ru_shanalotte_coderun_loadbalancer_CodeRunRequest_descriptor =
+    internal_static_ru_shanalotte_coderun_loadbalancer_grpc_CodeRunRequestMessage_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_ru_shanalotte_coderun_loadbalancer_CodeRunRequest_fieldAccessorTable = new
+    internal_static_ru_shanalotte_coderun_loadbalancer_grpc_CodeRunRequestMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_ru_shanalotte_coderun_loadbalancer_CodeRunRequest_descriptor,
+        internal_static_ru_shanalotte_coderun_loadbalancer_grpc_CodeRunRequestMessage_descriptor,
         new String[] { "Language", "Code", "Username", });
-    internal_static_ru_shanalotte_coderun_loadbalancer_CodeRunResult_descriptor =
+    internal_static_ru_shanalotte_coderun_loadbalancer_grpc_CodeRunResultMessage_descriptor =
       getDescriptor().getMessageTypes().get(1);
-    internal_static_ru_shanalotte_coderun_loadbalancer_CodeRunResult_fieldAccessorTable = new
+    internal_static_ru_shanalotte_coderun_loadbalancer_grpc_CodeRunResultMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_ru_shanalotte_coderun_loadbalancer_CodeRunResult_descriptor,
+        internal_static_ru_shanalotte_coderun_loadbalancer_grpc_CodeRunResultMessage_descriptor,
         new String[] { "Stderr", "Stdout", });
   }
 

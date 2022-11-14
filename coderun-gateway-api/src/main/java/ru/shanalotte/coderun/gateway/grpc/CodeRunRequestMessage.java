@@ -4,18 +4,18 @@
 package ru.shanalotte.coderun.gateway.grpc;
 
 /**
- * Protobuf type {@code ru.shanalotte.coderun.loadbalancer.grpc.CodeRunRequest}
+ * Protobuf type {@code ru.shanalotte.coderun.loadbalancer.grpc.CodeRunRequestMessage}
  */
-public final class CodeRunRequest extends
+public final class CodeRunRequestMessage extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:ru.shanalotte.coderun.loadbalancer.grpc.CodeRunRequest)
-    CodeRunRequestOrBuilder {
+    // @@protoc_insertion_point(message_implements:ru.shanalotte.coderun.loadbalancer.grpc.CodeRunRequestMessage)
+    CodeRunRequestMessageOrBuilder {
 private static final long serialVersionUID = 0L;
-  // Use CodeRunRequest.newBuilder() to construct.
-  private CodeRunRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+  // Use CodeRunRequestMessage.newBuilder() to construct.
+  private CodeRunRequestMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private CodeRunRequest() {
+  private CodeRunRequestMessage() {
     language_ = "";
     code_ = "";
     username_ = "";
@@ -25,7 +25,7 @@ private static final long serialVersionUID = 0L;
   @SuppressWarnings({"unused"})
   protected Object newInstance(
       UnusedPrivateParameter unused) {
-    return new CodeRunRequest();
+    return new CodeRunRequestMessage();
   }
 
   @Override
@@ -33,7 +33,7 @@ private static final long serialVersionUID = 0L;
   getUnknownFields() {
     return this.unknownFields;
   }
-  private CodeRunRequest(
+  private CodeRunRequestMessage(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -90,15 +90,15 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return Coderun.internal_static_ru_shanalotte_coderun_loadbalancer_CodeRunRequest_descriptor;
+    return ru.shanalotte.coderun.gateway.grpc.Coderun.internal_static_ru_shanalotte_coderun_loadbalancer_grpc_CodeRunRequestMessage_descriptor;
   }
 
   @Override
-  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+  protected FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return Coderun.internal_static_ru_shanalotte_coderun_loadbalancer_CodeRunRequest_fieldAccessorTable
+    return ru.shanalotte.coderun.gateway.grpc.Coderun.internal_static_ru_shanalotte_coderun_loadbalancer_grpc_CodeRunRequestMessage_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            CodeRunRequest.class, Builder.class);
+            CodeRunRequestMessage.class, Builder.class);
   }
 
   public static final int LANGUAGE_FIELD_NUMBER = 1;
@@ -266,10 +266,10 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof CodeRunRequest)) {
+    if (!(obj instanceof CodeRunRequestMessage)) {
       return super.equals(obj);
     }
-    CodeRunRequest other = (CodeRunRequest) obj;
+    CodeRunRequestMessage other = (CodeRunRequestMessage) obj;
 
     if (!getLanguage()
         .equals(other.getLanguage())) return false;
@@ -299,69 +299,69 @@ private static final long serialVersionUID = 0L;
     return hash;
   }
 
-  public static CodeRunRequest parseFrom(
+  public static CodeRunRequestMessage parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static CodeRunRequest parseFrom(
+  public static CodeRunRequestMessage parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static CodeRunRequest parseFrom(
+  public static CodeRunRequestMessage parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static CodeRunRequest parseFrom(
+  public static CodeRunRequestMessage parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static CodeRunRequest parseFrom(byte[] data)
+  public static CodeRunRequestMessage parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static CodeRunRequest parseFrom(
+  public static CodeRunRequestMessage parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static CodeRunRequest parseFrom(java.io.InputStream input)
+  public static CodeRunRequestMessage parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static CodeRunRequest parseFrom(
+  public static CodeRunRequestMessage parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static CodeRunRequest parseDelimitedFrom(java.io.InputStream input)
+  public static CodeRunRequestMessage parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static CodeRunRequest parseDelimitedFrom(
+  public static CodeRunRequestMessage parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static CodeRunRequest parseFrom(
+  public static CodeRunRequestMessage parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static CodeRunRequest parseFrom(
+  public static CodeRunRequestMessage parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -374,7 +374,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(CodeRunRequest prototype) {
+  public static Builder newBuilder(CodeRunRequestMessage prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @Override
@@ -385,37 +385,37 @@ private static final long serialVersionUID = 0L;
 
   @Override
   protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
   /**
-   * Protobuf type {@code ru.shanalotte.coderun.loadbalancer.grpc.CodeRunRequest}
+   * Protobuf type {@code ru.shanalotte.coderun.loadbalancer.grpc.CodeRunRequestMessage}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:ru.shanalotte.coderun.loadbalancer.grpc.CodeRunRequest)
-      CodeRunRequestOrBuilder {
+      // @@protoc_insertion_point(builder_implements:ru.shanalotte.coderun.loadbalancer.grpc.CodeRunRequestMessage)
+      CodeRunRequestMessageOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return Coderun.internal_static_ru_shanalotte_coderun_loadbalancer_CodeRunRequest_descriptor;
+      return ru.shanalotte.coderun.gateway.grpc.Coderun.internal_static_ru_shanalotte_coderun_loadbalancer_grpc_CodeRunRequestMessage_descriptor;
     }
 
     @Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    protected FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return Coderun.internal_static_ru_shanalotte_coderun_loadbalancer_CodeRunRequest_fieldAccessorTable
+      return ru.shanalotte.coderun.gateway.grpc.Coderun.internal_static_ru_shanalotte_coderun_loadbalancer_grpc_CodeRunRequestMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              CodeRunRequest.class, Builder.class);
+              CodeRunRequestMessage.class, Builder.class);
     }
 
-    // Construct using ru.shanalotte.coderun.loadbalancer.grpc.CodeRunRequest.newBuilder()
+    // Construct using ru.shanalotte.coderun.loadbalancer.grpc.CodeRunRequestMessage.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
 
     private Builder(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
@@ -439,17 +439,17 @@ private static final long serialVersionUID = 0L;
     @Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return Coderun.internal_static_ru_shanalotte_coderun_loadbalancer_CodeRunRequest_descriptor;
+      return ru.shanalotte.coderun.gateway.grpc.Coderun.internal_static_ru_shanalotte_coderun_loadbalancer_grpc_CodeRunRequestMessage_descriptor;
     }
 
     @Override
-    public CodeRunRequest getDefaultInstanceForType() {
-      return CodeRunRequest.getDefaultInstance();
+    public CodeRunRequestMessage getDefaultInstanceForType() {
+      return CodeRunRequestMessage.getDefaultInstance();
     }
 
     @Override
-    public CodeRunRequest build() {
-      CodeRunRequest result = buildPartial();
+    public CodeRunRequestMessage build() {
+      CodeRunRequestMessage result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -457,8 +457,8 @@ private static final long serialVersionUID = 0L;
     }
 
     @Override
-    public CodeRunRequest buildPartial() {
-      CodeRunRequest result = new CodeRunRequest(this);
+    public CodeRunRequestMessage buildPartial() {
+      CodeRunRequestMessage result = new CodeRunRequestMessage(this);
       result.language_ = language_;
       result.code_ = code_;
       result.username_ = username_;
@@ -500,16 +500,16 @@ private static final long serialVersionUID = 0L;
     }
     @Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof CodeRunRequest) {
-        return mergeFrom((CodeRunRequest)other);
+      if (other instanceof CodeRunRequestMessage) {
+        return mergeFrom((CodeRunRequestMessage)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(CodeRunRequest other) {
-      if (other == CodeRunRequest.getDefaultInstance()) return this;
+    public Builder mergeFrom(CodeRunRequestMessage other) {
+      if (other == CodeRunRequestMessage.getDefaultInstance()) return this;
       if (!other.getLanguage().isEmpty()) {
         language_ = other.language_;
         onChanged();
@@ -537,11 +537,11 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      CodeRunRequest parsedMessage = null;
+      CodeRunRequestMessage parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (CodeRunRequest) e.getUnfinishedMessage();
+        parsedMessage = (CodeRunRequestMessage) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -791,41 +791,41 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:ru.shanalotte.coderun.loadbalancer.grpc.CodeRunRequest)
+    // @@protoc_insertion_point(builder_scope:ru.shanalotte.coderun.loadbalancer.grpc.CodeRunRequestMessage)
   }
 
-  // @@protoc_insertion_point(class_scope:ru.shanalotte.coderun.loadbalancer.grpc.CodeRunRequest)
-  private static final CodeRunRequest DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:ru.shanalotte.coderun.loadbalancer.grpc.CodeRunRequestMessage)
+  private static final CodeRunRequestMessage DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new CodeRunRequest();
+    DEFAULT_INSTANCE = new CodeRunRequestMessage();
   }
 
-  public static CodeRunRequest getDefaultInstance() {
+  public static CodeRunRequestMessage getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<CodeRunRequest>
-      PARSER = new com.google.protobuf.AbstractParser<CodeRunRequest>() {
+  private static final com.google.protobuf.Parser<CodeRunRequestMessage>
+      PARSER = new com.google.protobuf.AbstractParser<CodeRunRequestMessage>() {
     @Override
-    public CodeRunRequest parsePartialFrom(
+    public CodeRunRequestMessage parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return new CodeRunRequest(input, extensionRegistry);
+      return new CodeRunRequestMessage(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<CodeRunRequest> parser() {
+  public static com.google.protobuf.Parser<CodeRunRequestMessage> parser() {
     return PARSER;
   }
 
   @Override
-  public com.google.protobuf.Parser<CodeRunRequest> getParserForType() {
+  public com.google.protobuf.Parser<CodeRunRequestMessage> getParserForType() {
     return PARSER;
   }
 
   @Override
-  public CodeRunRequest getDefaultInstanceForType() {
+  public CodeRunRequestMessage getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

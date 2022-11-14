@@ -4,28 +4,27 @@
 package ru.shanalotte.coderun.loadbalancer.grpc;
 
 /**
- * Protobuf type {@code ru.shanalotte.coderun.loadbalancer.grpc.CodeRunRequest}
+ * Protobuf type {@code ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage}
  */
-public final class CodeRunRequest extends
+public final class CodeRunResultMessage extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:ru.shanalotte.coderun.loadbalancer.grpc.CodeRunRequest)
-    CodeRunRequestOrBuilder {
+    // @@protoc_insertion_point(message_implements:ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage)
+    CodeRunResultMessageOrBuilder {
 private static final long serialVersionUID = 0L;
-  // Use CodeRunRequest.newBuilder() to construct.
-  private CodeRunRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+  // Use CodeRunResultMessage.newBuilder() to construct.
+  private CodeRunResultMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private CodeRunRequest() {
-    language_ = "";
-    code_ = "";
-    username_ = "";
+  private CodeRunResultMessage() {
+    stderr_ = "";
+    stdout_ = "";
   }
 
   @java.lang.Override
   @SuppressWarnings({"unused"})
   protected java.lang.Object newInstance(
       UnusedPrivateParameter unused) {
-    return new CodeRunRequest();
+    return new CodeRunResultMessage();
   }
 
   @java.lang.Override
@@ -33,7 +32,7 @@ private static final long serialVersionUID = 0L;
   getUnknownFields() {
     return this.unknownFields;
   }
-  private CodeRunRequest(
+  private CodeRunResultMessage(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -54,19 +53,13 @@ private static final long serialVersionUID = 0L;
           case 10: {
             java.lang.String s = input.readStringRequireUtf8();
 
-            language_ = s;
+            stderr_ = s;
             break;
           }
           case 18: {
             java.lang.String s = input.readStringRequireUtf8();
 
-            code_ = s;
-            break;
-          }
-          case 26: {
-            java.lang.String s = input.readStringRequireUtf8();
-
-            username_ = s;
+            stdout_ = s;
             break;
           }
           default: {
@@ -90,125 +83,87 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return Coderun.internal_static_ru_shanalotte_coderun_loadbalancer_CodeRunRequest_descriptor;
+    return ru.shanalotte.coderun.loadbalancer.grpc.Coderun.internal_static_ru_shanalotte_coderun_loadbalancer_grpc_CodeRunResultMessage_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return Coderun.internal_static_ru_shanalotte_coderun_loadbalancer_CodeRunRequest_fieldAccessorTable
+    return ru.shanalotte.coderun.loadbalancer.grpc.Coderun.internal_static_ru_shanalotte_coderun_loadbalancer_grpc_CodeRunResultMessage_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            CodeRunRequest.class, CodeRunRequest.Builder.class);
+            ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage.class, ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage.Builder.class);
   }
 
-  public static final int LANGUAGE_FIELD_NUMBER = 1;
-  private volatile java.lang.Object language_;
+  public static final int STDERR_FIELD_NUMBER = 1;
+  private volatile java.lang.Object stderr_;
   /**
-   * <code>string language = 1;</code>
-   * @return The language.
+   * <code>string stderr = 1;</code>
+   * @return The stderr.
    */
   @java.lang.Override
-  public java.lang.String getLanguage() {
-    java.lang.Object ref = language_;
+  public java.lang.String getStderr() {
+    java.lang.Object ref = stderr_;
     if (ref instanceof java.lang.String) {
       return (java.lang.String) ref;
     } else {
       com.google.protobuf.ByteString bs = 
           (com.google.protobuf.ByteString) ref;
       java.lang.String s = bs.toStringUtf8();
-      language_ = s;
+      stderr_ = s;
       return s;
     }
   }
   /**
-   * <code>string language = 1;</code>
-   * @return The bytes for language.
+   * <code>string stderr = 1;</code>
+   * @return The bytes for stderr.
    */
   @java.lang.Override
   public com.google.protobuf.ByteString
-      getLanguageBytes() {
-    java.lang.Object ref = language_;
+      getStderrBytes() {
+    java.lang.Object ref = stderr_;
     if (ref instanceof java.lang.String) {
       com.google.protobuf.ByteString b = 
           com.google.protobuf.ByteString.copyFromUtf8(
               (java.lang.String) ref);
-      language_ = b;
+      stderr_ = b;
       return b;
     } else {
       return (com.google.protobuf.ByteString) ref;
     }
   }
 
-  public static final int CODE_FIELD_NUMBER = 2;
-  private volatile java.lang.Object code_;
+  public static final int STDOUT_FIELD_NUMBER = 2;
+  private volatile java.lang.Object stdout_;
   /**
-   * <code>string code = 2;</code>
-   * @return The code.
+   * <code>string stdout = 2;</code>
+   * @return The stdout.
    */
   @java.lang.Override
-  public java.lang.String getCode() {
-    java.lang.Object ref = code_;
+  public java.lang.String getStdout() {
+    java.lang.Object ref = stdout_;
     if (ref instanceof java.lang.String) {
       return (java.lang.String) ref;
     } else {
       com.google.protobuf.ByteString bs = 
           (com.google.protobuf.ByteString) ref;
       java.lang.String s = bs.toStringUtf8();
-      code_ = s;
+      stdout_ = s;
       return s;
     }
   }
   /**
-   * <code>string code = 2;</code>
-   * @return The bytes for code.
+   * <code>string stdout = 2;</code>
+   * @return The bytes for stdout.
    */
   @java.lang.Override
   public com.google.protobuf.ByteString
-      getCodeBytes() {
-    java.lang.Object ref = code_;
+      getStdoutBytes() {
+    java.lang.Object ref = stdout_;
     if (ref instanceof java.lang.String) {
       com.google.protobuf.ByteString b = 
           com.google.protobuf.ByteString.copyFromUtf8(
               (java.lang.String) ref);
-      code_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
-  }
-
-  public static final int USERNAME_FIELD_NUMBER = 3;
-  private volatile java.lang.Object username_;
-  /**
-   * <code>string username = 3;</code>
-   * @return The username.
-   */
-  @java.lang.Override
-  public java.lang.String getUsername() {
-    java.lang.Object ref = username_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      username_ = s;
-      return s;
-    }
-  }
-  /**
-   * <code>string username = 3;</code>
-   * @return The bytes for username.
-   */
-  @java.lang.Override
-  public com.google.protobuf.ByteString
-      getUsernameBytes() {
-    java.lang.Object ref = username_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      username_ = b;
+      stdout_ = b;
       return b;
     } else {
       return (com.google.protobuf.ByteString) ref;
@@ -229,14 +184,11 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(language_)) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, language_);
+    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(stderr_)) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, stderr_);
     }
-    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(code_)) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, code_);
-    }
-    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(username_)) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, username_);
+    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(stdout_)) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, stdout_);
     }
     unknownFields.writeTo(output);
   }
@@ -247,14 +199,11 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(language_)) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, language_);
+    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(stderr_)) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, stderr_);
     }
-    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(code_)) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, code_);
-    }
-    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(username_)) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, username_);
+    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(stdout_)) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, stdout_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -266,17 +215,15 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof CodeRunRequest)) {
+    if (!(obj instanceof ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage)) {
       return super.equals(obj);
     }
-    CodeRunRequest other = (CodeRunRequest) obj;
+    ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage other = (ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage) obj;
 
-    if (!getLanguage()
-        .equals(other.getLanguage())) return false;
-    if (!getCode()
-        .equals(other.getCode())) return false;
-    if (!getUsername()
-        .equals(other.getUsername())) return false;
+    if (!getStderr()
+        .equals(other.getStderr())) return false;
+    if (!getStdout()
+        .equals(other.getStdout())) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -288,80 +235,78 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + LANGUAGE_FIELD_NUMBER;
-    hash = (53 * hash) + getLanguage().hashCode();
-    hash = (37 * hash) + CODE_FIELD_NUMBER;
-    hash = (53 * hash) + getCode().hashCode();
-    hash = (37 * hash) + USERNAME_FIELD_NUMBER;
-    hash = (53 * hash) + getUsername().hashCode();
+    hash = (37 * hash) + STDERR_FIELD_NUMBER;
+    hash = (53 * hash) + getStderr().hashCode();
+    hash = (37 * hash) + STDOUT_FIELD_NUMBER;
+    hash = (53 * hash) + getStdout().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
   }
 
-  public static CodeRunRequest parseFrom(
+  public static ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static CodeRunRequest parseFrom(
+  public static ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static CodeRunRequest parseFrom(
+  public static ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static CodeRunRequest parseFrom(
+  public static ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static CodeRunRequest parseFrom(byte[] data)
+  public static ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static CodeRunRequest parseFrom(
+  public static ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static CodeRunRequest parseFrom(java.io.InputStream input)
+  public static ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static CodeRunRequest parseFrom(
+  public static ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static CodeRunRequest parseDelimitedFrom(java.io.InputStream input)
+  public static ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static CodeRunRequest parseDelimitedFrom(
+  public static ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static CodeRunRequest parseFrom(
+  public static ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static CodeRunRequest parseFrom(
+  public static ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -374,7 +319,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(CodeRunRequest prototype) {
+  public static Builder newBuilder(ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @java.lang.Override
@@ -390,26 +335,26 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code ru.shanalotte.coderun.loadbalancer.grpc.CodeRunRequest}
+   * Protobuf type {@code ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:ru.shanalotte.coderun.loadbalancer.grpc.CodeRunRequest)
-      CodeRunRequestOrBuilder {
+      // @@protoc_insertion_point(builder_implements:ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage)
+      ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessageOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return Coderun.internal_static_ru_shanalotte_coderun_loadbalancer_CodeRunRequest_descriptor;
+      return ru.shanalotte.coderun.loadbalancer.grpc.Coderun.internal_static_ru_shanalotte_coderun_loadbalancer_grpc_CodeRunResultMessage_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return Coderun.internal_static_ru_shanalotte_coderun_loadbalancer_CodeRunRequest_fieldAccessorTable
+      return ru.shanalotte.coderun.loadbalancer.grpc.Coderun.internal_static_ru_shanalotte_coderun_loadbalancer_grpc_CodeRunResultMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              CodeRunRequest.class, CodeRunRequest.Builder.class);
+              ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage.class, ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage.Builder.class);
     }
 
-    // Construct using ru.shanalotte.coderun.loadbalancer.grpc.CodeRunRequest.newBuilder()
+    // Construct using ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -427,11 +372,9 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      language_ = "";
+      stderr_ = "";
 
-      code_ = "";
-
-      username_ = "";
+      stdout_ = "";
 
       return this;
     }
@@ -439,17 +382,17 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return Coderun.internal_static_ru_shanalotte_coderun_loadbalancer_CodeRunRequest_descriptor;
+      return ru.shanalotte.coderun.loadbalancer.grpc.Coderun.internal_static_ru_shanalotte_coderun_loadbalancer_grpc_CodeRunResultMessage_descriptor;
     }
 
     @java.lang.Override
-    public CodeRunRequest getDefaultInstanceForType() {
-      return CodeRunRequest.getDefaultInstance();
+    public ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage getDefaultInstanceForType() {
+      return ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage.getDefaultInstance();
     }
 
     @java.lang.Override
-    public CodeRunRequest build() {
-      CodeRunRequest result = buildPartial();
+    public ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage build() {
+      ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -457,11 +400,10 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public CodeRunRequest buildPartial() {
-      CodeRunRequest result = new CodeRunRequest(this);
-      result.language_ = language_;
-      result.code_ = code_;
-      result.username_ = username_;
+    public ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage buildPartial() {
+      ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage result = new ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage(this);
+      result.stderr_ = stderr_;
+      result.stdout_ = stdout_;
       onBuilt();
       return result;
     }
@@ -500,26 +442,22 @@ private static final long serialVersionUID = 0L;
     }
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof CodeRunRequest) {
-        return mergeFrom((CodeRunRequest)other);
+      if (other instanceof ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage) {
+        return mergeFrom((ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(CodeRunRequest other) {
-      if (other == CodeRunRequest.getDefaultInstance()) return this;
-      if (!other.getLanguage().isEmpty()) {
-        language_ = other.language_;
+    public Builder mergeFrom(ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage other) {
+      if (other == ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage.getDefaultInstance()) return this;
+      if (!other.getStderr().isEmpty()) {
+        stderr_ = other.stderr_;
         onChanged();
       }
-      if (!other.getCode().isEmpty()) {
-        code_ = other.code_;
-        onChanged();
-      }
-      if (!other.getUsername().isEmpty()) {
-        username_ = other.username_;
+      if (!other.getStdout().isEmpty()) {
+        stdout_ = other.stdout_;
         onChanged();
       }
       this.mergeUnknownFields(other.unknownFields);
@@ -537,11 +475,11 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      CodeRunRequest parsedMessage = null;
+      ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (CodeRunRequest) e.getUnfinishedMessage();
+        parsedMessage = (ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -551,230 +489,154 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private java.lang.Object language_ = "";
+    private java.lang.Object stderr_ = "";
     /**
-     * <code>string language = 1;</code>
-     * @return The language.
+     * <code>string stderr = 1;</code>
+     * @return The stderr.
      */
-    public java.lang.String getLanguage() {
-      java.lang.Object ref = language_;
+    public java.lang.String getStderr() {
+      java.lang.Object ref = stderr_;
       if (!(ref instanceof java.lang.String)) {
         com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        language_ = s;
+        stderr_ = s;
         return s;
       } else {
         return (java.lang.String) ref;
       }
     }
     /**
-     * <code>string language = 1;</code>
-     * @return The bytes for language.
+     * <code>string stderr = 1;</code>
+     * @return The bytes for stderr.
      */
     public com.google.protobuf.ByteString
-        getLanguageBytes() {
-      java.lang.Object ref = language_;
+        getStderrBytes() {
+      java.lang.Object ref = stderr_;
       if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        language_ = b;
+        stderr_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
     /**
-     * <code>string language = 1;</code>
-     * @param value The language to set.
+     * <code>string stderr = 1;</code>
+     * @param value The stderr to set.
      * @return This builder for chaining.
      */
-    public Builder setLanguage(
+    public Builder setStderr(
         java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
   
-      language_ = value;
+      stderr_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>string language = 1;</code>
+     * <code>string stderr = 1;</code>
      * @return This builder for chaining.
      */
-    public Builder clearLanguage() {
+    public Builder clearStderr() {
       
-      language_ = getDefaultInstance().getLanguage();
+      stderr_ = getDefaultInstance().getStderr();
       onChanged();
       return this;
     }
     /**
-     * <code>string language = 1;</code>
-     * @param value The bytes for language to set.
+     * <code>string stderr = 1;</code>
+     * @param value The bytes for stderr to set.
      * @return This builder for chaining.
      */
-    public Builder setLanguageBytes(
+    public Builder setStderrBytes(
         com.google.protobuf.ByteString value) {
       if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
       
-      language_ = value;
+      stderr_ = value;
       onChanged();
       return this;
     }
 
-    private java.lang.Object code_ = "";
+    private java.lang.Object stdout_ = "";
     /**
-     * <code>string code = 2;</code>
-     * @return The code.
+     * <code>string stdout = 2;</code>
+     * @return The stdout.
      */
-    public java.lang.String getCode() {
-      java.lang.Object ref = code_;
+    public java.lang.String getStdout() {
+      java.lang.Object ref = stdout_;
       if (!(ref instanceof java.lang.String)) {
         com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        code_ = s;
+        stdout_ = s;
         return s;
       } else {
         return (java.lang.String) ref;
       }
     }
     /**
-     * <code>string code = 2;</code>
-     * @return The bytes for code.
+     * <code>string stdout = 2;</code>
+     * @return The bytes for stdout.
      */
     public com.google.protobuf.ByteString
-        getCodeBytes() {
-      java.lang.Object ref = code_;
+        getStdoutBytes() {
+      java.lang.Object ref = stdout_;
       if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        code_ = b;
+        stdout_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
     /**
-     * <code>string code = 2;</code>
-     * @param value The code to set.
+     * <code>string stdout = 2;</code>
+     * @param value The stdout to set.
      * @return This builder for chaining.
      */
-    public Builder setCode(
+    public Builder setStdout(
         java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
   
-      code_ = value;
+      stdout_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>string code = 2;</code>
+     * <code>string stdout = 2;</code>
      * @return This builder for chaining.
      */
-    public Builder clearCode() {
+    public Builder clearStdout() {
       
-      code_ = getDefaultInstance().getCode();
+      stdout_ = getDefaultInstance().getStdout();
       onChanged();
       return this;
     }
     /**
-     * <code>string code = 2;</code>
-     * @param value The bytes for code to set.
+     * <code>string stdout = 2;</code>
+     * @param value The bytes for stdout to set.
      * @return This builder for chaining.
      */
-    public Builder setCodeBytes(
+    public Builder setStdoutBytes(
         com.google.protobuf.ByteString value) {
       if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
       
-      code_ = value;
-      onChanged();
-      return this;
-    }
-
-    private java.lang.Object username_ = "";
-    /**
-     * <code>string username = 3;</code>
-     * @return The username.
-     */
-    public java.lang.String getUsername() {
-      java.lang.Object ref = username_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        username_ = s;
-        return s;
-      } else {
-        return (java.lang.String) ref;
-      }
-    }
-    /**
-     * <code>string username = 3;</code>
-     * @return The bytes for username.
-     */
-    public com.google.protobuf.ByteString
-        getUsernameBytes() {
-      java.lang.Object ref = username_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        username_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-    /**
-     * <code>string username = 3;</code>
-     * @param value The username to set.
-     * @return This builder for chaining.
-     */
-    public Builder setUsername(
-        java.lang.String value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
-      username_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string username = 3;</code>
-     * @return This builder for chaining.
-     */
-    public Builder clearUsername() {
-      
-      username_ = getDefaultInstance().getUsername();
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string username = 3;</code>
-     * @param value The bytes for username to set.
-     * @return This builder for chaining.
-     */
-    public Builder setUsernameBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-      
-      username_ = value;
+      stdout_ = value;
       onChanged();
       return this;
     }
@@ -791,41 +653,41 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:ru.shanalotte.coderun.loadbalancer.grpc.CodeRunRequest)
+    // @@protoc_insertion_point(builder_scope:ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage)
   }
 
-  // @@protoc_insertion_point(class_scope:ru.shanalotte.coderun.loadbalancer.grpc.CodeRunRequest)
-  private static final CodeRunRequest DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage)
+  private static final ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new CodeRunRequest();
+    DEFAULT_INSTANCE = new ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage();
   }
 
-  public static CodeRunRequest getDefaultInstance() {
+  public static ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<CodeRunRequest>
-      PARSER = new com.google.protobuf.AbstractParser<CodeRunRequest>() {
+  private static final com.google.protobuf.Parser<CodeRunResultMessage>
+      PARSER = new com.google.protobuf.AbstractParser<CodeRunResultMessage>() {
     @java.lang.Override
-    public CodeRunRequest parsePartialFrom(
+    public CodeRunResultMessage parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return new CodeRunRequest(input, extensionRegistry);
+      return new CodeRunResultMessage(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<CodeRunRequest> parser() {
+  public static com.google.protobuf.Parser<CodeRunResultMessage> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<CodeRunRequest> getParserForType() {
+  public com.google.protobuf.Parser<CodeRunResultMessage> getParserForType() {
     return PARSER;
   }
 
   @java.lang.Override
-  public CodeRunRequest getDefaultInstanceForType() {
+  public ru.shanalotte.coderun.loadbalancer.grpc.CodeRunResultMessage getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

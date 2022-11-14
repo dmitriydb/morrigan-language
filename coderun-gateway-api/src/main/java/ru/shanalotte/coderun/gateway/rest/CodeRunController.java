@@ -5,15 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.common.quota.ClientQuotaAlteration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import ru.shanalotte.coderun.api.CodeRunResult;
 import ru.shanalotte.coderun.api.UserCodeRunRequest;
-import ru.shanalotte.coderun.gateway.grpc.CodeRunRequest;
-import ru.shanalotte.coderun.gateway.grpc.CodeRunResult;
+import ru.shanalotte.coderun.gateway.grpc.CodeRunRequestMessage;
+import ru.shanalotte.coderun.gateway.grpc.CodeRunResultMessage;
 import ru.shanalotte.coderun.gateway.grpc.CoderunBalancerGrpc;
 import ru.shanalotte.coderun.gateway.service.ActiveCoderunLoadBalancers;
 import ru.shanalotte.serviceregistry.api.KnownService;
@@ -36,7 +35,7 @@ public class CodeRunController {
   }
 
   @PostMapping(value = "/run", produces = "application/json", consumes = "application/json")
-  public ResponseEntity<ru.shanalotte.coderun.api.CodeRunResult> run(@RequestBody String payload) {
+  public ResponseEntity<CodeRunResult> run(@RequestBody String payload) {
     log.info("POST /run Received {}", payload);
     UserCodeRunRequest codeRunRequest = null;
     try {
@@ -57,13 +56,13 @@ public class CodeRunController {
     CoderunBalancerGrpc.CoderunBalancerBlockingStub stub
         = CoderunBalancerGrpc.newBlockingStub(channel);
     log.info("deserialized {}", codeRunRequest);
-    CodeRunResult result = stub.runCode(CodeRunRequest.newBuilder()
+    CodeRunResultMessage result = stub.runCode(CodeRunRequestMessage.newBuilder()
         .setCode(codeRunRequest.code())
         .setLanguage(codeRunRequest.language().toString())
         .setUsername(codeRunRequest.username())
         .build());
     channel.shutdown();
-    ru.shanalotte.coderun.api.CodeRunResult codeRunResult = new ru.shanalotte.coderun.api.CodeRunResult();
+    CodeRunResult codeRunResult = new CodeRunResult();
     codeRunResult.addToStderr(result.getStderr());
     codeRunResult.addToStdout(result.getStdout());
     return ResponseEntity.of(Optional.of(codeRunResult));

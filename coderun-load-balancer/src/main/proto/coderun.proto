@@ -1,17 +1,19 @@
 syntax = "proto3";
 option java_multiple_files = true;
 
+package ru.shanalotte.coderun.loadbalancer.grpc;
+
 service CoderunBalancer {
-  rpc runCode (CodeRunRequest) returns (CodeRunResult);
+  rpc runCode (CodeRunRequestMessage) returns (CodeRunResultMessage);
 }
 
-message CodeRunRequest {
+message CodeRunRequestMessage {
   string language = 1;
   string code = 2;
   string username = 3;
 }
 
-message CodeRunResult {
+message CodeRunResultMessage {
   string stderr = 1;
   string stdout = 2;
 }

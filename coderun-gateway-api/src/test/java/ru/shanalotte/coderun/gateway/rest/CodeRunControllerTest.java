@@ -4,11 +4,11 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.shanalotte.coderun.gateway.grpc.CodeRunRequest;
-import ru.shanalotte.coderun.gateway.grpc.CodeRunResult;
+import ru.shanalotte.coderun.api.CodeRunRequest;
+import ru.shanalotte.coderun.api.CodeRunResult;
+import ru.shanalotte.coderun.gateway.grpc.CodeRunRequestMessage;
+import ru.shanalotte.coderun.gateway.grpc.CodeRunResultMessage;
 import ru.shanalotte.coderun.gateway.grpc.CoderunBalancerGrpc;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class CodeRunControllerTest {
@@ -20,7 +20,7 @@ class CodeRunControllerTest {
         .build();
     CoderunBalancerGrpc.CoderunBalancerBlockingStub stub
         = CoderunBalancerGrpc.newBlockingStub(channel);
-    CodeRunResult result = stub.runCode(CodeRunRequest.newBuilder()
+    CodeRunResultMessage result = stub.runCode(CodeRunRequestMessage.newBuilder()
         .setCode("morrigan remembers what is 5.")
         .setLanguage("MORRIGAN")
         .setUsername("oleg")
