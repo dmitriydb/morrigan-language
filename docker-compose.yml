@@ -122,10 +122,12 @@ services:
     depends_on:
       - kafka-broker-3
       - service-registry-db
+      - config-server
     networks:
       - morrigan
     ports:
       - "9006:9004"
+      - "10002:10002"
   service-registry-2:
     container_name: service-registry-2
     build:
@@ -134,10 +136,12 @@ services:
     depends_on:
       - kafka-broker-3
       - service-registry-db
+      - config-server
     networks:
       - morrigan
     ports:
       - "9007:9004"
+      - "10003:10002"
   service-registry-3:
     container_name: service-registry-3
     build:
@@ -146,10 +150,12 @@ services:
     depends_on:
       - kafka-broker-3
       - service-registry-db
+      - config-server
     networks:
       - morrigan
     ports:
       - "9008:9004"
+      - "10004:10002"
   anonymous-coderun-service-1:
     container_name: anonymous-coderun-service-1
     build:
@@ -221,6 +227,7 @@ services:
     depends_on:
       - coderun-load-balancer-1
       - coderun-load-balancer-2
+      - config-server
     networks:
       - morrigan
     ports:
