@@ -34,7 +34,7 @@ public class CodeRunRequestRunner {
     log.debug("At this moment {} services is known.", knownServices);
     KnownService randomService = knownServices
         .get(ThreadLocalRandom.current().nextInt(knownServices.size()));
-    String url = buildServiceUrl(knownServices.iterator().next());
+    String url = buildServiceUrl(randomService);
     log.info("Chosen service for run: {}", url);
     HttpClient httpClient = HttpClient.newHttpClient();
     String payload = objectMapper.writeValueAsString(request);
