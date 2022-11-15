@@ -189,3 +189,39 @@ services:
       - config-server
     networks:
       - morrigan
+  coderun-load-balancer-1:
+    container_name: coderun-load-balancer-1
+    build:
+      context: coderun-load-balancer
+      dockerfile: Dockerfile
+    depends_on:
+      - service-registry-1
+      - service-registry-2
+      - service-registry-3
+      - config-server
+    networks:
+      - morrigan
+  coderun-load-balancer-2:
+    container_name: coderun-load-balancer-2
+    build:
+      context: coderun-load-balancer
+      dockerfile: Dockerfile
+    depends_on:
+      - service-registry-1
+      - service-registry-2
+      - service-registry-3
+      - config-server
+    networks:
+      - morrigan
+  coderun-gateway-api:
+    container_name: coderun-gateway-api
+    build:
+      context: coderun-gateway-api
+      dockerfile: Dockerfile
+    depends_on:
+      - coderun-load-balancer-1
+      - coderun-load-balancer-2
+    networks:
+      - morrigan
+    ports:
+      - "8181:8181"
