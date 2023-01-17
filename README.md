@@ -61,3 +61,10 @@ primary ::= NUMBER | STRING | <LITERAL STRING> | FALSE | TRUE;
 literal string ::= “[” STRING “]”
 
 ```
+
+### Platform stack
+- Apache Kafka
+- Redis
+- Spring Boot, MVC, Data, Cloud
+- Javelin
+- Docker, Jenkins
